@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PredicateSet - english-io</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
+                                <li><a href="../classes/plural.html">plural</a></li>
+                                <li><a href="../classes/Predicate.html">Predicate</a></li>
+                                <li><a href="../classes/PredicateSet.html">PredicateSet</a></li>
+                                <li><a href="../classes/PredicateSyntax.html">PredicateSyntax</a></li>
+                                <li><a href="../classes/Sentence.html">Sentence</a></li>
+                                <li><a href="../classes/SentenceQueue.html">SentenceQueue</a></li>
+                                <li><a href="../classes/TimedPredicate.html">TimedPredicate</a></li>
+                                <li><a href="../classes/WanderingDescriber.html">WanderingDescriber</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/entity-game.html">entity-game</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>PredicateSet Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/src_PredicateSet.js.html#l3"><code>src&#x2F;PredicateSet.js:3</code></a>
+        </div>
+
+            Module: <a href="../modules/entity-game.html">entity-game</a>
+
+</div>
+
+
+<div class="box intro">
+    <p>A class for handling multiple predicates at once.</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_PredicateSet" class="method item">
+    <h3 class="name"><code>PredicateSet</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[predicates]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l3"><code>src&#x2F;PredicateSet.js:3</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[predicates]</code>
+                        <span class="type"><a href="../classes/Predicate.html" class="crosslink">Predicate</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                        <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
+
+                    <div class="param-description">
+                        <p>Predicates to include in the set.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_addPredicates">addPredicates</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parse">parse</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseImperative">parseImperative</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parseNounPhrase">parseNounPhrase</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_random">random</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_sortPredicates">sortPredicates</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_predicates">predicates</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_addPredicates" class="method item">
+    <h3 class="name"><code>addPredicates</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>predicates</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l21"><code>src&#x2F;PredicateSet.js:21</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Adds predicates to the set.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">predicates</code>
+                        <span class="type"><a href="../classes/Predicate.html" class="crosslink">Predicate</a></span>
+
+                        <span class="flag multiple" title="This argument may occur one or more times.">multiple</span>
+
+                    <div class="param-description">
+                        <p>The predicates to be added.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_parse" class="method item">
+    <h3 class="name"><code>parse</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>str</code>
+                </li>
+                <li class="arg">
+                        <code>tenses</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l36"><code>src&#x2F;PredicateSet.js:36</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parse a sentence string against all the predicates in the set.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">str</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>The sentence string to parse</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">tenses</code>
+                        <span class="type">Array</span>
+
+
+                    <div class="param-description">
+                        <p>An array of strings. The tenses to parse the stirng against.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>An array of matches to the string as sentenses with
+placeholder-string arguments.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseImperative" class="method item">
+    <h3 class="name"><code>parseImperative</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>str</code>
+                </li>
+                <li class="arg">
+                        <code>subject</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l57"><code>src&#x2F;PredicateSet.js:57</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parse a string in the imperative tense for a given subject. The subject
+will be copied to the subject argument of the resultant sentences</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">str</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">subject</code>
+                        <span class="type"><a href="../classes/Entity.html" class="crosslink">Entity</a></span>
+
+
+                    <div class="param-description">
+                        <p>The subject, either a entity or a string.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>An array sentence with placeholder-string arguments.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_parseNounPhrase" class="method item">
+    <h3 class="name"><code>parseNounPhrase</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>str</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Array</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l76"><code>src&#x2F;PredicateSet.js:76</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Parse a sentence-string in noun-phrase form. Eg/ &quot;the cup that is on the
+table&quot;.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">str</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Array</span>:
+                    <p>An array of sentences with string-placeholder arguments</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_random" class="method item">
+    <h3 class="name"><code>random</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Predicate.html" class="crosslink">Predicate</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l94"><code>src&#x2F;PredicateSet.js:94</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Predicate.html" class="crosslink">Predicate</a></span>:
+                    <p>A random predicate from the set.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_sortPredicates" class="method item">
+    <h3 class="name"><code>sortPredicates</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l102"><code>src&#x2F;PredicateSet.js:102</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Sorts predicates in descending order of 'specificness'.</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_predicates" class="property item">
+    <h3 class="name"><code>predicates</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_PredicateSet.js.html#l12"><code>src&#x2F;PredicateSet.js:12</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>An array of predicates which are members of the set.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

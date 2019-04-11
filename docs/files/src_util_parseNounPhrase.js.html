@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/util/parseNounPhrase.js - english-io</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
+                                <li><a href="../classes/plural.html">plural</a></li>
+                                <li><a href="../classes/Predicate.html">Predicate</a></li>
+                                <li><a href="../classes/PredicateSet.html">PredicateSet</a></li>
+                                <li><a href="../classes/PredicateSyntax.html">PredicateSyntax</a></li>
+                                <li><a href="../classes/Sentence.html">Sentence</a></li>
+                                <li><a href="../classes/SentenceQueue.html">SentenceQueue</a></li>
+                                <li><a href="../classes/TimedPredicate.html">TimedPredicate</a></li>
+                                <li><a href="../classes/WanderingDescriber.html">WanderingDescriber</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/entity-game.html">entity-game</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/util/parseNounPhrase.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+const Plur = require(&#x27;./plural&#x27;)
+const parseQuantifier = require(&#x27;./parseQuantifier&#x27;)
+
+/**
+ * Parse a noun-phrase without embedded sentence clauses. Noun-phrases must be
+ * in the form: [quantifier] + [...adjectives] + [noun].
+ * @method
+ */
+function parseNounPhrase(str, dictionary) {
+  let noun = null
+  let plural = undefined
+
+  // check phrasal nouns
+  let remainder
+  for(let singularNoun of dictionary.phrasalNouns) {
+    if(new RegExp(singularNoun+&#x27;$&#x27;, &#x27;i&#x27;).test(str)) {
+      noun = singularNoun
+      plural = false
+      remainder = str.slice(0, -singularNoun.length).trim()
+      break;
+    }
+
+
+    let pluralNoun = Plur.toPlural(singularNoun)
+    if(new RegExp(pluralNoun+&#x27;$&#x27;, &#x27;i&#x27;).test(str)) {
+      noun = singularNoun
+      plural = true
+      remainder = str.slice(0, -pluralNoun.length).trim()
+      break;
+    }
+  }
+
+  // Unless phrasal noun was successful, check the last word against regular
+  // nouns.
+  if(remainder == undefined) {
+    // parse last word as singular
+    let lastWord = str.slice((str.lastIndexOf(&#x27; &#x27;) + 1))
+    if(dictionary.nouns[lastWord]) {
+      noun = lastWord
+      plural = false
+      remainder = str.slice(0, -lastWord.length).trim()
+    } else{
+      // parse last word as a plural
+      let lastWordSingular = Plur.toSingular(lastWord)
+      if(lastWordSingular &amp;&amp; dictionary.nouns[lastWordSingular]) {
+        noun = lastWordSingular
+        plural = true
+        remainder = str.slice(0, -lastWord.length).trim()
+      }
+    }
+  }
+
+  // exit early if failed to identify a noun
+  if(!noun)
+    return null
+
+  // parse quantifier/quantity
+  let quantity = plural ? {min:2, max:Infinity} : {min:1, max:1}
+  let quantifier = parseQuantifier(remainder)
+  if(quantifier) {
+    quantity = rangeOverlap(quantity, quantifier)
+    remainder = remainder.slice(quantifier.str.length).trim()
+  } else {
+    console.warn(&#x27;expected quantifier&#x27;)
+    return null
+  }
+
+  if(quantity.min &gt; quantity.max)
+    return null
+
+  // treat the remaining words as adjectives
+  let adjectives = remainder.split(&#x27; &#x27;).filter(adj =&gt; adj.length)
+
+  return {
+    noun: noun,
+    plural: plural,
+    quantityRange: quantity,
+    adjectives: adjectives,
+  }
+}
+module.exports = parseNounPhrase
+
+/**
+ * Calculate a new range which is the intersection of two given ranges.
+ * @method rangeOverlap
+ * @param range1
+ * @param range1.min
+ * @param range1.max
+ * @param range2.min
+ * @param range2.max
+ * @return {Object} A new range {Min, Max}
+ */
+function rangeOverlap(range1, range2) {
+  return {
+    min: Math.max(range1.min, range2.min),
+    max: Math.min(range1.max, range2.max)
+  }
+}
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

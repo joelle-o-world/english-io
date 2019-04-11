@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/Entity.js - english-io</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
+                                <li><a href="../classes/plural.html">plural</a></li>
+                                <li><a href="../classes/Predicate.html">Predicate</a></li>
+                                <li><a href="../classes/PredicateSet.html">PredicateSet</a></li>
+                                <li><a href="../classes/PredicateSyntax.html">PredicateSyntax</a></li>
+                                <li><a href="../classes/Sentence.html">Sentence</a></li>
+                                <li><a href="../classes/SentenceQueue.html">SentenceQueue</a></li>
+                                <li><a href="../classes/TimedPredicate.html">TimedPredicate</a></li>
+                                <li><a href="../classes/WanderingDescriber.html">WanderingDescriber</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/entity-game.html">entity-game</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/Entity.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+// Entity is the base class of all entities in EntityGame.
+const regOps = require(&#x27;./util/regOps.js&#x27;)
+const RandExp = require(&#x27;randexp&#x27;)
+const spellcheck = require(&#x27;./util/spellcheck&#x27;)
+//const {beA, be} = require(&#x27;./predicates&#x27;)
+const Sentence = require(&#x27;./Sentence&#x27;)
+
+const entityStr = require(&#x27;./entityStr&#x27;)
+const {toRegexs} = require(&#x27;./util/specarr&#x27;)
+
+//const consistsOfTree = require(&#x27;./nouns/consistsOfTree&#x27;)
+
+const EventEmitter = require(&#x27;events&#x27;)
+
+// MORE REQUIRES AT BOTTOM
+
+/**
+ * Entity represents an object in the world. It is half derived from the word
+ * &#x27;noun&#x27;, half from the word &#x27;entityenon&#x27;. Though it fits the definition of
+ * neither precisely.
+ * @class Entity
+ * @extends EventEmitter
+ * @constructor
+ */
+
+ /**
+  * @event fact
+  * @param {Sentence} sentence The new fact.
+  */
+
+/**
+ * Emitted whenever the object changes location.
+ * @event move
+ * @param {Entity} oldLocation
+ * @param {Entity} newLocation
+ * @param {String} oldLocationType
+ * @param {String} newLocationType
+ */
+/**
+ * Emitter whenever a parent location of the object changes location
+ * @event parentMove
+ */
+/**
+ * @event childEnter
+ */
+/**
+ * @event childExit
+ */
+
+/**
+ * @event exited
+ * @param {Entity} location
+ * @param {String} locationType
+ */
+
+/**
+ * @event entered
+ * @param {Entity} location
+ * @param {String} locationType
+ */
+
+
+
+class Entity extends EventEmitter {
+  constructor(dictionary=null) {
+    super()
+
+    /**
+     * @property {Dictionary} dictionary
+     */
+    this.dictionary = dictionary
+
+    /**
+     * A list of noun-strings which describe the entity.
+     * @property {Array} nouns
+     */
+    this.nouns = []
+
+    /**
+     * A list of adjective strings which describe the entity.
+     * @property {Array} adjectives
+     */
+    this.adjectives = []
+
+    /**
+     * A special array (see src/util/specarr.js) detailing proper nouns that
+     * can be used to describe the Entity.
+     * @property {SpecialArray} properNouns
+     */
+    this.properNouns = [entity =&gt; entity.name]
+
+    /**
+     * A list of sentences which are true in the present tense and have the entity
+     * as one of their arguments.
+     * @property {Array} facts
+     */
+    this.facts = []
+
+    /**
+     * A list of sentences which are true in the past tense and have the entity as
+     * one of their arguments.
+     * @property {Array} history
+     */
+    this.history = []
+
+    /**
+     * An object describing the preposition clauses which the entity can be
+     * described with. The values of the object are SpecialArrays, indexed by
+     * the preposition.
+     * @property {Object} prepositionClauses
+     */
+    this.prepositionClauses = {}
+    // ^(each key is a preposition, each value a specarr)
+
+    // SOUND:
+    /**
+     * A list of Sound objects which have the entity as an origin
+     * @property {Array} nowPlayingSounds
+     */
+    this.nowPlayingSounds = []
+    /**
+     * @property {SoundPlayer} soundPlayer
+     */
+    this.soundPlayer = null
+  }
+
+  /**
+   * Attach an adjective to the entity.
+   * @method be
+   * @param {String} adjective The adjective to attach
+   * @param {Dictionary} [dictionary = this.dictionary]
+   * @chainable
+   * @throws {String} In the case that the adjective is not in the dictionary.
+   */
+  be(adjective, dictionary=this.dictionary) {
+    if(!dictionary)
+      throw &#x27;Entity .be() needs a Dictionary&#x27;
+    // load an adjective extension
+    if(this.is(adjective))
+      return this
+
+    if(dictionary.adjectives[adjective]) {
+
+      dictionary.adjectives[adjective](this)
+      if(!this.adjectives.includes(adjective))
+        this.adjectives.push(adjective)
+
+      return this
+    } else
+      throw &#x27;no such adjective: &#x27; + adjective
+  }
+
+  /**
+   * Check whether a given adjective is attached to the entity
+   * @method is
+   * @param {String} adjective
+   * @return {Boolean}
+   */
+  is(adjective) {
+    return this.adjectives.includes(adjective)
+  }
+
+  /**
+   * Remove a given adjective from the entity.
+   * @method stopBeing
+   * @param {String} adj
+   */
+  stopBeing(adj) {
+    this.adjectives = this.adjectives.filter(a =&gt; a != adj)
+    let sentence = Sentence.S(be, this, adj)
+    for(let fact of this.facts) {
+      if(Sentence.compare(sentence, fact))
+        fact.stop()
+    }
+  }
+
+  /**
+   * Inherit properties from a given noun. This enables a non-hierachical
+   * inheritance structure for entitys. The dictionary of nouns is defined in
+   * &#x60;src/nouns/index.js&#x60;.
+   * @method be_a
+   * @param {String} classname The noun to inherit properties from
+   * @param {Dictionary} [dictionary = this.dictionary]
+   * @chainable
+   * @throws {String} In the case that the noun-string is not in the dictionary.
+   */
+  be_a(classname, dictionary=this.dictionary) {
+    // load a noun extension
+    if(!dictionary)
+      throw &#x27;.be_a() needs a Dictionary&#x27;
+
+    // don&#x27;t load the same extension twice
+    if(this.is_a(classname))
+      return this
+
+    if(dictionary.nouns[classname]) {
+      // strings can be used as aliases to other classes
+      while(dictionary.nouns[classname].constructor == String)
+        classname = dictionary.nouns[classname]
+
+      dictionary.nouns[classname](this)
+
+      if(!this.nouns.includes(classname))
+        this.nouns.push(classname)
+
+      // consistsOfTree
+      /*let parts = consistsOfTree[classname]
+      if(parts) {
+        // spawn parts
+        parts = spawn(dictionary, ...parts)
+        for(let part of parts)
+          part.setLocation(this, &#x27;consist&#x27;)
+      }*/
+
+      // start &#x60;beA&#x60; sentence
+      //new Sentence(beA, [this, classname]).start()
+
+      /**
+       * Emitted whenever the entity becomes a new noun.
+       * @event becomeNoun
+       * @param {String} classname
+       */
+      this.emit(&#x27;becomeNoun&#x27;, classname)
+
+      return this
+    } else
+      throw &#x27;no such entityclass: &#x27; + classname
+  }
+
+  /**
+   * Check whether the entity inherits from a given noun.
+   * @method is_a
+   * @param {String} classname The noun to check.
+   * @return {Boolean}
+   */
+  is_a(classname) {
+    return this.nouns.includes(classname)
+  }
+
+  /**
+   * Compiles a regex for all possible noun-phrase strings for the entity.
+   * @method reg
+   * @param {Number} [depth=1]
+   *  Limits the recursive depth for preposition phrases / embedded noun-phrases
+   * @return {RegExp}
+   */
+  reg(depth=1) {
+    // compile a regex for all possible nounphrase strings for this entity
+    // depth limits the recursion depth for preposition-phrases/embedded noun-phrases
+
+    let adjRegex = this.adjRegex()
+    if(adjRegex)
+      adjRegex = regOps.kleeneJoin(adjRegex, &#x27;,? &#x27;)
+
+    depth--;
+    let nounPhraseRegex = regOps.concatSpaced(
+      regOps.optionalConcatSpaced(
+        /a|an|the/,
+        adjRegex,
+      ),
+      regOps.or(...this.nouns)
+    )
+
+    if(depth &gt; 0) {
+      let clauseRegex = this.clauseRegex(depth)
+      if(clauseRegex)
+        nounPhraseRegex = regOps.optionalConcatSpaced(
+          nounPhraseRegex, clauseRegex//regOps.kleenePoliteList(clauseRegex)
+        )
+    }
+
+    return regOps.or(
+      nounPhraseRegex,
+      ...toRegexs(this, this.properNouns, depth),
+    )
+  }
+
+  /**
+   * @method clauseRegex
+   * @param {Number} depth Limits the recursive depth for embedded noun-phrases
+   * @return {RegExp}
+   *  A regular expression for any preposition phrase that can be included in
+   *  a noun phrase for the entity. Or &#x60;null&#x60; if there are no prepositions
+   *  clauses.
+   */
+  clauseRegex(depth) {
+    let all = []
+    for(let prep in this.prepositionClauses) {
+      let clauses = this.prepositionClauses[prep]
+      let regexs = toRegexs(this, clauses, depth)
+      if(regexs.length)
+        all.push(regOps.concatSpaced(prep, regOps.or(...regexs)))
+    }
+
+    if(all.length)
+      return regOps.or(...all)
+    else
+      return null
+  }
+
+  /**
+   * Compile a regular expression for any adjective that can be used to
+   * describe this entity.
+   * @method adjRegex
+   * @return {RegExp or Null}
+   */
+  adjRegex() {
+    let regexs = toRegexs(this, this.adjectives)
+    if(regexs.length)
+      return regOps.or(...regexs)
+    else
+      return null
+  }
+
+  /**
+   * Test whether this entity matches a given noun-phrase string.
+   * @method matches
+   * @param {String} str
+   * @return {Boolean}
+   */
+  matches(str) {
+    // test this entity&#x27;s regex against a string
+    return regOps.whole(this.reg(2)).test(str)
+  }
+
+  /**
+   * Randomly generate a noun-phrase that describes this entity
+   * @method ref
+   * @deprecated use .str() instead
+   * @param ctx {DescriptionContext}
+   * @param {Object} options
+   * @return {String}
+   */
+  ref(ctx, options) {
+    // come up with a random noun phrase to represent this entity
+    return entityStr(this, ctx, options)
+  }
+
+  /**
+   * Randomly generate a noun-phrase that describes this entity
+   * @method str
+   * @param ctx {DescriptionContext}
+   * @param {Object} options
+   * @return {String}
+   */
+  str(ctx, options) {
+    return entityStr(this, ctx, options)
+  }
+
+  /**
+   * Attaches a preposition clause to the entity
+   * @method addClause
+   * @param {String} prep The preposition
+   * @param clause The clause following the preposition.
+   */
+  addClause(prep, clause) {
+    // add a preposition clause to this Entity
+    // the clause may be any unexpanded cell of a specarr
+    if(!this.prepositionClauses[prep])
+      this.prepositionClauses[prep] = [clause]
+    else
+      this.prepositionClauses[prep].push(clause)
+  }
+
+  /**
+   * Remove a given preposition clause from the entity
+   * @method removeClause
+   * @param {String} prep The preposition
+   * @param {String, Substitution, Function or Entity} clause
+      The clause following the preposition
+   */
+  removeClause(prep, clause) {
+    // remove a given preposition clause from this Entity
+    let list = this.prepositionClauses[prep]
+    if(list)
+      this.prepositionClauses[prep] = list.filter(cl =&gt; cl != clause)
+  }
+
+  /**
+   * Choose a random sentence which is presently true has this entity as an
+   * argument.
+   * @method randomFact
+   * @return {Sentence}
+   */
+  randomFact() {
+    return this.facts[Math.floor(Math.random() * this.facts.length)]
+  }
+
+  /**
+   * Choose a random sentence which is true in the past-tense and has this entity
+   * as an argument.
+   * @method randomHistoricFact
+   * @return {Sentence}
+   */
+  randomHistoricFact() {
+    return this.history[Math.floor(Math.random() * this.history.length)]
+  }
+
+  /**
+   * Choose a random sentence, true in the past or present tense, and has this
+   * entity as an argument.
+   * @method randomSentence
+   * @return {Sentence}
+   */
+  randomSentence() {
+    if(Math.random() * (this.facts.length + this.history.length) &lt; this.facts.length)
+      return this.randomFact()
+    else
+      return this.randomHistoricFact()
+  }
+}
+Entity.prototype.isEntity = true
+module.exports = Entity
+
+
+const spawn = require(&#x27;./spawn2&#x27;)
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
