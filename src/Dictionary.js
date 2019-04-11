@@ -5,6 +5,7 @@ const spawn = require('./spawn2')
 const spawnSingle = require('./spawn')
 const Entity = require('./Entity')
 const Noun = require('./Noun')
+const Sentence = require('./Sentence')
 
 /**
  * @class Dictionary
@@ -71,6 +72,13 @@ class Dictionary {
 
   spawnSingle(str) {
     return spawnSingle(this, str)
+  }
+
+  S(predicate, ...args) {
+    if(predicate.constructor == String)
+      predicate = this.predicates.byName[predicate]
+
+    return new Sentence(predicate, args)
   }
 }
 module.exports = Dictionary

@@ -20,3 +20,9 @@ a.be_a('greyhound')
 console.log(a.str())
 
 console.log(D.predicates.byName)
+
+let dog1 = D.createEntity().be_a('dog')
+let log1 = D.createEntity().be_a('log')
+
+let sentence1 = D.S('sniff', dog1, log1)
+console.log(sentence1.str())
