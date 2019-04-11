@@ -14,6 +14,11 @@ class PredicateSet {
      * @property predicates {Array}
      */
     this.predicates = []
+    /**
+     * The predicates of the set indexed by camel case name.
+     * @property byName {Object}
+     */
+    this.byName = {}
 
     this.addPredicates(...predicates)
   }
@@ -25,10 +30,14 @@ class PredicateSet {
    */
   addPredicates(...predicates) {
     for(let p of predicates) {
-      if(p.isPredicate)
+      if(p.constructor == Object)
+        p = new Predicate(p)
+
+      if(p.isPredicate) {
         this.predicates.push(p)
-      else if(p.constructor == Object)
-        this.predicates.push( new Predicate(p) )
+        for(let name of p.names)
+          this.byName[name] = p
+      }
     }
     this.sortPredicates()
   }

@@ -299,6 +299,15 @@ class Predicate {
 
     return list
   }
+
+  get names() {
+    let list = []
+    for(let form of this.forms) {
+      list.push(form.camelCaseName)
+    }
+    console.log(list)
+    return list
+  }
 }
 Predicate.prototype.isPredicate = true
 module.exports = Predicate
