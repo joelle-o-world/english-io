@@ -9,7 +9,7 @@ const search = require('./search')
 
 class Declarer {
   constructor(dictionary) {
-    this.entitys = [] // an iterator of Entity objects
+    this.entities = [] // an iterator of Entity objects
     this.ctx = new DescriptionContext()
     this.dictionary = dictionary
   }
@@ -32,7 +32,7 @@ class Declarer {
     if(ctxMatch)
       return ctxMatch
 
-    for(let match of search(matchStr, this.entitys))
+    for(let match of search(matchStr, this.entities))
       yield match
   }
 
@@ -99,12 +99,12 @@ class Declarer {
   }
 
   addEntity(entity) {
-    // add a Entity to the entitys
+    // add a Entity to the entities
     if(!entity.isEntity)
       console.warn('adding a entity which is not a entity')
 
-    if(entity.isEntity && !this.entitys.includes(entity)) {
-      this.entitys.push(entity)
+    if(entity.isEntity && !this.entities.includes(entity)) {
+      this.entities.push(entity)
     }
   }
 
@@ -176,15 +176,15 @@ class Declarer {
       let tenseType = getTenseType(sentence.parsed_tense)
 
       if(tenseType == 'present') {
-        let entitysToAdd = sentence.recursiveEntityArgs
-        for(let entity of entitysToAdd)
+        let entitiesToAdd = sentence.recursiveEntityArgs
+        for(let entity of entitiesToAdd)
           this.addEntity(entity)
 
         sentence.start()
 
       } else if(tenseType == 'past') {
-        let entitysToAdd = sentence.recursiveEntityArgs
-        for(let entity of entitysToAdd)
+        let entitiesToAdd = sentence.recursiveEntityArgs
+        for(let entity of entitiesToAdd)
           this.addEntity(entity)
 
         sentence.start()
@@ -216,10 +216,10 @@ class Declarer {
   }
 
   printEntityList() {
-    return this.entitys.map(entity => entity.ref())
+    return this.entities.map(entity => entity.ref())
   }
   randomEntity() {
-    return this.entitys[Math.floor(Math.random()*this.entitys.length)]
+    return this.entities[Math.floor(Math.random()*this.entities.length)]
   }
   randomFact() {
     return this.randomEntity().randomFact()

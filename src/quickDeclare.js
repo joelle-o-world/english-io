@@ -8,6 +8,6 @@ function quickDeclare(dictionary, ...strings) {
 
   dec.declare(...strings)
 
-  return dec.entitys
+  return dec.entities
 }
 module.exports = quickDeclare

@@ -17,7 +17,7 @@ function *parseImperative(str, subject, predicateSet) {
       if(interpretation.predicate.params[i].literal)
         argOptionsMatrix[i] = [arg]
 
-      else if(arg.isEntity) // leave args which are already entitys alone
+      else if(arg.isEntity) // leave args which are already entities alone
         argOptionsMatrix[i] = [arg]
 
       else if(arg.constructor == String) {

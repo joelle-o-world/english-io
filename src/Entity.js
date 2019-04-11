@@ -176,7 +176,7 @@ class Entity extends EventEmitter {
 
   /**
    * Inherit properties from a given noun. This enables a non-hierachical
-   * inheritance structure for entitys. The dictionary of nouns is defined in
+   * inheritance structure for entities. The dictionary of nouns is defined in
    * `src/nouns/index.js`.
    * @method be_a
    * @param {String} classname The noun to inherit properties from

@@ -4,6 +4,10 @@ const Declarer = require('./Declarer')
 const spawn = require('./spawn2')
 const spawnSingle = require('./spawn')
 
+/**
+ * @class Dictionary
+ */
+
 class Dictionary {
   constructor() {
     this.adjectives = {} // {String:Function, String:Function, ...}
@@ -40,12 +44,13 @@ class Dictionary {
     this.predicates.addPredicates(...predicates)
   }
 
+
   quickDeclare(...strings) {
     let dec = new Declarer(this)
 
     dec.declare(...strings)
 
-    return dec.entitys
+    return dec.entities
   }
 
   spawn(...strings) {

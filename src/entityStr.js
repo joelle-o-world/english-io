@@ -46,7 +46,7 @@ function entityStr(entity, ctx, options={}) {
     maxAdjectives = undefined,  // max number of adjectives to use (inc. nested)
     maxPrepositionClauses=undefined,  // max number of preposition clauses to use (inc. nested)
     nounSpecificness=1,     // scale 0-1, how specific should the noun be
-    //dontMention,          // list of entitys not to mention
+    //dontMention,          // list of entities not to mention
     //recursionDepth=3,       // limit the number of recursive entityStr calls
   } = options
   delete options.article

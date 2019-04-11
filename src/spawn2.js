@@ -4,11 +4,11 @@
 
 
 /**
- * Create new entitys from noun-phrase-strings.
+ * Create new entities from noun-phrase-strings.
  * @method spawn
  * @param {Dictionary} dictionary
  * @param {String} [...strs] Noun strings
- * @return {Array} An array of entitys
+ * @return {Array} An array of entities
  * @throws If unable to parse one of the arguments.
  */
 function spawn(dictionary, ...strs) {

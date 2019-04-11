@@ -228,8 +228,8 @@
             "extends": "EventEmitter",
             "params": [
                 {
-                    "name": "entitys",
-                    "description": "\n  A list of member entitys to add to the new fact listener.",
+                    "name": "entities",
+                    "description": "\n  A list of member entities to add to the new fact listener.",
                     "type": "Entity",
                     "optional": true,
                     "multiple": true
@@ -964,7 +964,7 @@
         {
             "file": "src/Entity.js",
             "line": 177,
-            "description": "Inherit properties from a given noun. This enables a non-hierachical\ninheritance structure for entitys. The dictionary of nouns is defined in\n`src/nouns/index.js`.",
+            "description": "Inherit properties from a given noun. This enables a non-hierachical\ninheritance structure for entities. The dictionary of nouns is defined in\n`src/nouns/index.js`.",
             "itemtype": "method",
             "name": "be_a",
             "params": [
@@ -1258,7 +1258,7 @@
         {
             "file": "src/FactListener.js",
             "line": 72,
-            "description": "Remove all entitys members",
+            "description": "Remove all entities members",
             "itemtype": "method",
             "name": "clear",
             "return": {
@@ -2163,7 +2163,7 @@
         {
             "file": "src/Sentence.js",
             "line": 100,
-            "description": "Get a list of all arguments which are entitys, including those from\nembedded sub-sentences.",
+            "description": "Get a list of all arguments which are entities, including those from\nembedded sub-sentences.",
             "itemtype": "attribute",
             "name": "recursiveEntityArgs",
             "readonly": "",
@@ -2468,7 +2468,7 @@
         {
             "file": "src/spawn2.js",
             "line": 6,
-            "description": "Create new entitys from noun-phrase-strings.",
+            "description": "Create new entities from noun-phrase-strings.",
             "itemtype": "method",
             "name": "spawn",
             "params": [
@@ -2486,7 +2486,7 @@
                 }
             ],
             "return": {
-                "description": "An array of entitys",
+                "description": "An array of entities",
                 "type": "Array"
             },
             "throws": {

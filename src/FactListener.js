@@ -7,17 +7,17 @@ const Sentence = require('./Sentence')
   @class FactListener
   @constructor
   @extends EventEmitter
-  @param {Entity} [...entitys]
-    A list of member entitys to add to the new fact listener.
+  @param {Entity} [...entities]
+    A list of member entities to add to the new fact listener.
 */
 
 class FactListener extends EventEmitter {
-  constructor(...entitys) {
+  constructor(...entities) {
     // call superconstructor
     super()
 
-    // list of member entitys
-    this.entitys = []
+    // list of member entities
+    this.entities = []
 
     // last emitted fact (used to avoid duplicates)
     this.lastFact = null
@@ -32,7 +32,7 @@ class FactListener extends EventEmitter {
     }
 
     // add constructor arguments to member list
-    for(let entity of entitys)
+    for(let entity of entities)
       this.add(entity)
   }
 
@@ -46,7 +46,7 @@ class FactListener extends EventEmitter {
     // throw an error if argument is not a entity
     if(!entity.isEntity)
       throw 'FactListener add() expects a entity'
-    this.entitys.push(entity)
+    this.entities.push(entity)
     entity.on('fact', this.callback)
 
   }
@@ -58,24 +58,24 @@ class FactListener extends EventEmitter {
     * @return {null}
     */
   remove(entity) {
-    if(this.entitys.includes(entity)) {
+    if(this.entities.includes(entity)) {
       // remove event listener
       entity.removeListener('fact', this.callback)
 
       // remove entity from member list.
-      let i = this.entitys.indexOf(entity)
-      this.entitys.splice(i, 1)
+      let i = this.entities.indexOf(entity)
+      this.entities.splice(i, 1)
     } else
       console.warn('attempt to remove entity from fact listener to which it is not a member')
   }
 
   /**
-    * Remove all entitys members
+    * Remove all entities members
     * @method clear
     * @return {null}
     */
   clear() {
-    for(let entity of this.entitys)
+    for(let entity of this.entities)
       this.remove(entity)
   }
 }

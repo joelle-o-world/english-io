@@ -98,7 +98,7 @@ class Sentence extends EventEmitter {
   }
 
   /**
-   * Get a list of all arguments which are entitys, including those from
+   * Get a list of all arguments which are entities, including those from
    * embedded sub-sentences.
    * @attribute recursiveEntityArgs
    * @readOnly
