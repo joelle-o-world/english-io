@@ -1,0 +1,8 @@
+ {
+  "name": "english-io",
+  "options": {
+    "paths": ["./src/"],
+    "outdir": "./docs"
+  }
+
+}
