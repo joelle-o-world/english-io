@@ -5,12 +5,12 @@ const Entity = require('./Entity')
 
 function spawn(dictionary, str) {
   // spawn a new entity from a noun phrase string
-  for(let i in dictionary.nouns) {
-    let noun = i.replace(/_/g, ' ')
+  for(let {noun} in dictionary.nouns) {
+    let formattedNoun = noun.replace(/_/g, ' ')
     //let reg = new RegExp('^(?:'+articleReg.source + ' ' + noun+')$')
-    let reg = regOps.whole(regOps.concatSpaced(articleReg, noun))
+    let reg = regOps.whole(regOps.concatSpaced(articleReg, formattedNoun))
     if(reg.test(str))
-      return new Entity(dictionary).be_a(i)
+      return new Entity(dictionary).be_a(noun)
   }
 }
 module.exports = spawn

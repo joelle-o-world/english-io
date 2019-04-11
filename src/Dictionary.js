@@ -3,6 +3,8 @@ const PredicateSet = require('./PredicateSet')
 const Declarer = require('./Declarer')
 const spawn = require('./spawn2')
 const spawnSingle = require('./spawn')
+const Entity = require('./Entity')
+const Noun = require('./Noun')
 
 /**
  * @class Dictionary
@@ -26,18 +28,17 @@ class Dictionary {
       this.addAdjective(adj, adjectives[adj])
   }
 
-  addNoun(noun, extendFunction) {
-    this.nouns[noun] = extendFunction
-    if(/ /.test(noun))
+  addNoun(noun) {
+    noun = new Noun(noun)
+    this.nouns[noun.noun] = noun
+    if(noun.isPhrasal)
       this.phrasalNouns.push(noun)
     return this
   }
 
-  addNouns(nouns) {
-    for(let noun in nouns)
-      this.addNoun(noun, nouns[noun])
-
-    return this
+  addNouns(...nouns) {
+    for(let noun of nouns)
+      this.addNoun(noun)
   }
 
   addPredicates(...predicates) {
@@ -51,6 +52,10 @@ class Dictionary {
     dec.declare(...strings)
 
     return dec.entities
+  }
+
+  createEntity() {
+    return new Entity(this)
   }
 
   spawn(...strings) {

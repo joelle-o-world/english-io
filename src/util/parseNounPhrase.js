@@ -12,7 +12,8 @@ function parseNounPhrase(str, dictionary) {
 
   // check phrasal nouns
   let remainder
-  for(let singularNoun of dictionary.phrasalNouns) {
+  for(let nounObject of dictionary.phrasalNouns) {
+    let singularNoun = nounObject.noun
     if(new RegExp(singularNoun+'$', 'i').test(str)) {
       noun = singularNoun
       plural = false

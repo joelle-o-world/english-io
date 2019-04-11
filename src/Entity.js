@@ -193,12 +193,16 @@ class Entity extends EventEmitter {
     if(this.is_a(classname))
       return this
 
-    if(dictionary.nouns[classname]) {
+    let noun = dictionary.nouns[classname]
+    if(noun) {
       // strings can be used as aliases to other classes
-      while(dictionary.nouns[classname].constructor == String)
-        classname = dictionary.nouns[classname]
+      while(noun.alias) {
+        classname = dictionary.nouns[noun.alias]
+        noun = dictionary.nouns[classname]
+      }
 
-      dictionary.nouns[classname](this)
+      if(noun.extend)
+        noun.extend(this)
 
       if(!this.nouns.includes(classname))
         this.nouns.push(classname)
