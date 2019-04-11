@@ -11,11 +11,18 @@ const Noun = require('./Noun')
  */
 
 class Dictionary {
-  constructor() {
+  constructor({adjectives, nouns, predicates} = {}) {
     this.adjectives = {} // {String:Function, String:Function, ...}
     this.nouns = {} //{String:Function, String:Function, ...}
     this.phrasalNouns = [] // [String, String, ...]
     this.predicates = new PredicateSet
+
+    if(adjectives)
+      this.addAdjectives(adjectives)
+    if(nouns)
+      this.addNouns(...nouns)
+    if(predicates)
+      this.addPredicates(...predicates)
   }
 
   addAdjective(adj, extendFunction) {
