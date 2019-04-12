@@ -113,15 +113,15 @@ class Entity extends EventEmitter {
     // ^(each key is a preposition, each value a specarr)
 
     // SOUND:
-    /**
+    /*
      * A list of Sound objects which have the entity as an origin
      * @property {Array} nowPlayingSounds
      */
-    this.nowPlayingSounds = []
-    /**
+    //this.nowPlayingSounds = []
+    /*
      * @property {SoundPlayer} soundPlayer
      */
-    this.soundPlayer = null
+    //this.soundPlayer = null
   }
 
   /**
