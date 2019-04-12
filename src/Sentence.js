@@ -28,7 +28,7 @@ class Sentence extends EventEmitter {
 
     /**
      * The truth value of the sentnece. May be `'true'`, `'planned'`,
-     * `'false'`, `'past'`, `'hypothetical'` or `'superfluous'`
+     * `'false'`, `'failed'`, `'past'`, `'hypothetical'` or `'superfluous'`
      * @property {String} truthValue
      * @default "hypothetical"
      */

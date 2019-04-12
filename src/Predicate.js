@@ -10,6 +10,7 @@ const PredicateSyntax = require('./PredicateSyntax')
                          array of verb/params/constants objects.
   @param {Function} [options.skipIf]
   @param {Function} [options.prepare]
+  @param {Function} [options.problem]
   @param {Function} [options.check]
   @param {Function} [options.begin]
   @param {Function} [options.expand]
@@ -24,7 +25,7 @@ class Predicate {
     verb, params=['subject'], // used if initialising with only one form
     forms=[],
     // semantic functions
-    begin, expand, check, until, afterwards, prepare, skipIf,
+    begin, expand, check, until, afterwards, prepare, skipIf, problem,
     banal=false,
   }) {
     // if verb and params are given, initialise with one form
@@ -70,6 +71,12 @@ class Predicate {
       @property {Function} _prepare
     */
     this._prepare = prepare
+
+    /**
+     * Problem returns truthy if the sentence is illegal.
+     * @property {Function} problem
+     */
+    this.problem = problem
 
     /**
      `check` is called to decide whether it is necessary to call `_begin`.

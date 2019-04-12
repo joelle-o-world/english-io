@@ -181,6 +181,8 @@ class Declarer {
           this.addEntity(entity)
 
         sentence.start()
+        if(sentence.truthValue == 'failed')
+          console.warn('Declaration failed:', str)
 
       } else if(tenseType == 'past') {
         let entitiesToAdd = sentence.recursiveEntityArgs
