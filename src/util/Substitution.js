@@ -6,10 +6,11 @@
 */
 
 const {randexp} = require("randexp")
-const placeholderRegex = /(?:S|O)?_/g // o = object, s = subject
+const placeholderRegex = /(?:S|O)?_(?:'s)?/g // o = object, s = subject
 const {autoBracket, kleenePoliteList} = require("./regOps")
 const politeList = require('./politeList')
 const toSubject = require('./toSubject')
+const toPossessiveAdjective = require('./toPossessiveAdjective')
 
 
 class Substitution { // sometimes abbreviated Sub
@@ -22,7 +23,8 @@ class Substitution { // sometimes abbreviated Sub
       this.placeholders = placeholderMatches.map(str => ({
         str: str,
         subject: str[0] == 'S',
-        object: str[0] == 'O'
+        object: str[0] == 'O',
+        possessive: /'s$/.test(str),
       }))
     else
       this.placeholders = []
@@ -80,9 +82,10 @@ class Substitution { // sometimes abbreviated Sub
     // substitute strings into the template
     for(let i in subs) {
       let placeholder = this.placeholders[i]
-      if(placeholder.subject) {
+      if(placeholder.subject)
         subs[i] = toSubject(subs[i])
-      }
+      if(placeholder.possessive)
+        subs[i] = toPossessiveAdjective(subs[i])
     }
 
     let bits = this.template.split(placeholderRegex)
