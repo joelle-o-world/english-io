@@ -67,13 +67,15 @@ class PredicateSyntax {
      * @property {String} camelCaseName
      */
     // generate camel case name
-    this.camelCaseName = [
-      this.verb,
-      ...this.params.filter(
-        param => param.name[0] != '_'
-      ).map(
-        param => param.name[0].toUpperCase() + param.name.slice(1)
-    )].join('')
+    let words = [
+      ...this.verb.split(/_| /)
+    ]
+    for(let param of this.params)
+      if(param.name[0] != '_')
+        words.push(...param.name.split(/_| /))
+
+    this.camelCaseName = words.map(word => word[0].toUpperCase()+word.slice(1)).join('')
+    
 
     // set-up regexs
     this.regexs = {}
