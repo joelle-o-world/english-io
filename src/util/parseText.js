@@ -102,9 +102,8 @@ module.exports = parseText = function(str) {
             continue;
         }
 
-        console.log("Unrecognised character", c);
+        console.warn("Unrecognised character", c);
     }
-    //console.log(parts);
     for(var i=0; i<parts.length; i++) {
         if(parts[i] == "")
             continue;

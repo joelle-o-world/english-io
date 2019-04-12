@@ -413,7 +413,6 @@ class Sentence extends EventEmitter {
    */
   static S(predicate, ...args) {
     if(!predicate.isPredicate) {
-      console.log('predicate:', predicate)
       throw "Sentence.S expects a predicate as first argument." +
             " Recieved: " + predicate
     }

@@ -126,7 +126,6 @@ class Substitution { // sometimes abbreviated Sub
     }
 
     let template = strs.join('')
-    console.log(template, args)
     return new Substitution(template, ...args)
   }
 

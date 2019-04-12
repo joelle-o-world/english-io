@@ -305,7 +305,6 @@ class Predicate {
     for(let form of this.forms) {
       list.push(form.camelCaseName)
     }
-    console.log(list)
     return list
   }
 }
