@@ -18,5 +18,5 @@ module.exports = {
   WanderingDescriber: require('./WanderingDescriber'),
   FactListener: require('./FactListener'),
 
-  util: require('./util'),
+  //util: require('./util'),
 }
