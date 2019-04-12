@@ -1,6 +1,6 @@
 // search within a given iterator for a entity matching a given string.
 
-const spawn = require('./spawn')
+//const spawn = require('./spawn')
 
 function *searchForEntitys(matchStr, domain) {
   // if domain is a entity, use this entity as a starting point for an explore search
@@ -18,13 +18,13 @@ function findFirst(matchStr, domain) {
     return entity
 }
 
-function findOrSpawn(matchStr, domain) {
+/*function findOrSpawn(matchStr, domain) {
   let result = findFirst(matchStr, domain)
   if(result)
     return result
   else
     return spawn(matchStr)
-}
+}*/
 
 function* explore(startingPoint) {
   let toSearch = startingPoint.slice()
@@ -53,4 +53,4 @@ function immediateRelations(entity) {
 module.exports = searchForEntitys
 module.exports.explore = explore
 module.exports.first = findFirst
-module.exports.orSpawn = findOrSpawn
+//module.exports.orSpawn = findOrSpawn
