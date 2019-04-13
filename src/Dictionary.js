@@ -67,7 +67,7 @@ class Dictionary {
   }
 
   spawn(...strings) {
-    return spawn(this, strings)
+    return spawn(this, ...strings)
   }
 
   spawnSingle(str) {
