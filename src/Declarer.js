@@ -1,4 +1,3 @@
-const spawn = require('./spawn')
 const regOps = require('./util/regOps')
 const PredicateSet = require('./PredicateSet')
 const Sentence = require('./Sentence')
@@ -17,7 +16,7 @@ class Declarer {
   findOrSpawn(nounPhraseStr) {
     let entity = this.findFirst(nounPhraseStr)
     if(!entity)
-      entity = spawn(this.dictionary, nounPhraseStr)
+      entity = this.dictionary.spawnSingle(nounPhraseStr)
 
     return entity
   }
@@ -167,33 +166,35 @@ class Declarer {
   declare(...declarationStrings) {
     for(let str of declarationStrings) {
       let sentence = this.parse(str)
+      if(sentence) {
+        let tenseType = getTenseType(sentence.parsed_tense)
 
-      if(!sentence /*|| info.tense != 'simple_present'*/) {
-        console.warn('DECLARATION FAILED:', str)
-        return null
-      }
+        if(tenseType == 'present') {
+          let entitiesToAdd = sentence.recursiveEntityArgs
+          for(let entity of entitiesToAdd)
+            this.addEntity(entity)
 
-      let tenseType = getTenseType(sentence.parsed_tense)
+          sentence.start()
+          if(sentence.truthValue == 'failed')
+            console.warn('Declaration failed:', str)
 
-      if(tenseType == 'present') {
-        let entitiesToAdd = sentence.recursiveEntityArgs
-        for(let entity of entitiesToAdd)
-          this.addEntity(entity)
+        } else if(tenseType == 'past') {
+          let entitiesToAdd = sentence.recursiveEntityArgs
+          for(let entity of entitiesToAdd)
+            this.addEntity(entity)
 
-        sentence.start()
-        if(sentence.truthValue == 'failed')
-          console.warn('Declaration failed:', str)
+          sentence.start()
+          sentence.stop()
+        } else
+          console.warn('declaration with strange tense:', sentence.parsed_tense)
 
-      } else if(tenseType == 'past') {
-        let entitiesToAdd = sentence.recursiveEntityArgs
-        for(let entity of entitiesToAdd)
-          this.addEntity(entity)
-
-        sentence.start()
-        sentence.stop()
       } else {
-        console.warn('declaration with strange tense:', sentence.parsed_tense)
+        let spawned = this.dictionary.spawn(str)
+        for(let e of spawned)
+          this.addEntity(e)
       }
+
+
     }
     return this
   }
