@@ -33,6 +33,8 @@ class Declarer {
 
     for(let match of search(matchStr, this.entities))
       yield match
+    for(let match of search(matchStr, search.explore(this.entities)))
+      yield match
   }
 
   parseNounPhrase(str) {
