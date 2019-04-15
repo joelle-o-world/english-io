@@ -71,6 +71,8 @@ function parseNounPhrase(str, dictionary) {
 
   // treat the remaining words as adjectives
   let adjectives = remainder.split(' ').filter(adj => adj.length)
+  if(!adjectives.every(adj => dictionary.adjectives[adj]))
+    return null
 
   return {
     noun: noun,
