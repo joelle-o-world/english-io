@@ -51,7 +51,9 @@ function entityStr(entity, ctx, options={}) {
   } = options
   delete options.article
 
-  // compose the string
+  // COMPOSE THE NOUN PHRASE
+
+  // choose a noun
   let out = entity.nouns[Math.floor(nounSpecificness*(entity.nouns.length-0.5))]
 
   // choose and apply preposition clauses
@@ -84,7 +86,7 @@ function entityStr(entity, ctx, options={}) {
 
   // choose and apply adjectives
   if(maxAdjectives) {
-    let nAdjs = Math.floor(Math.random() * (maxAdjectives+1))
+    let nAdjs = Math.floor(Math.random() * (maxAdjectives+1)) + 1
     if(nAdjs) {
       let allAdjs = specarr.expand(entity, entity.adjectives)
 
