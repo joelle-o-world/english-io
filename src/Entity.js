@@ -249,34 +249,46 @@ class Entity extends EventEmitter {
    * @return {RegExp}
    */
   reg(depth=1) {
-    // compile a regex for all possible nounphrase strings for this entity
-    // depth limits the recursion depth for preposition-phrases/embedded noun-phrases
-
-    let adjRegex = this.adjRegex()
-    if(adjRegex)
-      adjRegex = regOps.kleeneJoin(adjRegex, ',? ')
-
-    depth--;
     let nounPhraseRegex = regOps.concatSpaced(
-      regOps.optionalConcatSpaced(
-        /a|an|the/,
-        adjRegex,
-      ),
-      regOps.or(...this.nouns)
+      /a|an|the/,
+      this.nounPhraseletRegex(depth),
     )
-
-    if(depth > 0) {
-      let clauseRegex = this.clauseRegex(depth)
-      if(clauseRegex)
-        nounPhraseRegex = regOps.optionalConcatSpaced(
-          nounPhraseRegex, clauseRegex//regOps.kleenePoliteList(clauseRegex)
-        )
-    }
 
     return regOps.or(
       nounPhraseRegex,
       ...toRegexs(this, this.properNouns, depth),
     )
+  }
+
+  nounPhraseletRegex(depth=1) {
+    // Compile a regex for all possible noun-phraselet strings for this entity.
+    // A noun-phraselet is a noun-phrase without an article, or context
+    // specific adjectives.
+
+    let reg = regOps.or(...this.nouns)
+
+    let adjRegex = this.adjRegex()
+    if(adjRegex){
+      adjRegex = regOps.kleeneJoin(adjRegex, ',? ')
+      reg = regOps.concat(
+        regOps.optional(
+          regOps.concat(adjRegex, ' ')
+        ),
+        reg
+      )
+    }
+
+
+    depth--;
+    if(depth > 0) {
+      let clauseRegex = this.clauseRegex(depth)
+      if(clauseRegex)
+        reg = regOps.optionalConcatSpaced(
+          reg, clauseRegex
+        )
+    }
+
+    return reg
   }
 
   /**
