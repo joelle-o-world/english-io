@@ -106,6 +106,9 @@ class Declarer {
 
     if(entity.isEntity && !this.entities.includes(entity)) {
       this.entities.push(entity)
+      for(let fact of entity.facts)
+        for(let e of fact.entityArgs)
+          this.addEntity(e)
     }
   }
 
