@@ -1,3 +1,5 @@
+const ordinal = require('integer-to-ordinal-english')
+
 /**
  * A class used to keep track of context specific terms and mention-histories
  * @class DescriptionContext
@@ -83,6 +85,76 @@ class DescriptionContext {
       case 'she': return this.her;
       case 'them': return this.them;
       case 'they': return this.them;
+    }
+  }
+
+  latestMentionOf(entity) {
+    for(let i=this.referenceHistory.length-1; i>=0; i--)
+      if(this.referenceHistory[i].entity == entity)
+        return this.referenceHistory[i].ref
+
+    return null
+  }
+
+  lastNounPhraseletMatch(phraselet) {
+    for(let i=this.referenceHistory.length-1; i>=0; i--) {
+      let e = this.referenceHistory[i].entity
+      if(e.matchesPhraselet(phraselet))
+        return e
+    }
+
+    return null
+  }
+
+  nounPhraseletMatchIndex(e, phraselet) {
+    let alreadyseen = []
+    for(let {entity} of this.referenceHistory) {
+      if(alreadyseen.includes(entity))
+        continue
+      if(entity.matchesPhraselet(phraselet)) {
+        if(entity == e)
+          return alreadyseen.length
+        else
+          alreadyseen.push(entity)
+      }
+    }
+
+    return -1
+  }
+
+  nounPhraseletMatches(phraselet) {
+    let list = []
+    for(let {entity} of this.referenceHistory) {
+      if(list.includes(entity))
+        continue
+      else if(entity.matchesPhraselet(phraselet))
+        list.push(entity)
+    }
+
+    return list
+  }
+
+  getOrdinalAdjectives(entity, phraselet) {
+    let matches = this.nounPhraseletMatches(phraselet)
+    let n = matches.indexOf(entity)
+    if(n != -1 && matches.length > 1) {
+      return [ordinal(n+1).toLowerCase()]
+    } else
+      return null
+  }
+
+  getArticles(entity, phraselet) {
+    // if the entity has been mentioned before, use 'the'
+    if(this.latestMentionOf(entity)) {
+      /*if(this.lastNounPhraseletMatch(phraselet) == entity)
+        return ['this']
+      else*/
+      return ['the']
+    } else {
+      if(this.lastNounPhraseletMatch(phraselet))
+        return ['another']
+      else
+        return ['a']
     }
   }
 }

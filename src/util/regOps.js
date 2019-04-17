@@ -85,6 +85,15 @@ function whole(operand) {
   return new RegExp('^'+operand+'$')
 }
 
+function capture(operand, groupName) {
+  if(operand.constructor == RegExp)
+    operand = operand.source
+
+  let name = groupName ? '?<'+groupName+'>' : ''
+
+  return new RegExp('(' + name + operand + ')')
+}
+
 module.exports = {
   concat: concat,
   concatSpaced: concatSpaced,
@@ -98,4 +107,5 @@ module.exports = {
   optionalConcatSpaced: optionalConcatSpaced,
   autoBracket: autoBracket,
   whole: whole,
+  capture: capture,
 }

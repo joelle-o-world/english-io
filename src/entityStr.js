@@ -20,9 +20,30 @@ function entityStr(entity, ctx, options={}) {
     }
   }
 
-  let out = entityPhraselet(entity, ctx, options)
+  let phraselet = entityPhraselet(entity, ctx, options)
 
-  let str = sub('_ _', 'the', out).str(ctx, options)
+  // choose the article
+  let article = 'the'
+  let ordinalAdjective = null
+  if(ctx) {
+    let articles = ctx.getArticles(entity, phraselet)
+
+    article = articles[Math.floor(Math.random()*articles.length)]
+
+    // if using 'the', choose an ordinal adjective
+    if(article == 'the') {
+      let adjs = ctx.getOrdinalAdjectives(entity, phraselet)
+      if(adjs)
+        ordinalAdjective = adjs[Math.floor(Math.random()*adjs.length)]
+    }
+  }
+
+  if(ordinalAdjective)
+    phraselet = sub('_ _', ordinalAdjective, phraselet)
+
+
+  // compile and return final string
+  let str = sub('_ _', article, phraselet).str(ctx, options)
   if(ctx)
     ctx.log(entity, str)
   return str

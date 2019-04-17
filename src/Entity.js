@@ -339,6 +339,11 @@ class Entity extends EventEmitter {
     return regOps.whole(this.reg(2)).test(str)
   }
 
+  matchesPhraselet(str) {
+    // test this entity's noun phraselet regex againt a string
+    return regOps.whole(this.nounPhraseletRegex(2)).test(str)
+  }
+
   /**
    * Randomly generate a noun-phrase that describes this entity
    * @method ref

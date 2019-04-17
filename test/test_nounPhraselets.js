@@ -1,5 +1,6 @@
 const d = require('../exampleDictionary')
 const nounPhraseletStr = require('../src/Entity_nounPhraseletStr')
+const DescriptionContext = require('../src/DescriptionContext')
 
 let stuff = d.quickDeclare(
   'a cat meows',
@@ -13,9 +14,6 @@ console.log(
   cat.nounPhraseletRegex(2)
 )*/
 
-let ctx = undefined
-let options = 2
-let str = nounPhraseletStr(cat, ctx, options)
-console.log(str)
+let ctx = new DescriptionContext
 
 console.log(cat.str(ctx, 2))
