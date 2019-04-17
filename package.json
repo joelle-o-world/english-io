@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/joelyjoel/english-io#readme",
   "dependencies": {
+    "integer-to-ordinal-english": "^1.0.2",
     "randexp": "^0.5.3"
   }
 }
