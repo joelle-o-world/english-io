@@ -5,7 +5,7 @@
 */
 
 
-const wordCharRegex = /[\w']/;
+const wordCharRegex = /[\w'-]/;
 const punctuationCharRegex = /[.,"()!?-]/;
 
 module.exports = parseText = function(str) {
@@ -68,7 +68,7 @@ module.exports = parseText = function(str) {
         }
 
         if(c == "-") {
-            if(str.charAt(i-1) == " " || str.charAt(i+1) == " ") {
+            if(str.charAt(i-1) == " " && str.charAt(i+1) == " ") {
                 parts[parts.length-1] += "~";
                 continue;
             }

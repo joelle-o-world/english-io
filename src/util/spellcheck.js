@@ -1,42 +1,26 @@
 const parseText = require("./parseText")
 
 function spellcheck(str) {
-  let split = parseText(str)
-
-  // correct the spelling of indefinite articles
-  for(var i=1; i<split.length; i++)
-    if((/^(a|an)$/).test(split[i-1])) {
-      if((/^[aeiouh].*/).test(split[i]))
-        split[i-1] = 'an'
-      else
-        split[i-1] = 'a'
-    }
-
-  let recombined = parseText.recombine(split)
-  return recombined+' '
+  // correct the indefinite articles
+  let reg = /(?<=^| )a?(?= [aeiou])/ig
+  let reg2 = /(?<=^| )(?:an)?(?= [^aeiou])/ig
+  return str.replace(reg, 'an').replace(reg2, 'a')
 }
 module.exports = spellcheck
 
 function sentencify(str) {
-  let split = parseText(str)
+  // check and correct spelling of indefinite articles
+  str = spellcheck(str)
 
   // auto capitalise first letter of first word
-  if(split[0] != '^')
-    split.unshift('^')
+  if(!/^[A-Z]/.test(str))
+    str = str[0].toUpperCase() + str.slice(1)
+
   // add full-stop if does not exist
-  if(!(/[.!?]/).test(split[split.length-1]))
-    split.push('.')
+  str = str.trim()
+  if(!/[!.?,:;]$/.test(str))
+    str += '.'
 
-  // check and correct spelling of indefinite articles
-  for(var i=1; i<split.length; i++)
-    if((/^(a|an)$/).test(split[i-1])) {
-      if((/^[aeiouh].*/).test(split[i]))
-        split[i-1] = 'an'
-      else
-        split[i-1] = 'a'
-    }
-
-  let recombined = parseText.recombine(split)
-  return recombined+' '
+  return str
 }
 module.exports.sentencify = sentencify

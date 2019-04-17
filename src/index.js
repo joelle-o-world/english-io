@@ -18,7 +18,9 @@ module.exports = {
   WanderingDescriber: require('./WanderingDescriber'),
   FactListener: require('./FactListener'),
 
-  search: require('./search')
+  search: require('./search'),
+
+  sentencify: require('./util/spellcheck').sentencify, 
 
   //util: require('./util'),
 }
