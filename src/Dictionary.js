@@ -47,10 +47,12 @@ class Dictionary {
   addNouns(...nouns) {
     for(let noun of nouns)
       this.addNoun(noun)
+    return this
   }
 
   addPredicates(...predicates) {
     this.predicates.addPredicates(...predicates)
+    return this
   }
 
 
@@ -78,7 +80,9 @@ class Dictionary {
     if(predicate.constructor == String)
       predicate = this.predicates.byName[predicate]
 
-    return new Sentence(predicate, args)
+    let sentence = new Sentence(predicate, args)
+    sentence = sentence.trueInPresent() || sentence
+    return sentence
   }
 }
 module.exports = Dictionary

@@ -5,18 +5,19 @@ const PredicateSyntax = require('./PredicateSyntax')
   @constructor
   @param {Object} [options] Options for constructing the predicate.
   @param {String} [options.verb] The verb of the predicate.
-  @param {Array} [options.params]
-  @param {Array} [options.forms] Alternatively multiple syntaxes can be defined using an
+  @param {Array}  [options.params]
+  @param {Array}  [options.forms] Alternatively multiple syntaxes can be defined using an
                          array of verb/params/constants objects.
   @param {Function} [options.skipIf]
   @param {Function} [options.prepare]
   @param {Function} [options.problem]
   @param {Function} [options.check]
   @param {Function} [options.begin]
+  @param {Function} [options.meanwhile]
   @param {Function} [options.expand]
   @param {Function} [options.until]
   @param {Function} [options.afterwards]
-  @param {Boolean} [options.banal=false]
+  @param {Boolean}  [options.banal=false]
 */
 
 class Predicate {
@@ -25,7 +26,7 @@ class Predicate {
     verb, params=['subject'], // used if initialising with only one form
     forms=[],
     // semantic functions
-    begin, expand, check, until, afterwards, prepare, skipIf, problem,
+    begin, expand, check, until, afterwards, prepare, skipIf, problem, meanwhile,
     banal=false,
   }) {
     // if verb and params are given, initialise with one form
@@ -94,6 +95,14 @@ class Predicate {
       * @property {Function} _begin
       */
     this._begin = begin
+
+    /**
+     * `meanwhile` is called directly after a sentence happens (after `_begin`)
+     * if it returns a sentence, or list of sentences, these will be started
+     * using the original sentence as a cause. In other words, they will be
+     * stopped as soon the original sentence finishes.
+     */
+    this.meanwhile = meanwhile
 
     /**
       * `_expand` works in a similar way to `_prepare` except it is called

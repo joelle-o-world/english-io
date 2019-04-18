@@ -52,6 +52,8 @@ module.exports = {
   poop: {7:'pooping', 8:'pooped', 9:'pooped'},
   steal: {7:'stealing', 8:'stolen', 9:'stole'},
   lead: {7:'leading', 8:'lead', 9:'lead'},
+  lie: {7:'lying', 8:'lay', 9:'lay'},
+  sleep: {7:'sleeping', 8:'slept', 9:'slept'}
   // give
   // find
   // think

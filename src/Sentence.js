@@ -35,6 +35,19 @@ class Sentence extends EventEmitter {
     this.truthValue = 'hypothetical'
 
     /**
+     * A list of sentences which cause this sentence.
+     * @property {Array} causes
+     * @default []
+     */
+    this.causes = []
+
+    /**
+     * A the number of causes.
+     * @property {Number} causeCount
+     */
+    this.causeCount = 0
+
+    /**
      * a list keeping track of all currently active clause objects
      * @property {Array} presentClauses
      */
@@ -60,11 +73,11 @@ class Sentence extends EventEmitter {
    * If this sentence already exists in the arguments' fact lists return
    * the already existing version. Otherwise false.
    * @method trueInPresent
-   * @return {Sentence or Boolean}
+   * @return {Sentence|null}
    */
   trueInPresent() {
     if(this.truthValue == 'true')
-      return true
+      return this
 
     if(this.truthValue == 'hypothetical') {
       for(let arg of this.entityArgs) {
@@ -74,11 +87,11 @@ class Sentence extends EventEmitter {
             return fact
           }
       }
-      return false
+      return null
     }
 
 
-    // the present truth value predicates without entity arguments is undefined
+    // the present truth value for sentences without entity arguments is undefined
     return undefined
   }
 
@@ -234,9 +247,20 @@ class Sentence extends EventEmitter {
 
       // set truth value to true
       this.truthValue = 'true'
+      this.causeCount++
 
       // add facts and clauses
       this.addFactsAndClauses()
+
+      if(this.predicate.meanwhile) {
+        let consequences = this.predicate.meanwhile(...this.args, this)
+        if(consequences) {
+          if(consequences.isSentence)
+            consequences = [consequences]
+          for(let consequence of consequences)
+            consequence.addCause(this)
+        }
+      }
 
       if(this.predicate._expand) {
         let expansion = this.predicate._expand(...this.args, this)
@@ -435,6 +459,40 @@ class Sentence extends EventEmitter {
   randomEntityArg() {
     let entityArgs = this.args.filter(arg => arg.isEntity)
     return entityArgs[Math.floor(Math.random()*entityArgs.length)]
+  }
+
+  // Causes:
+  addCause(sentence) {
+    let trueVersion = sentence.trueInPresent()
+
+    if(trueVersion) {
+      // cause is true, so add to list, start this sentence and listen for stop
+      this.causes.push(trueVersion)
+      trueVersion.once('stop', () => this.removeCause(trueVersion))
+
+      if(this.truthValue == 'hypothetical')
+        this.start()
+
+      else if(this.truthValue != 'true')
+        console.warning('strange cause behaviour')
+
+      else
+        this.causeCount++
+
+    } else
+      throw 'A sentence must be true for it to be a cause of another sentence.'
+
+  }
+
+  removeCause(sentence) {
+    let i = this.causes.findIndex(cause => Sentence.compare(sentence, cause))
+    if(i != -1) {
+      this.causes.splice(i, 1)
+      this.causeCount--
+
+      if(this.truthValue == 'true' && this.causeCount <= 0)
+        this.stop()
+    }
   }
 }
 Sentence.prototype.isSentence = true
