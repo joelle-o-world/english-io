@@ -199,7 +199,7 @@ class Declarer {
           this.addEntity(e)
       }
 
-
+      this.entities = [...search.explore(this.entities)]
     }
     return this
   }
