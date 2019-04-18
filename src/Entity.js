@@ -368,6 +368,16 @@ class Entity extends EventEmitter {
     return entityStr(this, ctx, options)
   }
 
+  addNoun(noun) {
+    if(!this.nouns.includes(noun))
+      this.nouns.push(noun)
+  }
+
+  addAdjective(adjective) {
+    if(!this.adjectives.includes(adjective))
+      this.adjectives.push(adjective)
+  }
+
   /**
    * Attaches a preposition clause to the entity
    * @method addClause
