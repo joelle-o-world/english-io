@@ -15,11 +15,21 @@ const d = new Dictionary()
 
     new Predicate({verb:'lie down'}),
     new Predicate({
-      verb:'sleep',
+      verb:'sleep', params:['subject'],
       meanwhile(subject) {
         return d.S('LieDown', subject)
       }
-    })
+    }),
+
+    new Predicate({
+      verb: 'speak', params:['subject'],
+      replace(subject) {
+        if(subject.is_a('dog'))
+          return d.S('Woof', subject)
+        else if(subject.is_a('cat'))
+          return d.S('Meow', subject)
+      }
+    }),
 
   )
 

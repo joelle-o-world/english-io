@@ -9,6 +9,7 @@ const PredicateSyntax = require('./PredicateSyntax')
   @param {Array}  [options.forms] Alternatively multiple syntaxes can be defined using an
                          array of verb/params/constants objects.
   @param {Function} [options.skipIf]
+  @param {Function} [options.replace]
   @param {Function} [options.prepare]
   @param {Function} [options.problem]
   @param {Function} [options.check]
@@ -26,7 +27,7 @@ class Predicate {
     verb, params=['subject'], // used if initialising with only one form
     forms=[],
     // semantic functions
-    begin, expand, check, until, afterwards, prepare, skipIf, problem, meanwhile,
+    begin, expand, check, until, afterwards, prepare, skipIf, replace, problem, meanwhile,
     banal=false,
   }) {
     // if verb and params are given, initialise with one form
@@ -58,12 +59,20 @@ class Predicate {
     // semantic functions:
     /**
       `skipIf` is called as when starting a sentence. If it returns a truthy
-      value then the sentence will abort starting and won't happen. Should
+      value then the sentence will cancel starting and won't happen. Should
       generally be used to check whether an action is unnecessary because its
       outcome is already true.
       @property {Function} skipIf
     */
     this.skipIf = skipIf
+
+    /**
+     * `replace` is called when starting a sentence. If it returns a truthy
+     * value then the sentence will cancel starting and won't happen. The
+     * returned sentences will be started instead. Should be used to correct
+     * lazy user input.
+     */
+    this.replace = replace
 
     /**
       `_prepare` is called before a sentence happens. If it returns a sentence

@@ -174,6 +174,21 @@ class Sentence extends EventEmitter {
       }
     }
 
+    if(this.predicate.replace) {
+      let replacement = this.predicate.replace(...this.args, this)
+      if(replacement) {
+        this.truthValue = 'skipped'
+
+        if(replacement.isSentence)
+          replacement = [replacement]
+
+        for(let sentence of replacement)
+          sentence.start()
+
+        return this
+      }
+    }
+
     // if prepare is defined in the predicate, queue the the preparation and
     // reschedule this.start()
     if(this.predicate._prepare && !this.preparationQueue) {
@@ -492,7 +507,8 @@ class Sentence extends EventEmitter {
 
       if(this.truthValue == 'true' && this.causeCount <= 0)
         this.stop()
-    }
+    } else
+      console.warn('tried to remove a cause which doesn\'t exist')
   }
 }
 Sentence.prototype.isSentence = true
