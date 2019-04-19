@@ -455,7 +455,9 @@ class Sentence extends EventEmitter {
       throw "Sentence.S expects a predicate as first argument." +
             " Recieved: " + predicate
     }
-    return new Sentence(predicate, args)
+    let sentence = new Sentence(predicate, args)
+    sentence = sentence.trueInPresent() || sentence
+    return sentence
   }
 
   /**
