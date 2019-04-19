@@ -2,6 +2,7 @@ const Substitution = require('./util/Substitution')
 const getNounPhraselet = require('./util/getNounPhraselet')
 const regops = require('./util/regops')
 const search = require('./search')
+const parseList = require('./util/politeList').parse
 
 const placeholderRegex = /(?:@|#|L)?_/g
 /*
@@ -61,8 +62,7 @@ class EntitySpawner {
           args[i] = parseFloat(args[i])
           if(isNaN(args[i]))
             return null
-        } else if(this.params[i].list)
-          console.warn('EntitySpawner list placeholders not yet supported')
+        }
       }
 
       // parse entities last to reduce the risk of dropping a spawned entity
@@ -71,7 +71,18 @@ class EntitySpawner {
           args[i] = this.dictionary.findOrSpawn(args[i], domain)
           if(!args[i])
             return null
+        } else if(this.params[i].list) {
+          let list = parseList(args[i])
+          if(list)
+            for(let j in list) {
+              list[j] = this.dictionary.findOrSpawn(list[j], domain)
+              if(!list[j])
+                return null
+            }
+          args[i] = list
         }
+      // BUG STILL EXISTS WAITIMG!! Need to delay spawner construction
+
 
       return {
         entitySpawner: this,
