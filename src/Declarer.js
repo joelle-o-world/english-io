@@ -194,7 +194,14 @@ class Declarer {
           console.warn('declaration with strange tense:', sentence.parsed_tense)
 
       } else {
-        let spawned = this.dictionary.spawn(str)
+        let spawned = this.dictionary.spawnSingle(str, this.entities)
+        if(spawned) {
+          this.addEntity(spawned)
+          return spawned
+        }
+
+        // otherwise
+        spawned = this.dictionary.spawn(str)
         for(let e of spawned)
           this.addEntity(e)
       }

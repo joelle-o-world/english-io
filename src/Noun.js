@@ -5,14 +5,16 @@
  * @param {String} options.noun
  * @param {String|Array} options.inherits String or array of strings.
  * @param {Function} options.extendFunction
+ * @param {Array} options.constructors
  */
 
 class Noun {
   constructor(options) {
+    // handle strings
     if(options.constructor == String)
       options = {noun:options}
 
-    let {noun, inherits=[], extend, alias} = options
+    let {noun, inherits=[], extend, alias, spawners=[]} = options
 
     this.noun = noun
 
@@ -26,6 +28,7 @@ class Noun {
 
     this.alias = alias
 
+    this.spawners = spawners.slice()
 
     this.isPhrasal = / /.test(this.noun)
   }

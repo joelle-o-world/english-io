@@ -9,6 +9,7 @@ module.exports = {
   Predicate: require('./Predicate'),
   //PredicateSet: require('./PredicateSet'),
 
+
   Entity: require('./Entity'),
   //parseImperative: require('./parseImperative'),
   Sentence: require('./Sentence'),
@@ -20,7 +21,9 @@ module.exports = {
 
   search: require('./search'),
 
-  sentencify: require('./util/spellcheck').sentencify, 
+  sentencify: require('./util/spellcheck').sentencify,
+  
+  EntitySpawner: require('./EntitySpawner')
 
   //util: require('./util'),
 }

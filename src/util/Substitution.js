@@ -6,7 +6,7 @@
 */
 
 const {randexp} = require("randexp")
-const placeholderRegex = /(?:S|O|#)?_(?:'s)?/g // o = object, s = subject
+const placeholderRegex = /(?:S|O|#|@|L)?_(?:'s)?/g // o = object, s = subject
 const {autoBracket, kleenePoliteList} = require("./regOps")
 const politeList = require('./politeList')
 const toSubject = require('./toSubject')

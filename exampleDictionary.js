@@ -1,7 +1,28 @@
 const {Dictionary, Predicate} = require('./src/')
 
 const d = new Dictionary()
-  .addNouns('cat', 'dog')
+  .addNouns(
+    'cat',
+    {
+      noun:'dog',
+      spawners: [{
+        template: "woofing dog",
+        construct() {
+          let dog = this.dictionary.createEntity()
+          dog.be_a('dog')
+          this.dictionary.S('Woof', dog).start() // the dog woofs
+          return e
+        }
+      }]
+    }
+  )
+  .addEntitySpawner({
+    template: '_ who chases _', phraseletMode: false,
+    construct(a, b) {
+      this.dictionary.S('Chase', a, b).start() // a chases b
+      return a
+    },
+  })
   .addPredicates(
     new Predicate({
       verb: 'meow', params:['subject'],
@@ -31,6 +52,9 @@ const d = new Dictionary()
       }
     }),
 
+    new Predicate({
+      verb: 'chase', params:['subject', 'object']
+    })
   )
 
 module.exports = d
