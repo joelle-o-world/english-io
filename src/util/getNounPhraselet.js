@@ -13,7 +13,7 @@ const ordinalRegex = regops.capture(
   'ordinal'
 )
 
-const nounPhraseRegex = regeops.whole(regops.concat(
+const nounPhraseRegex = regops.whole(regops.concatSpaced(
   regops.optionalConcatSpaced(articleRegex, ordinalRegex),
   /(?<phraselet>.+)/
 ))
