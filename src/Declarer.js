@@ -197,17 +197,17 @@ class Declarer {
         let spawned = this.dictionary.spawnSingle(str, this.entities)
         if(spawned) {
           this.addEntity(spawned)
-          return spawned
+        } else {
+          // otherwise
+          spawned = this.dictionary.spawn(str)
+          for(let e of spawned)
+            this.addEntity(e)
         }
-
-        // otherwise
-        spawned = this.dictionary.spawn(str)
-        for(let e of spawned)
-          this.addEntity(e)
       }
 
       this.entities = [...search.explore(this.entities)]
     }
+    
     return this
   }
 

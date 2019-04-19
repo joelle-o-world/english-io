@@ -14,6 +14,9 @@ class Sentence extends EventEmitter {
   constructor(predicate=null, args=null) {
     super()
 
+    if(!predicate)
+      console.warn('WARNING: Sentence created without predicate.')
+
     /** A Predicate object defining the relationship between the
      *  arguments
      * @property {Predicate} predicate

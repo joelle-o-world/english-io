@@ -19,7 +19,7 @@ const usefulTenses = ['simple_present', 'simple_past']//verbPhrase.tenseList
 class PredicateSyntax {
   constructor({
     verb, params=['subject'], constants,
-    presentTenses=['simple_present', 'present_continuous'],
+    presentTenses=['simple_present'],
     pastTenses=['simple_past'],
   }) {
     /**
@@ -75,7 +75,7 @@ class PredicateSyntax {
         words.push(...param.name.split(/_| /))
 
     this.camelCaseName = words.map(word => word[0].toUpperCase()+word.slice(1)).join('')
-    
+
 
     // set-up regexs
     this.regexs = {}

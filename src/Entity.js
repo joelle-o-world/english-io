@@ -373,9 +373,30 @@ class Entity extends EventEmitter {
       this.nouns.push(noun)
   }
 
+  removeNoun(noun) {
+    let i = this.nouns.indexOf(noun)
+    if(i != -1)
+      this.nouns.splice(i, 1)
+    else
+      console.warn(
+        'tried to remove noun,', noun, ', that was not added to ', this.str()
+      )
+  }
+
   addAdjective(adjective) {
     if(!this.adjectives.includes(adjective))
       this.adjectives.push(adjective)
+  }
+
+  removeAdjective(adjective) {
+    let i = this.adjectives.indexOf(adjective)
+    if(i != -1)
+      this.adjectives.splice(i, 1)
+    else
+      console.warn(
+        'tried to remove adjective,', noun, ', that was not added to ',
+        this.str()
+      )
   }
 
   /**
