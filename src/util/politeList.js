@@ -6,3 +6,12 @@ function politeList(list) {
   }
 }
 module.exports = politeList
+
+function parsePoliteList(str) {
+  //result = /^([A-Z ]+)(?:(?:, (.+))* and (.+))$/i.exec(str)
+  result = /^(?:(?:(.+), )*(.+) and )(.+)$/.exec(str)
+
+  if(result)
+    return result.slice(1).filter(o=>o)
+}
+module.exports.parse = parsePoliteList
