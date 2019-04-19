@@ -18,7 +18,7 @@ const usefulTenses = ['simple_present', 'simple_past']//verbPhrase.tenseList
 
 class PredicateSyntax {
   constructor({
-    verb, params=['subject'], constants,
+    verb, params=['subject'], constants={},
     presentTenses=['simple_present'],
     pastTenses=['simple_past'],
   }) {
@@ -26,6 +26,15 @@ class PredicateSyntax {
      * @property {String} verb
      */
     this.verb = verb
+
+    if(constants.subject) {
+      constants._subject = constants.subject
+      delete constants.subject
+    }
+    if(constants.object) {
+      constants._object = constants.object
+      delete constants.object
+    }
     /**
      * @property {Array} constants
      */

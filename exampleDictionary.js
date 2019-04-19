@@ -54,6 +54,12 @@ const d = new Dictionary()
 
     new Predicate({
       verb: 'chase', params:['subject', 'object']
+    }),
+
+    new Predicate({
+      forms: [
+        {verb:'pat', params:['object'], constants:{subject:'you'}}
+      ],
     })
   )
 

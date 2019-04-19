@@ -112,6 +112,11 @@ class Declarer {
     }
   }
 
+  addEntities(...entities) {
+    for(let entity of entities)
+      this.addEntity(entity)
+  }
+
   parse(declarationStr, tenses, forbidSpawn=false) {
     let interpretations = this.predicates.parse(declarationStr, tenses)
 
@@ -170,45 +175,61 @@ class Declarer {
 
   declare(...declarationStrings) {
     for(let str of declarationStrings) {
-      let sentence = this.parse(str)
-      if(sentence) {
-        let tenseType = getTenseType(sentence.parsed_tense)
-
-        if(tenseType == 'present') {
-          let entitiesToAdd = sentence.recursiveEntityArgs
-          for(let entity of entitiesToAdd)
-            this.addEntity(entity)
-
-          sentence.start()
-          if(sentence.truthValue == 'failed')
-            console.warn('Declaration failed:', str)
-
-        } else if(tenseType == 'past') {
-          let entitiesToAdd = sentence.recursiveEntityArgs
-          for(let entity of entitiesToAdd)
-            this.addEntity(entity)
-
-          sentence.start()
-          sentence.stop()
-        } else
-          console.warn('declaration with strange tense:', sentence.parsed_tense)
-
-      } else {
-        let spawned = this.dictionary.spawnSingle(str, this.entities)
-        if(spawned) {
-          this.addEntity(spawned)
-        } else {
-          // otherwise
-          spawned = this.dictionary.spawn(str)
-          for(let e of spawned)
-            this.addEntity(e)
-        }
-      }
+      this.declareSingle(str)
 
       this.entities = [...search.explore(this.entities)]
     }
-    
+
     return this
+  }
+
+  declareSingle(str) {
+    let sentence = this.parse(str)
+
+    if(sentence) {
+      let tenseType = getTenseType(sentence.parsed_tense)
+
+      if(tenseType == 'present') {
+        let entitiesToAdd = sentence.recursiveEntityArgs
+        for(let entity of entitiesToAdd)
+          this.addEntity(entity)
+
+        sentence.start()
+        if(sentence.truthValue == 'failed')
+          console.warn('Declaration failed:', str)
+
+      } else if(tenseType == 'past') {
+        let entitiesToAdd = sentence.recursiveEntityArgs
+        for(let entity of entitiesToAdd)
+          this.addEntity(entity)
+
+        sentence.start()
+        sentence.stop()
+      } else {
+        console.warn('declaration with strange tense:', sentence.parsed_tense)
+      }
+
+      return
+    }
+
+    let imperative = this.parseImperative(str)
+    if(imperative) {
+      this.addEntities(...imperative.entityArgs)
+      imperative.start()
+      return
+    }
+
+    let spawned = this.dictionary.spawnSingle(str, this.entities)
+    if(spawned) {
+      this.addEntity(spawned)
+      return spawned;
+    }
+
+    // otherwise
+    spawned = this.dictionary.spawn(str)
+    for(let e of spawned)
+      this.addEntity(e)
+
   }
 
   check(str) {
