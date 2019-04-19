@@ -6,7 +6,7 @@
 */
 
 const {randexp} = require("randexp")
-const placeholderRegex = /(?:S|O)?_(?:'s)?/g // o = object, s = subject
+const placeholderRegex = /(?:S|O|#)?_(?:'s)?/g // o = object, s = subject
 const {autoBracket, kleenePoliteList} = require("./regOps")
 const politeList = require('./politeList')
 const toSubject = require('./toSubject')
@@ -24,6 +24,7 @@ class Substitution { // sometimes abbreviated Sub
         str: str,
         subject: str[0] == 'S',
         object: str[0] == 'O',
+        number: str[0] == '#',
         possessive: /'s$/.test(str),
       }))
     else
