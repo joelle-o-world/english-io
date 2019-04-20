@@ -22,8 +22,10 @@ module.exports = {
   search: require('./search'),
 
   sentencify: require('./util/spellcheck').sentencify,
-  
-  EntitySpawner: require('./EntitySpawner')
+
+  EntitySpawner: require('./EntitySpawner'),
+
+  Declarer: require('./Declarer'),
 
   //util: require('./util'),
 }
