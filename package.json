@@ -1,6 +1,6 @@
 {
   "name": "english-io",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A library for extracting information from english sentences, encoding information into english sentences, and building english language interfaces.",
   "main": "src/index.js",
   "directories": {
