@@ -110,11 +110,17 @@ class Declarer {
         for(let e of fact.entityArgs)
           this.addEntity(e)
     }
+
+    this.autoExpandDomain()
   }
 
   addEntities(...entities) {
     for(let entity of entities)
       this.addEntity(entity)
+  }
+
+  autoExpandDomain() {
+    this.entities = [...search.explore(this.entities)]
   }
 
   parse(declarationStr, tenses, forbidSpawn=false) {
@@ -176,8 +182,6 @@ class Declarer {
   declare(...declarationStrings) {
     for(let str of declarationStrings) {
       this.declareSingle(str)
-
-      this.entities = [...search.explore(this.entities)]
     }
 
     return this
@@ -209,11 +213,14 @@ class Declarer {
         console.warn('declaration with strange tense:', sentence.parsed_tense)
       }
 
+      this.autoExpandDomain()
+
       return
     }
 
     let imperative = this.parseImperative(str)
     if(imperative) {
+      console.log('imperative', imperative.str())
       this.addEntities(...imperative.entityArgs)
       imperative.start()
       return
