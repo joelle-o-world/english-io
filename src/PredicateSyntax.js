@@ -346,9 +346,9 @@ class PredicateSyntax {
     let score = this.verb.length
     for(let param of this.params) {
       if(param.name[0] != '_')
-        score += param.name.length
-      if(param.literal)
-        score -= 10
+        score += param.name.length * (param.literal ? 1 : 3)
+      //if(param.literal)
+        //score -= 10
     }
 
     this.specificness = score
