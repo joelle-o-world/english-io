@@ -164,8 +164,10 @@ class Sentence extends EventEmitter {
     */
   start() {
     // throw an error if this.checkArgs() fails
-    if(!this.checkArgs())
+    if(!this.checkArgs()) {
+      console.log(this)
       throw 'sentence has illegal args'
+    }
 
     // exit early if predicate's skipIf returns truthy value
     if(this.predicate.skipIf) {
@@ -322,10 +324,10 @@ class Sentence extends EventEmitter {
 
     // exit early if sentence is not 'true'
     if(this.truthValue != 'true' /*&& this.truthValue != 'planned'*/) {
-    console.warn(
-      'rejected sentence stop because truth value = ' + this.truthValue,
-      '('+this.str()+')'
-    )
+      /*console.warn(
+        'rejected sentence stop because truth value = ' + this.truthValue,
+        '('+this.str()+')'
+      )*/
       return this
     }
 
