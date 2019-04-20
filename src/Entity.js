@@ -394,7 +394,7 @@ class Entity extends EventEmitter {
       this.adjectives.splice(i, 1)
     else
       console.warn(
-        'tried to remove adjective,', noun, ', that was not added to ',
+        'tried to remove adjective,', adjective, ', that was not added to ',
         this.str()
       )
   }
