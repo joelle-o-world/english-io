@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entity-game - english-io</title>
+    <title>src/EntitySpawner.js - english-io</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -91,108 +91,123 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>entity-game Module</h1>
-<div class="box clearfix meta">
+<h1 class="file-heading">File: src/EntitySpawner.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+const Substitution = require(&#x27;./util/Substitution&#x27;)
+const getNounPhraselet = require(&#x27;./util/getNounPhraselet&#x27;)
+const regops = require(&#x27;./util/regops&#x27;)
+const search = require(&#x27;./search&#x27;)
+const parseList = require(&#x27;./util/politeList&#x27;).parse
+
+const placeholderRegex = /(?:@|#|L)?_/g
+/*
+  /(?:@|#|L)_/
+  @: literal
+  #: number
+  L: list
+*/
+
+/**
+ * @class EntitySpawner
+ * @constructor
+ * @param options
+ * @param {String} options.template
+ *  The template string describing the syntax of the entity spawner.
+ * @param {Function} construct
+ *  A function which takes a list of arguments (parsed from a string) and
+ *  returns an entity.
+ * @param {} format
+ *  The inverse of construct, takes an entity and returns an array of arguments.
+ */
+class EntitySpawner {
+  constructor({template, construct, format, phraseletMode=true}) {
+    this.phraseletMode = phraseletMode
+
+    this.template = template
+    this.unboundRegex = new RegExp(
+      this.template.replace(placeholderRegex, &#x27;(.+)&#x27;)
+    )
+    this.regex = regops.whole(this.unboundRegex)
+
+    let placeholders = this.template.match(placeholderRegex)
+    if(placeholders)
+      this.params = placeholders.map(ph =&gt; ({
+        entity: ph[0] == &#x27;_&#x27;,
+        number: ph[0] == &#x27;#&#x27;,
+        literal: ph[0] == &#x27;@&#x27;,
+        list: ph[0] == &#x27;L&#x27;,
+      }))
+    else
+      this.params = []
+
+    this._construct = construct
+  }
+
+  parse(str, domain) {
+    if(this.phraseletMode)
+      str = getNounPhraselet(str).phraselet
+
+    let result = this.regex.exec(str)
+    if(result) {
+      let args = result.slice(1)
+      for(let i in args) {
+        if(this.params[i].literal)
+          continue
+        if(this.params[i].number) {
+          args[i] = parseFloat(args[i])
+          if(isNaN(args[i]))
+            return null
+        }
+      }
+
+      // parse entities last to reduce the risk of dropping a spawned entity
+      for(let i in args)
+        if(this.params[i].entity) {
+          args[i] = this.dictionary.findOrSpawn(args[i], domain)
+          if(!args[i])
+            return null
+        } else if(this.params[i].list) {
+          let list = parseList(args[i])
+          if(list)
+            for(let j in list) {
+              list[j] = this.dictionary.findOrSpawn(list[j], domain)
+              if(!list[j])
+                return null
+            }
+          args[i] = list
+        }
+      // BUG STILL EXISTS WAITIMG!! Need to delay spawner construction
 
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_WanderingDescriber.js.html#l1"><code>src&#x2F;WanderingDescriber.js:1</code></a>
-        </div>
+      return {
+        entitySpawner: this,
+        args: args,
+      }
+    } else
+      return null
+  }
 
-</div>
+  compose(...args) {
+    return new Substitution(this.template, ...args)
+  }
 
+  str(args) {
+    return this.compose(...args).str()
+  }
 
-<div class="box intro">
-    
-</div>
+  construct(...args) {
+    if(this._construct)
+      return this._construct(...args)
+    else
+      throw &quot;EntitySpawner&#x27;s ._construct() is not defined: &quot; + this.template
+  }
+}
+EntitySpawner.prototype.isEntitySpawner = true
+module.exports = EntitySpawner
 
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-                <li class="module-class">
-                    <a href="../classes/DescriptionContext.html">
-                        DescriptionContext
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Dictionary.html">
-                        Dictionary
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Entity.html">
-                        Entity
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/EntitySpawner.html">
-                        EntitySpawner
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/FactListener.html">
-                        FactListener
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Noun.html">
-                        Noun
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/NounPhraseSentence.html">
-                        NounPhraseSentence
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/plural.html">
-                        plural
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Predicate.html">
-                        Predicate
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/PredicateSet.html">
-                        PredicateSet
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/PredicateSyntax.html">
-                        PredicateSyntax
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Sentence.html">
-                        Sentence
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/SentenceQueue.html">
-                        SentenceQueue
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/TimedPredicate.html">
-                        TimedPredicate
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/WanderingDescriber.html">
-                        WanderingDescriber
-                    </a>
-                </li>
-            </ul>
-    </div>
-
-
-    <div class="yui3-u-1-2">
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

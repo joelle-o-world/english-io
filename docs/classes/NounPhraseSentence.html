@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>API Docs for: 1.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -39,8 +39,11 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Dictionary.html">Dictionary</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntitySpawner.html">EntitySpawner</a></li>
                                 <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/Noun.html">Noun</a></li>
                                 <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
                                 <li><a href="../classes/plural.html">plural</a></li>
                                 <li><a href="../classes/Predicate.html">Predicate</a></li>
@@ -262,6 +265,14 @@ smoking&quot;.</li>
 
                             </li>
                             <li class="index-item property inherited">
+                                <a href="#property_causeCount">causeCount</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_causes">causes</a>
+
+                            </li>
+                            <li class="index-item property inherited">
                                 <a href="#property_pastClauses">pastClauses</a>
 
                             </li>
@@ -338,7 +349,7 @@ smoking&quot;.</li>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_addFactsAndClauses">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l118"><code>src&#x2F;Sentence.js:118</code></a>
+        <a href="../files/src_Sentence.js.html#l134"><code>src&#x2F;Sentence.js:134</code></a>
         </p>
 
 
@@ -378,7 +389,7 @@ smoking&quot;.</li>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_checkArgs">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l49"><code>src&#x2F;Sentence.js:49</code></a>
+        <a href="../files/src_Sentence.js.html#l65"><code>src&#x2F;Sentence.js:65</code></a>
         </p>
 
 
@@ -416,7 +427,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_observePast">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l332"><code>src&#x2F;Sentence.js:332</code></a>
+        <a href="../files/src_Sentence.js.html#l376"><code>src&#x2F;Sentence.js:376</code></a>
         </p>
 
 
@@ -449,7 +460,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_randomEntityArg">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l432"><code>src&#x2F;Sentence.js:432</code></a>
+        <a href="../files/src_Sentence.js.html#l477"><code>src&#x2F;Sentence.js:477</code></a>
         </p>
 
 
@@ -489,7 +500,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_start">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l144"><code>src&#x2F;Sentence.js:144</code></a>
+        <a href="../files/src_Sentence.js.html#l160"><code>src&#x2F;Sentence.js:160</code></a>
         </p>
 
 
@@ -526,7 +537,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_stop">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l269"><code>src&#x2F;Sentence.js:269</code></a>
+        <a href="../files/src_Sentence.js.html#l313"><code>src&#x2F;Sentence.js:313</code></a>
         </p>
 
 
@@ -571,7 +582,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_str">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l359"><code>src&#x2F;Sentence.js:359</code></a>
+        <a href="../files/src_Sentence.js.html#l403"><code>src&#x2F;Sentence.js:403</code></a>
         </p>
 
 
@@ -648,7 +659,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_trueInPast">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l85"><code>src&#x2F;Sentence.js:85</code></a>
+        <a href="../files/src_Sentence.js.html#l101"><code>src&#x2F;Sentence.js:101</code></a>
         </p>
 
 
@@ -676,7 +687,7 @@ terms of their type.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Sentence or Boolean</span>
+            <span class="type"><a href="../classes/Sentence.html" class="crosslink">Sentence</a> | Null</span>
         </span>
 
 
@@ -688,7 +699,7 @@ terms of their type.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#method_trueInPresent">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l59"><code>src&#x2F;Sentence.js:59</code></a>
+        <a href="../files/src_Sentence.js.html#l75"><code>src&#x2F;Sentence.js:75</code></a>
         </p>
 
 
@@ -705,7 +716,7 @@ the already existing version. Otherwise false.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Sentence or Boolean</span>:
+                        <span class="type"><a href="../classes/Sentence.html" class="crosslink">Sentence</a> | Null</span>:
             </div>
         </div>
 
@@ -727,7 +738,7 @@ the already existing version. Otherwise false.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#property_args">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l23"><code>src&#x2F;Sentence.js:23</code></a>
+        <a href="../files/src_Sentence.js.html#l26"><code>src&#x2F;Sentence.js:26</code></a>
         </p>
 
 
@@ -737,6 +748,55 @@ the already existing version. Otherwise false.
         an array of Entity/String arguments
     </div>
 
+
+
+</div>
+<div id="property_causeCount" class="property item inherited">
+    <h3 class="name"><code>causeCount</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Sentence.html#property_causeCount">Sentence</a>:
+        <a href="../files/src_Sentence.js.html#l47"><code>src&#x2F;Sentence.js:47</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        A the number of causes.
+    </div>
+
+
+
+</div>
+<div id="property_causes" class="property item inherited">
+    <h3 class="name"><code>causes</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Sentence.html#property_causes">Sentence</a>:
+        <a href="../files/src_Sentence.js.html#l40"><code>src&#x2F;Sentence.js:40</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        A list of sentences which cause this sentence.
+    </div>
+
+        <p><strong>Default:</strong> []</p>
 
 
 </div>
@@ -751,7 +811,7 @@ the already existing version. Otherwise false.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#property_pastClauses">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l42"><code>src&#x2F;Sentence.js:42</code></a>
+        <a href="../files/src_Sentence.js.html#l58"><code>src&#x2F;Sentence.js:58</code></a>
         </p>
 
 
@@ -775,7 +835,7 @@ the already existing version. Otherwise false.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#property_predicate">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l17"><code>src&#x2F;Sentence.js:17</code></a>
+        <a href="../files/src_Sentence.js.html#l20"><code>src&#x2F;Sentence.js:20</code></a>
         </p>
 
 
@@ -799,7 +859,7 @@ the already existing version. Otherwise false.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#property_presentClauses">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l37"><code>src&#x2F;Sentence.js:37</code></a>
+        <a href="../files/src_Sentence.js.html#l53"><code>src&#x2F;Sentence.js:53</code></a>
         </p>
 
 
@@ -823,7 +883,7 @@ the already existing version. Otherwise false.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Sentence.html#property_truthValue">Sentence</a>:
-        <a href="../files/src_Sentence.js.html#l29"><code>src&#x2F;Sentence.js:29</code></a>
+        <a href="../files/src_Sentence.js.html#l32"><code>src&#x2F;Sentence.js:32</code></a>
         </p>
 
 
@@ -831,7 +891,7 @@ the already existing version. Otherwise false.
 
     <div class="description">
         The truth value of the sentnece. May be <code>&#x27;true&#x27;</code>, <code>&#x27;planned&#x27;</code>,
-<code>&#x27;false&#x27;</code>, <code>&#x27;past&#x27;</code>, <code>&#x27;hypothetical&#x27;</code> or <code>&#x27;superfluous&#x27;</code>
+<code>&#x27;false&#x27;</code>, <code>&#x27;failed&#x27;</code>, <code>&#x27;past&#x27;</code>, <code>&#x27;hypothetical&#x27;</code> or <code>&#x27;superfluous&#x27;</code>
     </div>
 
         <p><strong>Default:</strong> &quot;hypothetical&quot;</p>
@@ -859,7 +919,7 @@ the already existing version. Otherwise false.
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/Sentence.html#attr_entityArgs">Sentence</a>:
-                            <a href="../files/src_Sentence.js.html#l423"><code>src&#x2F;Sentence.js:423</code></a>
+                            <a href="../files/src_Sentence.js.html#l468"><code>src&#x2F;Sentence.js:468</code></a>
                             </p>
                     
                     
@@ -917,7 +977,7 @@ the already existing version. Otherwise false.
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/Sentence.html#attr_recursiveEntityArgs">Sentence</a>:
-                            <a href="../files/src_Sentence.js.html#l100"><code>src&#x2F;Sentence.js:100</code></a>
+                            <a href="../files/src_Sentence.js.html#l116"><code>src&#x2F;Sentence.js:116</code></a>
                             </p>
                     
                     
@@ -947,7 +1007,7 @@ the already existing version. Otherwise false.
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/Sentence.html#event_problem">Sentence</a>:
-                            <a href="../files/src_Sentence.js.html#l197"><code>src&#x2F;Sentence.js:197</code></a>
+                            <a href="../files/src_Sentence.js.html#l230"><code>src&#x2F;Sentence.js:230</code></a>
                             </p>
                     
                     
@@ -989,7 +1049,7 @@ the already existing version. Otherwise false.
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/Sentence.html#event_start">Sentence</a>:
-                            <a href="../files/src_Sentence.js.html#l257"><code>src&#x2F;Sentence.js:257</code></a>
+                            <a href="../files/src_Sentence.js.html#l301"><code>src&#x2F;Sentence.js:301</code></a>
                             </p>
                     
                     
@@ -1013,7 +1073,7 @@ the already existing version. Otherwise false.
                         <div class="meta">
                                     <p>Inherited from
                                     <a href="../classes/Sentence.html#event_stop">Sentence</a>:
-                            <a href="../files/src_Sentence.js.html#l323"><code>src&#x2F;Sentence.js:323</code></a>
+                            <a href="../files/src_Sentence.js.html#l367"><code>src&#x2F;Sentence.js:367</code></a>
                             </p>
                     
                     

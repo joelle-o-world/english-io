@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entity-game - english-io</title>
+    <title>src/Dictionary.js - english-io</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -91,108 +91,147 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>entity-game Module</h1>
-<div class="box clearfix meta">
+<h1 class="file-heading">File: src/Dictionary.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+const PredicateSet = require(&#x27;./PredicateSet&#x27;)
+
+const Declarer = require(&#x27;./Declarer&#x27;)
+const spawn = require(&#x27;./spawn2&#x27;)
+const spawnSingle = require(&#x27;./spawn&#x27;)
+const Entity = require(&#x27;./Entity&#x27;)
+const Noun = require(&#x27;./Noun&#x27;)
+const Sentence = require(&#x27;./Sentence&#x27;)
+const EntitySpawner = require(&#x27;./EntitySpawner&#x27;)
+const search = require(&#x27;./search&#x27;)
+
+/**
+ * @class Dictionary
+ */
+
+class Dictionary {
+  constructor({adjectives, nouns, predicates} = {}) {
+    this.adjectives = {} // {String:Function, String:Function, ...}
+    this.nouns = {} //{String:Function, String:Function, ...}
+    this.phrasalNouns = [] // [String, String, ...]
+    this.predicates = new PredicateSet
+    this.entitySpawners = []
+
+    if(adjectives)
+      this.addAdjectives(adjectives)
+    if(nouns)
+      this.addNouns(...nouns)
+    if(predicates)
+      this.addPredicates(...predicates)
+  }
+
+  /* Add an adjective to the dictionary */
+  addAdjective(adj, extendFunction) {
+    this.adjectives[adj] = extendFunction
+    return this
+  }
+
+  /* Add adjectives to the dictionary. */
+  addAdjectives(adjectives) {
+    for(let adj in adjectives)
+      this.addAdjective(adj, adjectives[adj])
+  }
+
+  /* Add a noun to the dictionary. */
+  addNoun(noun) {
+    if(noun.dictionary)
+      throw &#x27;Dictionary conflict over noun: &#x27; + noun.noun
+
+    if(!noun.isNoun)
+      noun = new Noun(noun)
+
+    noun.dictionary = this
+
+    this.nouns[noun.noun] = noun
+
+    if(noun.isPhrasal)
+      this.phrasalNouns.push(noun)
+
+    if(noun.spawners)
+      for(let spawner of noun.spawners)
+        this.addEntitySpawner(spawner)
+
+    return this
+  }
+
+  /* Add nouns to the dictionary */
+  addNouns(...nouns) {
+    for(let noun of nouns)
+      this.addNoun(noun)
+    return this
+  }
+
+  /* Add predicates to the dictionary */
+  addPredicates(...predicates) {
+    this.predicates.addPredicates(...predicates)
+    return this
+  }
+
+  addEntitySpawner(spawner) {
+    if(spawner.dictionary)
+      throw &#x27;Dictionary conflict over entity spawner: &#x27;+spawner.template
+    if(!spawner.isEntitySpawner)
+      spawner = new EntitySpawner(spawner)
+    this.entitySpawners.push(spawner)
+    spawner.dictionary = this
+
+    return this // chainable
+  }
+
+  addEntitySpawners(...spawners) {
+    for(let spawner of spawners)
+      this.addEntitySpawner(spawner)
+  }
 
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_WanderingDescriber.js.html#l1"><code>src&#x2F;WanderingDescriber.js:1</code></a>
-        </div>
+  quickDeclare(...strings) {
+    let dec = new Declarer(this)
 
-</div>
+    dec.declare(...strings)
 
+    return dec.entities
+  }
 
-<div class="box intro">
-    
-</div>
+  createEntity() {
+    return new Entity(this)
+  }
 
+  spawn(...strings) {
+    return spawn(this, ...strings)
+  }
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-            <p>This module provides the following classes:</p>
+  spawnSingle(str, domain) { // domain is an Entity or an iterable of Entities
+    return spawnSingle(this, str, domain)
+  }
 
-            <ul class="module-classes">
-                <li class="module-class">
-                    <a href="../classes/DescriptionContext.html">
-                        DescriptionContext
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Dictionary.html">
-                        Dictionary
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Entity.html">
-                        Entity
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/EntitySpawner.html">
-                        EntitySpawner
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/FactListener.html">
-                        FactListener
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Noun.html">
-                        Noun
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/NounPhraseSentence.html">
-                        NounPhraseSentence
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/plural.html">
-                        plural
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Predicate.html">
-                        Predicate
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/PredicateSet.html">
-                        PredicateSet
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/PredicateSyntax.html">
-                        PredicateSyntax
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Sentence.html">
-                        Sentence
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/SentenceQueue.html">
-                        SentenceQueue
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/TimedPredicate.html">
-                        TimedPredicate
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/WanderingDescriber.html">
-                        WanderingDescriber
-                    </a>
-                </li>
-            </ul>
-    </div>
+  findOrSpawn(matchStr, domain) {
+    let result = null
+    if(domain)
+      result = search.first(matchStr, domain)
+    if(result)
+      return result
+    else
+      return this.spawnSingle(matchStr, domain)
+  }
 
+  S(predicate, ...args) {
+    if(predicate.constructor == String)
+      predicate = this.predicates.byName[predicate]
 
-    <div class="yui3-u-1-2">
-    </div>
+    let sentence = new Sentence(predicate, args)
+    sentence = sentence.trueInPresent() || sentence
+    return sentence
+  }
+}
+module.exports = Dictionary
+
+    </pre>
 </div>
                     </div>
                 </div>

@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>API Docs for: 1.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -39,8 +39,11 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Dictionary.html">Dictionary</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntitySpawner.html">EntitySpawner</a></li>
                                 <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/Noun.html">Noun</a></li>
                                 <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
                                 <li><a href="../classes/plural.html">plural</a></li>
                                 <li><a href="../classes/Predicate.html">Predicate</a></li>
@@ -255,6 +258,10 @@
 
                             </li>
                             <li class="index-item property inherited">
+                                <a href="#property_problem">problem</a>
+
+                            </li>
+                            <li class="index-item property inherited">
                                 <a href="#property_skipIf">skipIf</a>
 
                             </li>
@@ -295,7 +302,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_checkArgs">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l124"><code>src&#x2F;Predicate.js:124</code></a>
+        <a href="../files/src_Predicate.js.html#l149"><code>src&#x2F;Predicate.js:149</code></a>
         </p>
 
 
@@ -362,7 +369,7 @@ parameters of a predicate.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_compose">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l244"><code>src&#x2F;Predicate.js:244</code></a>
+        <a href="../files/src_Predicate.js.html#l269"><code>src&#x2F;Predicate.js:269</code></a>
         </p>
 
 
@@ -476,7 +483,7 @@ forms)</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_parse">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l158"><code>src&#x2F;Predicate.js:158</code></a>
+        <a href="../files/src_Predicate.js.html#l183"><code>src&#x2F;Predicate.js:183</code></a>
         </p>
 
 
@@ -556,7 +563,7 @@ parsed)</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_parseImperative">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l179"><code>src&#x2F;Predicate.js:179</code></a>
+        <a href="../files/src_Predicate.js.html#l204"><code>src&#x2F;Predicate.js:204</code></a>
         </p>
 
 
@@ -634,7 +641,7 @@ or <code>null</code> in the case that the string cannot be parsed.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_parseNounPhrase">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l201"><code>src&#x2F;Predicate.js:201</code></a>
+        <a href="../files/src_Predicate.js.html#l226"><code>src&#x2F;Predicate.js:226</code></a>
         </p>
 
 
@@ -705,7 +712,7 @@ For example, &quot;The cup that is on the table&quot;.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_pastPrepositionClausesFor">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l285"><code>src&#x2F;Predicate.js:285</code></a>
+        <a href="../files/src_Predicate.js.html#l310"><code>src&#x2F;Predicate.js:310</code></a>
         </p>
 
 
@@ -786,7 +793,7 @@ past tense.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_presentPrepositionClausesFor">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l268"><code>src&#x2F;Predicate.js:268</code></a>
+        <a href="../files/src_Predicate.js.html#l293"><code>src&#x2F;Predicate.js:293</code></a>
         </p>
 
 
@@ -869,7 +876,7 @@ past tense.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#method_str">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l221"><code>src&#x2F;Predicate.js:221</code></a>
+        <a href="../files/src_Predicate.js.html#l246"><code>src&#x2F;Predicate.js:246</code></a>
         </p>
 
 
@@ -987,7 +994,7 @@ be written.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property__afterwards">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l108"><code>src&#x2F;Predicate.js:108</code></a>
+        <a href="../files/src_Predicate.js.html#l133"><code>src&#x2F;Predicate.js:133</code></a>
         </p>
 
 
@@ -1013,7 +1020,7 @@ sentence or an array of sentences, these will be executed simultaneously</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property__begin">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l84"><code>src&#x2F;Predicate.js:84</code></a>
+        <a href="../files/src_Predicate.js.html#l101"><code>src&#x2F;Predicate.js:101</code></a>
         </p>
 
 
@@ -1039,7 +1046,7 @@ return value is ignored.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property__expand">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l91"><code>src&#x2F;Predicate.js:91</code></a>
+        <a href="../files/src_Predicate.js.html#l116"><code>src&#x2F;Predicate.js:116</code></a>
         </p>
 
 
@@ -1067,7 +1074,7 @@ sentence will be stopped after the last one finishes.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property__prepare">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l66"><code>src&#x2F;Predicate.js:66</code></a>
+        <a href="../files/src_Predicate.js.html#l77"><code>src&#x2F;Predicate.js:77</code></a>
         </p>
 
 
@@ -1094,7 +1101,7 @@ before the original sentence happens.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property_banal">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l115"><code>src&#x2F;Predicate.js:115</code></a>
+        <a href="../files/src_Predicate.js.html#l140"><code>src&#x2F;Predicate.js:140</code></a>
         </p>
 
 
@@ -1121,7 +1128,7 @@ certain processes to do with story telling.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property_check">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l74"><code>src&#x2F;Predicate.js:74</code></a>
+        <a href="../files/src_Predicate.js.html#l91"><code>src&#x2F;Predicate.js:91</code></a>
         </p>
 
 
@@ -1139,6 +1146,31 @@ declared as sentences.</p>
 
 
 </div>
+<div id="property_problem" class="property item inherited">
+    <h3 class="name"><code>problem</code></h3>
+    <span class="type">Function</span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Predicate.html#property_problem">Predicate</a>:
+        <a href="../files/src_Predicate.js.html#l85"><code>src&#x2F;Predicate.js:85</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Problem returns truthy if the sentence is illegal.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_skipIf" class="property item inherited">
     <h3 class="name"><code>skipIf</code></h3>
     <span class="type">Function</span>
@@ -1150,7 +1182,7 @@ declared as sentences.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property_skipIf">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l57"><code>src&#x2F;Predicate.js:57</code></a>
+        <a href="../files/src_Predicate.js.html#l60"><code>src&#x2F;Predicate.js:60</code></a>
         </p>
 
 
@@ -1158,7 +1190,7 @@ declared as sentences.</p>
 
     <div class="description">
         <p><code>skipIf</code> is called as when starting a sentence. If it returns a truthy
-value then the sentence will abort starting and won't happen. Should
+value then the sentence will cancel starting and won't happen. Should
 generally be used to check whether an action is unnecessary because its
 outcome is already true.</p>
 
@@ -1178,7 +1210,7 @@ outcome is already true.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Predicate.html#property_until">Predicate</a>:
-        <a href="../files/src_Predicate.js.html#l100"><code>src&#x2F;Predicate.js:100</code></a>
+        <a href="../files/src_Predicate.js.html#l125"><code>src&#x2F;Predicate.js:125</code></a>
         </p>
 
 

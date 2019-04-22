@@ -2,8 +2,11 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "DescriptionContext",
+        "Dictionary",
         "Entity",
+        "EntitySpawner",
         "FactListener",
+        "Noun",
         "NounPhraseSentence",
         "Predicate",
         "PredicateSet",

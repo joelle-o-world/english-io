@@ -1,6 +1,8 @@
 {
     "project": {
-        "name": "english-io"
+        "name": "english-io",
+        "description": "A library for extracting information from english sentences, encoding information into english sentences, and building english language interfaces.",
+        "version": "1.2.1"
     },
     "files": {
         "src/util/parseNounPhrase.js": {
@@ -35,6 +37,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/Dictionary.js": {
+            "name": "src/Dictionary.js",
+            "modules": {},
+            "classes": {
+                "Dictionary": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/Entity.js": {
             "name": "src/Entity.js",
             "modules": {},
@@ -44,11 +55,29 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/EntitySpawner.js": {
+            "name": "src/EntitySpawner.js",
+            "modules": {},
+            "classes": {
+                "EntitySpawner": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/FactListener.js": {
             "name": "src/FactListener.js",
             "modules": {},
             "classes": {
                 "FactListener": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/Noun.js": {
+            "name": "src/Noun.js",
+            "modules": {},
+            "classes": {
+                "Noun": 1
             },
             "fors": {},
             "namespaces": {}
@@ -150,8 +179,11 @@
             "classes": {
                 "plural": 1,
                 "DescriptionContext": 1,
+                "Dictionary": 1,
                 "Entity": 1,
+                "EntitySpawner": 1,
                 "FactListener": 1,
+                "Noun": 1,
                 "NounPhraseSentence": 1,
                 "Predicate": 1,
                 "PredicateSet": 1,
@@ -193,9 +225,21 @@
             "extension_for": [],
             "module": "entity-game",
             "file": "src/DescriptionContext.js",
-            "line": 1,
+            "line": 3,
             "description": "A class used to keep track of context specific terms and mention-histories",
             "is_constructor": 1
+        },
+        "Dictionary": {
+            "name": "Dictionary",
+            "shortname": "Dictionary",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "entity-game",
+            "file": "src/Dictionary.js",
+            "line": 12
         },
         "Entity": {
             "name": "Entity",
@@ -211,6 +255,41 @@
             "description": "Entity represents an object in the world. It is half derived from the word\n'noun', half from the word 'entityenon'. Though it fits the definition of\nneither precisely.",
             "extends": "EventEmitter",
             "is_constructor": 1
+        },
+        "EntitySpawner": {
+            "name": "EntitySpawner",
+            "shortname": "EntitySpawner",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "entity-game",
+            "file": "src/EntitySpawner.js",
+            "line": 15,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "props": [
+                        {
+                            "name": "template",
+                            "description": "The template string describing the syntax of the entity spawner.",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "construct",
+                    "description": "A function which takes a list of arguments (parsed from a string) and\n returns an entity.",
+                    "type": "Function"
+                },
+                {
+                    "name": "format",
+                    "description": "The inverse of construct, takes an entity and returns an array of arguments."
+                }
+            ]
         },
         "FactListener": {
             "name": "FactListener",
@@ -233,6 +312,48 @@
                     "type": "Entity",
                     "optional": true,
                     "multiple": true
+                }
+            ]
+        },
+        "Noun": {
+            "name": "Noun",
+            "shortname": "Noun",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "entity-game",
+            "file": "src/Noun.js",
+            "line": 1,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object|String",
+                    "props": [
+                        {
+                            "name": "noun",
+                            "description": "",
+                            "type": "String"
+                        },
+                        {
+                            "name": "inherits",
+                            "description": "String or array of strings.",
+                            "type": "String|Array"
+                        },
+                        {
+                            "name": "extendFunction",
+                            "description": "",
+                            "type": "Function"
+                        },
+                        {
+                            "name": "constructors",
+                            "description": "",
+                            "type": "Array"
+                        }
+                    ]
                 }
             ]
         },
@@ -312,7 +433,19 @@
                             "optional": true
                         },
                         {
+                            "name": "replace",
+                            "description": "",
+                            "type": "Function",
+                            "optional": true
+                        },
+                        {
                             "name": "prepare",
+                            "description": "",
+                            "type": "Function",
+                            "optional": true
+                        },
+                        {
+                            "name": "problem",
                             "description": "",
                             "type": "Function",
                             "optional": true
@@ -325,6 +458,12 @@
                         },
                         {
                             "name": "begin",
+                            "description": "",
+                            "type": "Function",
+                            "optional": true
+                        },
+                        {
+                            "name": "meanwhile",
                             "description": "",
                             "type": "Function",
                             "optional": true
@@ -542,7 +681,7 @@
         },
         {
             "file": "src/util/parseNounPhrase.js",
-            "line": 83,
+            "line": 86,
             "description": "Calculate a new range which is the intersection of two given ranges.",
             "itemtype": "method",
             "name": "rangeOverlap",
@@ -635,7 +774,7 @@
         },
         {
             "file": "src/DescriptionContext.js",
-            "line": 9,
+            "line": 11,
             "description": "list of recent noun-phrase references to objects.",
             "itemtype": "property",
             "name": "referenceHistory",
@@ -644,7 +783,7 @@
         },
         {
             "file": "src/DescriptionContext.js",
-            "line": 16,
+            "line": 18,
             "itemtype": "property",
             "name": "me",
             "type": "Entity or null",
@@ -653,7 +792,7 @@
         },
         {
             "file": "src/DescriptionContext.js",
-            "line": 22,
+            "line": 24,
             "itemtype": "property",
             "name": "you",
             "type": "Entity or null",
@@ -662,7 +801,7 @@
         },
         {
             "file": "src/DescriptionContext.js",
-            "line": 29,
+            "line": 31,
             "description": "log a reference to the history",
             "itemtype": "method",
             "name": "log",
@@ -682,7 +821,7 @@
         },
         {
             "file": "src/DescriptionContext.js",
-            "line": 49,
+            "line": 51,
             "description": "get the pronoun of a given entity with respect to this context",
             "itemtype": "method",
             "name": "getPronounFor",
@@ -701,7 +840,7 @@
         },
         {
             "file": "src/DescriptionContext.js",
-            "line": 70,
+            "line": 72,
             "itemtype": "method",
             "name": "parse",
             "params": [
@@ -885,23 +1024,6 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 116,
-            "description": "A list of Sound objects which have the entity as an origin",
-            "itemtype": "property",
-            "name": "nowPlayingSounds",
-            "type": "Array",
-            "class": "Entity"
-        },
-        {
-            "file": "src/Entity.js",
-            "line": 121,
-            "itemtype": "property",
-            "name": "soundPlayer",
-            "type": "SoundPlayer",
-            "class": "Entity"
-        },
-        {
-            "file": "src/Entity.js",
             "line": 127,
             "description": "Attach an adjective to the entity.",
             "itemtype": "method",
@@ -990,7 +1112,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 218,
+            "line": 222,
             "description": "Emitted whenever the entity becomes a new noun.",
             "itemtype": "event",
             "name": "becomeNoun",
@@ -1005,7 +1127,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 230,
+            "line": 234,
             "description": "Check whether the entity inherits from a given noun.",
             "itemtype": "method",
             "name": "is_a",
@@ -1024,7 +1146,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 240,
+            "line": 244,
             "description": "Compiles a regex for all possible noun-phrase strings for the entity.",
             "itemtype": "method",
             "name": "reg",
@@ -1045,7 +1167,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 278,
+            "line": 294,
             "itemtype": "method",
             "name": "clauseRegex",
             "params": [
@@ -1063,7 +1185,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 301,
+            "line": 317,
             "description": "Compile a regular expression for any adjective that can be used to\ndescribe this entity.",
             "itemtype": "method",
             "name": "adjRegex",
@@ -1075,7 +1197,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 315,
+            "line": 331,
             "description": "Test whether this entity matches a given noun-phrase string.",
             "itemtype": "method",
             "name": "matches",
@@ -1094,7 +1216,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 326,
+            "line": 347,
             "description": "Randomly generate a noun-phrase that describes this entity",
             "itemtype": "method",
             "name": "ref",
@@ -1120,7 +1242,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 339,
+            "line": 360,
             "description": "Randomly generate a noun-phrase that describes this entity",
             "itemtype": "method",
             "name": "str",
@@ -1144,7 +1266,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 350,
+            "line": 402,
             "description": "Attaches a preposition clause to the entity",
             "itemtype": "method",
             "name": "addClause",
@@ -1163,7 +1285,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 365,
+            "line": 417,
             "description": "Remove a given preposition clause from the entity",
             "itemtype": "method",
             "name": "removeClause",
@@ -1183,7 +1305,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 379,
+            "line": 431,
             "description": "Choose a random sentence which is presently true has this entity as an\nargument.",
             "itemtype": "method",
             "name": "randomFact",
@@ -1195,7 +1317,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 389,
+            "line": 441,
             "description": "Choose a random sentence which is true in the past-tense and has this entity\nas an argument.",
             "itemtype": "method",
             "name": "randomHistoricFact",
@@ -1207,7 +1329,7 @@
         },
         {
             "file": "src/Entity.js",
-            "line": 399,
+            "line": 451,
             "description": "Choose a random sentence, true in the past or present tense, and has this\nentity as an argument.",
             "itemtype": "method",
             "name": "randomSentence",
@@ -1277,8 +1399,8 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 57,
-            "description": "`skipIf` is called as when starting a sentence. If it returns a truthy\nvalue then the sentence will abort starting and won't happen. Should\ngenerally be used to check whether an action is unnecessary because its\noutcome is already true.",
+            "line": 60,
+            "description": "`skipIf` is called as when starting a sentence. If it returns a truthy\nvalue then the sentence will cancel starting and won't happen. Should\ngenerally be used to check whether an action is unnecessary because its\noutcome is already true.",
             "itemtype": "property",
             "name": "skipIf",
             "type": "Function",
@@ -1286,7 +1408,13 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 66,
+            "line": 69,
+            "description": "`replace` is called when starting a sentence. If it returns a truthy\nvalue then the sentence will cancel starting and won't happen. The\nreturned sentences will be started instead. Should be used to correct\nlazy user input.",
+            "class": "Predicate"
+        },
+        {
+            "file": "src/Predicate.js",
+            "line": 77,
             "description": "`_prepare` is called before a sentence happens. If it returns a sentence\nor list of sentences, these sentences will be executed consequetively\nbefore the original sentence happens.",
             "itemtype": "property",
             "name": "_prepare",
@@ -1295,7 +1423,16 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 74,
+            "line": 85,
+            "description": "Problem returns truthy if the sentence is illegal.",
+            "itemtype": "property",
+            "name": "problem",
+            "type": "Function",
+            "class": "Predicate"
+        },
+        {
+            "file": "src/Predicate.js",
+            "line": 91,
             "description": "`check` is called to decide whether it is necessary to call `_begin`.\n If it returns truthy then `_begin` will be skipped, the start process\n will not be cancelled however. Its secondary purpose is for answering\n question sentences (true/false) when they have not been specifically\n declared as sentences.",
             "itemtype": "property",
             "name": "check",
@@ -1304,7 +1441,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 84,
+            "line": 101,
             "description": "`_begin` is called directly after the sentence happens. So far, the\nreturn value is ignored.",
             "itemtype": "property",
             "name": "_begin",
@@ -1313,7 +1450,13 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 91,
+            "line": 108,
+            "description": "`meanwhile` is called directly after a sentence happens (after `_begin`)\nif it returns a sentence, or list of sentences, these will be started\nusing the original sentence as a cause. In other words, they will be\nstopped as soon the original sentence finishes.",
+            "class": "Predicate"
+        },
+        {
+            "file": "src/Predicate.js",
+            "line": 116,
             "description": "`_expand` works in a similar way to `_prepare` except it is called\nimmediately after a sentence happens. If it returns a sentence, or an\narray of sentences, these will be executed consequetively and the main\nsentence will be stopped after the last one finishes.",
             "itemtype": "property",
             "name": "_expand",
@@ -1322,7 +1465,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 100,
+            "line": 125,
             "description": "`until` is called immediately after a sentence happens (after\n`_expand`). It has an additional callback arguemnt (prepended) which,\nwhen called will stop the sentence.",
             "itemtype": "property",
             "name": "until",
@@ -1331,7 +1474,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 108,
+            "line": 133,
             "description": "`_afterwards` is immediately after the sentence stops. If it returns a\nsentence or an array of sentences, these will be executed simultaneously",
             "itemtype": "property",
             "name": "_afterwards",
@@ -1340,7 +1483,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 115,
+            "line": 140,
             "description": "If a predicate is marked banal, sentences using it will be ignored by\ncertain processes to do with story telling.",
             "itemtype": "property",
             "name": "banal",
@@ -1350,7 +1493,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 124,
+            "line": 149,
             "description": "Checks whether a given list of arguments are of the right type to fit the\nparameters of a predicate.",
             "itemtype": "method",
             "name": "checkArgs",
@@ -1369,7 +1512,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 158,
+            "line": 183,
             "itemtype": "method",
             "name": "parse",
             "params": [
@@ -1392,7 +1535,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 179,
+            "line": 204,
             "description": "Parses a string using the imperative tense, for a given subject",
             "itemtype": "method",
             "name": "parseImperative",
@@ -1416,7 +1559,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 201,
+            "line": 226,
             "description": "Parses a string in noun phrase form, referring to one of the arguments.\nFor example, \"The cup that is on the table\".",
             "itemtype": "method",
             "name": "parseNounPhrase",
@@ -1435,7 +1578,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 221,
+            "line": 246,
             "description": "Generate an english string version of the predicate for a given set of\narguments in a given tense.",
             "itemtype": "method",
             "name": "str",
@@ -1487,7 +1630,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 244,
+            "line": 269,
             "description": "Prepare an english version of the predicate for a given set of\narguments in a given tense.",
             "itemtype": "method",
             "name": "compose",
@@ -1532,7 +1675,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 268,
+            "line": 293,
             "description": "Generate a set of preposition clauses for a particular argument.",
             "itemtype": "method",
             "name": "presentPrepositionClausesFor",
@@ -1556,7 +1699,7 @@
         },
         {
             "file": "src/Predicate.js",
-            "line": 285,
+            "line": 310,
             "description": "Generate a set of preposition clauses for a particular argument in the\npast tense.",
             "itemtype": "method",
             "name": "pastPrepositionClausesFor",
@@ -1589,7 +1732,16 @@
         },
         {
             "file": "src/PredicateSet.js",
-            "line": 21,
+            "line": 17,
+            "description": "The predicates of the set indexed by camel case name.",
+            "itemtype": "property",
+            "name": "byName",
+            "type": "Object",
+            "class": "PredicateSet"
+        },
+        {
+            "file": "src/PredicateSet.js",
+            "line": 26,
             "description": "Adds predicates to the set.",
             "itemtype": "method",
             "name": "addPredicates",
@@ -1605,7 +1757,7 @@
         },
         {
             "file": "src/PredicateSet.js",
-            "line": 36,
+            "line": 45,
             "description": "Parse a sentence string against all the predicates in the set.",
             "itemtype": "method",
             "name": "parse",
@@ -1629,7 +1781,7 @@
         },
         {
             "file": "src/PredicateSet.js",
-            "line": 57,
+            "line": 66,
             "description": "Parse a string in the imperative tense for a given subject. The subject\nwill be copied to the subject argument of the resultant sentences",
             "itemtype": "method",
             "name": "parseImperative",
@@ -1653,7 +1805,7 @@
         },
         {
             "file": "src/PredicateSet.js",
-            "line": 76,
+            "line": 85,
             "description": "Parse a sentence-string in noun-phrase form. Eg/ \"the cup that is on the\ntable\".",
             "itemtype": "method",
             "name": "parseNounPhrase",
@@ -1672,7 +1824,7 @@
         },
         {
             "file": "src/PredicateSet.js",
-            "line": 94,
+            "line": 103,
             "itemtype": "method",
             "name": "random",
             "return": {
@@ -1683,7 +1835,7 @@
         },
         {
             "file": "src/PredicateSet.js",
-            "line": 102,
+            "line": 111,
             "description": "Sorts predicates in descending order of 'specificness'.",
             "itemtype": "method",
             "name": "sortPredicates",
@@ -1699,7 +1851,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 29,
+            "line": 38,
             "itemtype": "property",
             "name": "constants",
             "type": "Array",
@@ -1707,7 +1859,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 34,
+            "line": 43,
             "description": "The params assign the syntactic function of the arguments.",
             "itemtype": "property",
             "name": "params",
@@ -1716,7 +1868,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 59,
+            "line": 68,
             "description": "The param objects indexed by name.",
             "itemtype": "property",
             "name": "paramsByName",
@@ -1725,7 +1877,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 66,
+            "line": 75,
             "itemtype": "property",
             "name": "camelCaseName",
             "type": "String",
@@ -1733,7 +1885,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 89,
+            "line": 100,
             "description": "Convert an associated arguments object (indexed by param-name) into an\nordered argument list",
             "itemtype": "method",
             "name": "orderArgs",
@@ -1752,7 +1904,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 103,
+            "line": 114,
             "description": "Convert an ordered list of arguments into an associated arguments object\n(indexed by param-name).",
             "itemtype": "method",
             "name": "associateArgs",
@@ -1771,7 +1923,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 117,
+            "line": 128,
             "itemtype": "method",
             "name": "makeRegex",
             "params": [
@@ -1790,14 +1942,14 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 139,
+            "line": 150,
             "itemtype": "method",
             "name": "makeParamRegexs",
             "class": "PredicateSyntax"
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 155,
+            "line": 166,
             "itemtype": "method",
             "name": "parse",
             "params": [
@@ -1821,7 +1973,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 178,
+            "line": 189,
             "itemtype": "method",
             "name": "parseImperative",
             "params": [
@@ -1844,7 +1996,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 197,
+            "line": 208,
             "itemtype": "method",
             "name": "parseNounPhrase",
             "params": [
@@ -1862,7 +2014,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 219,
+            "line": 230,
             "itemtype": "method",
             "name": "str",
             "params": [
@@ -1902,7 +2054,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 232,
+            "line": 243,
             "itemtype": "method",
             "name": "compose",
             "params": [
@@ -1939,7 +2091,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 245,
+            "line": 256,
             "itemtype": "method",
             "name": "composeAction",
             "params": [
@@ -1957,7 +2109,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 258,
+            "line": 269,
             "itemtype": "method",
             "name": "composeSubjectNounPhrase",
             "params": [
@@ -1987,7 +2139,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 269,
+            "line": 280,
             "itemtype": "method",
             "name": "composePrepositionPhraseFor",
             "params": [
@@ -2022,7 +2174,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 288,
+            "line": 299,
             "itemtype": "method",
             "name": "presentPrepositionClausesFor",
             "params": [
@@ -2045,7 +2197,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 303,
+            "line": 314,
             "itemtype": "method",
             "name": "pastPrepositionClausesFor",
             "params": [
@@ -2068,7 +2220,7 @@
         },
         {
             "file": "src/PredicateSyntax.js",
-            "line": 318,
+            "line": 329,
             "description": "Calculate a specificness score. Used to order predicates in PredicateSet.\nLow specificness should be processed last when parsing to avoid using\nproblems.\nEg to avoid using '_ is _' when '_ is in _' could have been used.",
             "itemtype": "method",
             "name": "getSpecificness",
@@ -2080,7 +2232,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 17,
+            "line": 20,
             "description": "arguments",
             "itemtype": "property",
             "name": "predicate",
@@ -2089,7 +2241,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 23,
+            "line": 26,
             "description": "an array of Entity/String arguments",
             "itemtype": "property",
             "name": "args",
@@ -2098,8 +2250,8 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 29,
-            "description": "The truth value of the sentnece. May be `'true'`, `'planned'`,\n`'false'`, `'past'`, `'hypothetical'` or `'superfluous'`",
+            "line": 32,
+            "description": "The truth value of the sentnece. May be `'true'`, `'planned'`,\n`'false'`, `'failed'`, `'past'`, `'hypothetical'` or `'superfluous'`",
             "itemtype": "property",
             "name": "truthValue",
             "type": "String",
@@ -2108,7 +2260,26 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 37,
+            "line": 40,
+            "description": "A list of sentences which cause this sentence.",
+            "itemtype": "property",
+            "name": "causes",
+            "type": "Array",
+            "default": "[]",
+            "class": "Sentence"
+        },
+        {
+            "file": "src/Sentence.js",
+            "line": 47,
+            "description": "A the number of causes.",
+            "itemtype": "property",
+            "name": "causeCount",
+            "type": "Number",
+            "class": "Sentence"
+        },
+        {
+            "file": "src/Sentence.js",
+            "line": 53,
             "description": "a list keeping track of all currently active clause objects",
             "itemtype": "property",
             "name": "presentClauses",
@@ -2117,7 +2288,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 42,
+            "line": 58,
             "description": "a list keeping track of all past tense clause objects",
             "itemtype": "property",
             "name": "pastClauses",
@@ -2126,7 +2297,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 49,
+            "line": 65,
             "description": "Check to see if the arguments are compatible with the predicate in\nterms of their type.",
             "itemtype": "method",
             "name": "checkArgs",
@@ -2138,19 +2309,19 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 59,
+            "line": 75,
             "description": "If this sentence already exists in the arguments' fact lists return\nthe already existing version. Otherwise false.",
             "itemtype": "method",
             "name": "trueInPresent",
             "return": {
                 "description": "",
-                "type": "Sentence or Boolean"
+                "type": "Sentence|null"
             },
             "class": "Sentence"
         },
         {
             "file": "src/Sentence.js",
-            "line": 85,
+            "line": 101,
             "description": "Check whether the sentence was true in the past.",
             "itemtype": "method",
             "name": "trueInPast",
@@ -2162,7 +2333,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 100,
+            "line": 116,
             "description": "Get a list of all arguments which are entities, including those from\nembedded sub-sentences.",
             "itemtype": "attribute",
             "name": "recursiveEntityArgs",
@@ -2172,7 +2343,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 118,
+            "line": 134,
             "description": "Attach facts and preposition clauses to the Entity arguments.",
             "itemtype": "method",
             "name": "addFactsAndClauses",
@@ -2184,7 +2355,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 144,
+            "line": 160,
             "description": "Starts a sentence.",
             "itemtype": "method",
             "name": "start",
@@ -2195,7 +2366,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 197,
+            "line": 230,
             "description": "Emitted when there is a predicate defined problem starting\nthe sentence.",
             "itemtype": "event",
             "name": "problem",
@@ -2209,7 +2380,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 257,
+            "line": 301,
             "description": "Emitted when a sentence successfully starts",
             "itemtype": "event",
             "name": "start",
@@ -2218,7 +2389,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 269,
+            "line": 313,
             "description": "Stops the sentence.",
             "itemtype": "method",
             "name": "stop",
@@ -2226,7 +2397,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 323,
+            "line": 367,
             "description": "Emitted when the sentence has successfully stopped.",
             "itemtype": "event",
             "name": "stop",
@@ -2234,7 +2405,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 332,
+            "line": 376,
             "description": "Called when the sentence becomes past-tense",
             "itemtype": "method",
             "name": "observePast",
@@ -2242,7 +2413,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 359,
+            "line": 403,
             "description": "Generate a string version of the sentence.",
             "itemtype": "method",
             "name": "str",
@@ -2273,7 +2444,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 374,
+            "line": 418,
             "description": "Check equality of two sentences",
             "itemtype": "method",
             "name": "compare",
@@ -2298,7 +2469,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 404,
+            "line": 448,
             "description": "Quick constructor for sentence objects.",
             "itemtype": "method",
             "name": "S",
@@ -2324,7 +2495,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 423,
+            "line": 468,
             "itemtype": "attribute",
             "name": "entityArgs",
             "readonly": "",
@@ -2333,7 +2504,7 @@
         },
         {
             "file": "src/Sentence.js",
-            "line": 432,
+            "line": 477,
             "itemtype": "method",
             "name": "randomEntityArg",
             "return": {
@@ -2497,6 +2668,14 @@
         }
     ],
     "warnings": [
+        {
+            "message": "Missing item type\n`replace` is called when starting a sentence. If it returns a truthy\nvalue then the sentence will cancel starting and won't happen. The\nreturned sentences will be started instead. Should be used to correct\nlazy user input.",
+            "line": " src/Predicate.js:69"
+        },
+        {
+            "message": "Missing item type\n`meanwhile` is called directly after a sentence happens (after `_begin`)\nif it returns a sentence, or list of sentences, these will be started\nusing the original sentence as a cause. In other words, they will be\nstopped as soon the original sentence finishes.",
+            "line": " src/Predicate.js:108"
+        },
         {
             "message": "Missing item type",
             "line": " src/spawn2.js:1"

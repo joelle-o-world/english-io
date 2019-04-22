@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>API Docs for: 1.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -39,8 +39,11 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Dictionary.html">Dictionary</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntitySpawner.html">EntitySpawner</a></li>
                                 <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/Noun.html">Noun</a></li>
                                 <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
                                 <li><a href="../classes/plural.html">plural</a></li>
                                 <li><a href="../classes/Predicate.html">Predicate</a></li>
@@ -92,6 +95,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+const ordinal = require(&#x27;integer-to-ordinal-english&#x27;)
+
 /**
  * A class used to keep track of context specific terms and mention-histories
  * @class DescriptionContext
@@ -177,6 +182,76 @@ class DescriptionContext {
       case &#x27;she&#x27;: return this.her;
       case &#x27;them&#x27;: return this.them;
       case &#x27;they&#x27;: return this.them;
+    }
+  }
+
+  latestMentionOf(entity) {
+    for(let i=this.referenceHistory.length-1; i&gt;=0; i--)
+      if(this.referenceHistory[i].entity == entity)
+        return this.referenceHistory[i].ref
+
+    return null
+  }
+
+  lastNounPhraseletMatch(phraselet) {
+    for(let i=this.referenceHistory.length-1; i&gt;=0; i--) {
+      let e = this.referenceHistory[i].entity
+      if(e.matchesPhraselet(phraselet))
+        return e
+    }
+
+    return null
+  }
+
+  nounPhraseletMatchIndex(e, phraselet) {
+    let alreadyseen = []
+    for(let {entity} of this.referenceHistory) {
+      if(alreadyseen.includes(entity))
+        continue
+      if(entity.matchesPhraselet(phraselet)) {
+        if(entity == e)
+          return alreadyseen.length
+        else
+          alreadyseen.push(entity)
+      }
+    }
+
+    return -1
+  }
+
+  nounPhraseletMatches(phraselet) {
+    let list = []
+    for(let {entity} of this.referenceHistory) {
+      if(list.includes(entity))
+        continue
+      else if(entity.matchesPhraselet(phraselet))
+        list.push(entity)
+    }
+
+    return list
+  }
+
+  getOrdinalAdjectives(entity, phraselet) {
+    let matches = this.nounPhraseletMatches(phraselet)
+    let n = matches.indexOf(entity)
+    if(n != -1 &amp;&amp; matches.length &gt; 1) {
+      return [ordinal(n+1).toLowerCase()]
+    } else
+      return null
+  }
+
+  getArticles(entity, phraselet) {
+    // if the entity has been mentioned before, use &#x27;the&#x27;
+    if(this.latestMentionOf(entity)) {
+      /*if(this.lastNounPhraseletMatch(phraselet) == entity)
+        return [&#x27;this&#x27;]
+      else*/
+      return [&#x27;the&#x27;]
+    } else {
+      if(this.lastNounPhraseletMatch(phraselet))
+        return [&#x27;another&#x27;]
+      else
+        return [&#x27;a&#x27;]
     }
   }
 }

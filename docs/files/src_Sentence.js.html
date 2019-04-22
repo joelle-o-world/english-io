@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>API Docs for: 1.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -39,8 +39,11 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Dictionary.html">Dictionary</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntitySpawner.html">EntitySpawner</a></li>
                                 <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/Noun.html">Noun</a></li>
                                 <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
                                 <li><a href="../classes/plural.html">plural</a></li>
                                 <li><a href="../classes/Predicate.html">Predicate</a></li>
@@ -108,6 +111,9 @@ class Sentence extends EventEmitter {
   constructor(predicate=null, args=null) {
     super()
 
+    if(!predicate)
+      console.warn(&#x27;WARNING: Sentence created without predicate.&#x27;)
+
     /** A Predicate object defining the relationship between the
      *  arguments
      * @property {Predicate} predicate
@@ -122,11 +128,24 @@ class Sentence extends EventEmitter {
 
     /**
      * The truth value of the sentnece. May be &#x60;&#x27;true&#x27;&#x60;, &#x60;&#x27;planned&#x27;&#x60;,
-     * &#x60;&#x27;false&#x27;&#x60;, &#x60;&#x27;past&#x27;&#x60;, &#x60;&#x27;hypothetical&#x27;&#x60; or &#x60;&#x27;superfluous&#x27;&#x60;
+     * &#x60;&#x27;false&#x27;&#x60;, &#x60;&#x27;failed&#x27;&#x60;, &#x60;&#x27;past&#x27;&#x60;, &#x60;&#x27;hypothetical&#x27;&#x60; or &#x60;&#x27;superfluous&#x27;&#x60;
      * @property {String} truthValue
      * @default &quot;hypothetical&quot;
      */
     this.truthValue = &#x27;hypothetical&#x27;
+
+    /**
+     * A list of sentences which cause this sentence.
+     * @property {Array} causes
+     * @default []
+     */
+    this.causes = []
+
+    /**
+     * A the number of causes.
+     * @property {Number} causeCount
+     */
+    this.causeCount = 0
 
     /**
      * a list keeping track of all currently active clause objects
@@ -154,11 +173,11 @@ class Sentence extends EventEmitter {
    * If this sentence already exists in the arguments&#x27; fact lists return
    * the already existing version. Otherwise false.
    * @method trueInPresent
-   * @return {Sentence or Boolean}
+   * @return {Sentence|null}
    */
   trueInPresent() {
     if(this.truthValue == &#x27;true&#x27;)
-      return true
+      return this
 
     if(this.truthValue == &#x27;hypothetical&#x27;) {
       for(let arg of this.entityArgs) {
@@ -168,11 +187,11 @@ class Sentence extends EventEmitter {
             return fact
           }
       }
-      return false
+      return null
     }
 
 
-    // the present truth value predicates without entity arguments is undefined
+    // the present truth value for sentences without entity arguments is undefined
     return undefined
   }
 
@@ -242,14 +261,31 @@ class Sentence extends EventEmitter {
     */
   start() {
     // throw an error if this.checkArgs() fails
-    if(!this.checkArgs())
+    if(!this.checkArgs()) {
+      console.log(this)
       throw &#x27;sentence has illegal args&#x27;
+    }
 
     // exit early if predicate&#x27;s skipIf returns truthy value
     if(this.predicate.skipIf) {
       let skip = this.predicate.skipIf(...this.args, this)
       if(skip) {
         this.truthValue = &#x27;skipped&#x27;
+
+        return this
+      }
+    }
+
+    if(this.predicate.replace) {
+      let replacement = this.predicate.replace(...this.args, this)
+      if(replacement) {
+        this.truthValue = &#x27;skipped&#x27;
+
+        if(replacement.isSentence)
+          replacement = [replacement]
+
+        for(let sentence of replacement)
+          sentence.start()
 
         return this
       }
@@ -328,9 +364,20 @@ class Sentence extends EventEmitter {
 
       // set truth value to true
       this.truthValue = &#x27;true&#x27;
+      this.causeCount++
 
       // add facts and clauses
       this.addFactsAndClauses()
+
+      if(this.predicate.meanwhile) {
+        let consequences = this.predicate.meanwhile(...this.args, this)
+        if(consequences) {
+          if(consequences.isSentence)
+            consequences = [consequences]
+          for(let consequence of consequences)
+            consequence.addCause(this)
+        }
+      }
 
       if(this.predicate._expand) {
         let expansion = this.predicate._expand(...this.args, this)
@@ -374,10 +421,10 @@ class Sentence extends EventEmitter {
 
     // exit early if sentence is not &#x27;true&#x27;
     if(this.truthValue != &#x27;true&#x27; /*&amp;&amp; this.truthValue != &#x27;planned&#x27;*/) {
-    console.warn(
-      &#x27;rejected sentence stop because truth value = &#x27; + this.truthValue,
-      &#x27;(&#x27;+this.str()+&#x27;)&#x27;
-    )
+      /*console.warn(
+        &#x27;rejected sentence stop because truth value = &#x27; + this.truthValue,
+        &#x27;(&#x27;+this.str()+&#x27;)&#x27;
+      )*/
       return this
     }
 
@@ -507,11 +554,12 @@ class Sentence extends EventEmitter {
    */
   static S(predicate, ...args) {
     if(!predicate.isPredicate) {
-      console.log(&#x27;predicate:&#x27;, predicate)
       throw &quot;Sentence.S expects a predicate as first argument.&quot; +
             &quot; Recieved: &quot; + predicate
     }
-    return new Sentence(predicate, args)
+    let sentence = new Sentence(predicate, args)
+    sentence = sentence.trueInPresent() || sentence
+    return sentence
   }
 
   /**
@@ -530,6 +578,41 @@ class Sentence extends EventEmitter {
   randomEntityArg() {
     let entityArgs = this.args.filter(arg =&gt; arg.isEntity)
     return entityArgs[Math.floor(Math.random()*entityArgs.length)]
+  }
+
+  // Causes:
+  addCause(sentence) {
+    let trueVersion = sentence.trueInPresent()
+
+    if(trueVersion) {
+      // cause is true, so add to list, start this sentence and listen for stop
+      this.causes.push(trueVersion)
+      trueVersion.once(&#x27;stop&#x27;, () =&gt; this.removeCause(trueVersion))
+
+      if(this.truthValue == &#x27;hypothetical&#x27;)
+        this.start()
+
+      else if(this.truthValue != &#x27;true&#x27;)
+        console.warning(&#x27;strange cause behaviour&#x27;)
+
+      else
+        this.causeCount++
+
+    } else
+      throw &#x27;A sentence must be true for it to be a cause of another sentence.&#x27;
+
+  }
+
+  removeCause(sentence) {
+    let i = this.causes.findIndex(cause =&gt; Sentence.compare(sentence, cause))
+    if(i != -1) {
+      this.causes.splice(i, 1)
+      this.causeCount--
+
+      if(this.truthValue == &#x27;true&#x27; &amp;&amp; this.causeCount &lt;= 0)
+        this.stop()
+    } else
+      console.warn(&#x27;tried to remove a cause which doesn\&#x27;t exist&#x27;)
   }
 }
 Sentence.prototype.isSentence = true

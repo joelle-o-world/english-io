@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entity-game - english-io</title>
+    <title>src/Noun.js - english-io</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -91,108 +91,56 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>entity-game Module</h1>
-<div class="box clearfix meta">
+<h1 class="file-heading">File: src/Noun.js</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @class Noun
+ * @constructor
+ * @param {Object|String} options
+ * @param {String} options.noun
+ * @param {String|Array} options.inherits String or array of strings.
+ * @param {Function} options.extendFunction
+ * @param {Array} options.constructors
+ */
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_WanderingDescriber.js.html#l1"><code>src&#x2F;WanderingDescriber.js:1</code></a>
-        </div>
+class Noun {
+  constructor(options) {
+    // handle strings
+    if(options.constructor == String)
+      options = {noun:options}
 
-</div>
+    let {noun, inherits=[], extend, alias, spawners=[]} = options
 
+    this.noun = noun
 
-<div class="box intro">
-    
-</div>
+    if(inherits.constructor == String)
+      this.inherits = [inherits]
+    else if(inherits.constructor == Array)
+      this.inherits = inherits
 
+    if(extend)
+      this.extendFunction = extend
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-            <p>This module provides the following classes:</p>
+    this.alias = alias
 
-            <ul class="module-classes">
-                <li class="module-class">
-                    <a href="../classes/DescriptionContext.html">
-                        DescriptionContext
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Dictionary.html">
-                        Dictionary
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Entity.html">
-                        Entity
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/EntitySpawner.html">
-                        EntitySpawner
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/FactListener.html">
-                        FactListener
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Noun.html">
-                        Noun
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/NounPhraseSentence.html">
-                        NounPhraseSentence
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/plural.html">
-                        plural
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Predicate.html">
-                        Predicate
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/PredicateSet.html">
-                        PredicateSet
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/PredicateSyntax.html">
-                        PredicateSyntax
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Sentence.html">
-                        Sentence
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/SentenceQueue.html">
-                        SentenceQueue
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/TimedPredicate.html">
-                        TimedPredicate
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/WanderingDescriber.html">
-                        WanderingDescriber
-                    </a>
-                </li>
-            </ul>
-    </div>
+    this.spawners = spawners.slice()
 
+    this.isPhrasal = / /.test(this.noun)
+  }
 
-    <div class="yui3-u-1-2">
-    </div>
+  extend(entity) {
+    for(let base of this.inherits)
+      entity.be_a(base)
+
+    if(this.extendFunction)
+      this.extendFunction(entity)
+  }
+}
+module.exports = Noun
+
+    </pre>
 </div>
                     </div>
                 </div>

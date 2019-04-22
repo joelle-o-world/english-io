@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="english-io" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: </em>
+            <em>API Docs for: 1.2.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -39,8 +39,11 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/DescriptionContext.html">DescriptionContext</a></li>
+                                <li><a href="../classes/Dictionary.html">Dictionary</a></li>
                                 <li><a href="../classes/Entity.html">Entity</a></li>
+                                <li><a href="../classes/EntitySpawner.html">EntitySpawner</a></li>
                                 <li><a href="../classes/FactListener.html">FactListener</a></li>
+                                <li><a href="../classes/Noun.html">Noun</a></li>
                                 <li><a href="../classes/NounPhraseSentence.html">NounPhraseSentence</a></li>
                                 <li><a href="../classes/plural.html">plural</a></li>
                                 <li><a href="../classes/Predicate.html">Predicate</a></li>
@@ -207,15 +210,15 @@ class Entity extends EventEmitter {
     // ^(each key is a preposition, each value a specarr)
 
     // SOUND:
-    /**
+    /*
      * A list of Sound objects which have the entity as an origin
      * @property {Array} nowPlayingSounds
      */
-    this.nowPlayingSounds = []
-    /**
+    //this.nowPlayingSounds = []
+    /*
      * @property {SoundPlayer} soundPlayer
      */
-    this.soundPlayer = null
+    //this.soundPlayer = null
   }
 
   /**
@@ -287,12 +290,16 @@ class Entity extends EventEmitter {
     if(this.is_a(classname))
       return this
 
-    if(dictionary.nouns[classname]) {
+    let noun = dictionary.nouns[classname]
+    if(noun) {
       // strings can be used as aliases to other classes
-      while(dictionary.nouns[classname].constructor == String)
-        classname = dictionary.nouns[classname]
+      while(noun.alias) {
+        classname = dictionary.nouns[noun.alias]
+        noun = dictionary.nouns[classname]
+      }
 
-      dictionary.nouns[classname](this)
+      if(noun.extend)
+        noun.extend(this)
 
       if(!this.nouns.includes(classname))
         this.nouns.push(classname)
@@ -339,34 +346,46 @@ class Entity extends EventEmitter {
    * @return {RegExp}
    */
   reg(depth=1) {
-    // compile a regex for all possible nounphrase strings for this entity
-    // depth limits the recursion depth for preposition-phrases/embedded noun-phrases
-
-    let adjRegex = this.adjRegex()
-    if(adjRegex)
-      adjRegex = regOps.kleeneJoin(adjRegex, &#x27;,? &#x27;)
-
-    depth--;
     let nounPhraseRegex = regOps.concatSpaced(
-      regOps.optionalConcatSpaced(
-        /a|an|the/,
-        adjRegex,
-      ),
-      regOps.or(...this.nouns)
+      /a|an|the/,
+      this.nounPhraseletRegex(depth),
     )
-
-    if(depth &gt; 0) {
-      let clauseRegex = this.clauseRegex(depth)
-      if(clauseRegex)
-        nounPhraseRegex = regOps.optionalConcatSpaced(
-          nounPhraseRegex, clauseRegex//regOps.kleenePoliteList(clauseRegex)
-        )
-    }
 
     return regOps.or(
       nounPhraseRegex,
       ...toRegexs(this, this.properNouns, depth),
     )
+  }
+
+  nounPhraseletRegex(depth=1) {
+    // Compile a regex for all possible noun-phraselet strings for this entity.
+    // A noun-phraselet is a noun-phrase without an article, or context
+    // specific adjectives.
+
+    let reg = regOps.or(...this.nouns)
+
+    let adjRegex = this.adjRegex()
+    if(adjRegex){
+      adjRegex = regOps.kleeneJoin(adjRegex, &#x27;,? &#x27;)
+      reg = regOps.concat(
+        regOps.optional(
+          regOps.concat(adjRegex, &#x27; &#x27;)
+        ),
+        reg
+      )
+    }
+
+
+    depth--;
+    if(depth &gt; 0) {
+      let clauseRegex = this.clauseRegex(depth)
+      if(clauseRegex)
+        reg = regOps.optionalConcatSpaced(
+          reg, clauseRegex
+        )
+    }
+
+    return reg
   }
 
   /**
@@ -417,6 +436,11 @@ class Entity extends EventEmitter {
     return regOps.whole(this.reg(2)).test(str)
   }
 
+  matchesPhraselet(str) {
+    // test this entity&#x27;s noun phraselet regex againt a string
+    return regOps.whole(this.nounPhraseletRegex(2)).test(str)
+  }
+
   /**
    * Randomly generate a noun-phrase that describes this entity
    * @method ref
@@ -439,6 +463,37 @@ class Entity extends EventEmitter {
    */
   str(ctx, options) {
     return entityStr(this, ctx, options)
+  }
+
+  addNoun(noun) {
+    if(!this.nouns.includes(noun))
+      this.nouns.push(noun)
+  }
+
+  removeNoun(noun) {
+    let i = this.nouns.indexOf(noun)
+    if(i != -1)
+      this.nouns.splice(i, 1)
+    else
+      console.warn(
+        &#x27;tried to remove noun,&#x27;, noun, &#x27;, that was not added to &#x27;, this.str()
+      )
+  }
+
+  addAdjective(adjective) {
+    if(!this.adjectives.includes(adjective))
+      this.adjectives.push(adjective)
+  }
+
+  removeAdjective(adjective) {
+    let i = this.adjectives.indexOf(adjective)
+    if(i != -1)
+      this.adjectives.splice(i, 1)
+    else
+      console.warn(
+        &#x27;tried to remove adjective,&#x27;, adjective, &#x27;, that was not added to &#x27;,
+        this.str()
+      )
   }
 
   /**
