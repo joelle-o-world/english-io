@@ -1,11 +1,26 @@
+const getNounPhraselet = require('./util/getNounPhraselet')
+const parseOrdinal = require('./util/parseOrdinal')
+
 // search within a given iterator for a entity matching a given string.
-
-//const spawn = require('./spawn')
-
 function *searchForEntitys(matchStr, domain) {
   // if domain is a entity, use this entity as a starting point for an explore search
   if(domain.isEntity)
-    domain = explore([domain])
+    domain = [...explore([domain])]
+
+  // TRY PUTTING THE ORDINAL SEARCH HERE
+  let {phraselet, ordinal} = getNounPhraselet(matchStr)
+  if(phraselet && ordinal) {
+    let n = parseOrdinal(ordinal)
+    if(n)
+      for(let e of domain)
+        if(e.matchesPhraselet(phraselet)) {
+          n--
+          if(n == 0) {
+            yield e
+            return
+          }
+        }
+  }
 
   for(let entity of domain) {
     if(entity.matches(matchStr))
