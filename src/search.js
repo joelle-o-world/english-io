@@ -16,6 +16,8 @@ function *searchForEntitys(matchStr, domain) {
 function findFirst(matchStr, domain) {
   for(let entity of searchForEntitys(matchStr, domain))
     return entity
+
+  return null
 }
 
 /*function findOrSpawn(matchStr, domain) {
