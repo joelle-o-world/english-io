@@ -83,7 +83,6 @@ class EntitySpawner {
         }
       // BUG STILL EXISTS WAITIMG!! Need to delay spawner construction
 
-
       return {
         entitySpawner: this,
         args: args,

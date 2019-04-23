@@ -16,7 +16,7 @@ class Declarer {
   findOrSpawn(nounPhraseStr) {
     let entity = this.findFirst(nounPhraseStr)
     if(!entity)
-      entity = this.dictionary.spawnSingle(nounPhraseStr)
+      entity = this.dictionary.spawnSingle(nounPhraseStr, this.entities)
 
     return entity
   }

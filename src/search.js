@@ -5,7 +5,9 @@ const parseOrdinal = require('./util/parseOrdinal')
 function *searchForEntitys(matchStr, domain) {
   // if domain is a entity, use this entity as a starting point for an explore search
   if(domain.isEntity)
-    domain = [...explore([domain])]
+    domain = explore([domain])
+
+  domain = [...domain]
 
   // TRY PUTTING THE ORDINAL SEARCH HERE
   let {phraselet, ordinal} = getNounPhraselet(matchStr)
@@ -34,14 +36,6 @@ function findFirst(matchStr, domain) {
 
   return null
 }
-
-/*function findOrSpawn(matchStr, domain) {
-  let result = findFirst(matchStr, domain)
-  if(result)
-    return result
-  else
-    return spawn(matchStr)
-}*/
 
 function* explore(startingPoint) {
   let toSearch = startingPoint.slice()
