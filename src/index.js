@@ -11,8 +11,9 @@ module.exports = {
 
 
   Entity: require('./Entity'),
-  //parseImperative: require('./parseImperative'),
+  parseImperative: require('./parseImperative'),
   Sentence: require('./Sentence'),
+  S: require('./Sentence').S,
   //SentenceQueue: require('./SentenceQueue'),
 
   DescriptionContext: require('./DescriptionContext'),
@@ -26,6 +27,8 @@ module.exports = {
   EntitySpawner: require('./EntitySpawner'),
 
   Declarer: require('./Declarer'),
+
+  sub: require('./util/Substitution').sub,
 
   //util: require('./util'),
 }

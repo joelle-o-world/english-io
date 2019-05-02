@@ -165,7 +165,6 @@ class Sentence extends EventEmitter {
   start() {
     // throw an error if this.checkArgs() fails
     if(!this.checkArgs()) {
-      console.log(this)
       throw 'sentence has illegal args'
     }
 
@@ -209,6 +208,9 @@ class Sentence extends EventEmitter {
         // set truth value to planned
         this.truthValue = 'planned'
 
+        // fail this sentence if the queue fails
+        queue.on('problem', reasons => this.fail(reasons))
+
         // start the queue
         queue.start()
 
@@ -224,16 +226,7 @@ class Sentence extends EventEmitter {
       if(this.predicate.problem) {
         let problems = this.predicate.problem(...this.args, this)
         if(problems) {
-          this.truthValue = 'failed'
-          this.failureReason = problems
-
-          /**
-           * Emitted when there is a predicate defined problem starting
-           * the sentence.
-           * @event problem
-           * @param failureReason
-           */
-          this.emit('problem', this.failureReason)
+          this.fail(problems)
           return this
         }
       }
@@ -287,6 +280,7 @@ class Sentence extends EventEmitter {
         if(expansion) {
           let queue = new SentenceQueue(...expansion)
           queue.once('stop', () => this.stop())
+          queue.on('problem', reasons => this.fail(reasons))
           queue.start()
         }
       }
@@ -309,6 +303,7 @@ class Sentence extends EventEmitter {
       return this
     }
   }
+
 
   /**
    * Stops the sentence.
@@ -373,6 +368,7 @@ class Sentence extends EventEmitter {
     this.emit('stop')
   }
 
+
   /**
    * Called when the sentence becomes past-tense
    * @method observePast
@@ -401,6 +397,24 @@ class Sentence extends EventEmitter {
   }
 
   /**
+   * Fails the sentence.
+   * @method fail
+   * @param reasons
+   */
+  fail(reasons) {
+    this.truthValue = 'failed'
+    this.failureReason = reasons
+
+    /**
+     * Emitted when there is a predicate defined problem starting
+     * the sentence.
+     * @event problem
+     * @param failureReason
+     */
+    this.emit('problem', reasons)
+  }
+
+  /**
    * Generate a string version of the sentence.
    * @method str
    * @param {String} [tense = "simple_present"]
@@ -412,6 +426,20 @@ class Sentence extends EventEmitter {
     return this.predicate.str(
       {args: this.args, tense:tense},
       ctx, entityStrOptions
+    )
+  }
+
+  /**
+   * Generate a substitution version of the sentence.
+   * @method str
+   * @param {String} [tense = "simple_present"]
+   * @param {DescriptionContext} ctx
+   * @param {Object} entityStrOptions
+   * @return {String}
+   */
+  compose(tense='simple_present') {
+    return this.predicate.compose(
+      {args: this.args, tense:tense},
     )
   }
 

@@ -1,4 +1,5 @@
 // a list of sentence to be executed consequetively
+const {sub} = require('./util/Substitution')
 
 const EventEmitter = require('events')
 
@@ -62,7 +63,7 @@ class SentenceQueue extends EventEmitter {
 
     if(sentence) {
       //sentence.once('stop', () => this.startNextSentence())
-      sentence.on('problem', reasons => this.emit('problem', reasons))
+      //sentence.on('problem', reasons => this.emit('problem', reasons))
       let result = sentence.start()
       switch(result.truthValue) {
         case 'skipped': // sentence was skipped
@@ -77,11 +78,20 @@ class SentenceQueue extends EventEmitter {
           result.once('stop', () => this.startNextSentence())
           break
 
+        case 'failed':
+          let reason = sub(
+            '_ because _',
+            result.str('negative_possible_present'),
+            result.failureReason,
+          )
+          this.fail(reason)
+          break;
+
         default:
           // send a warning if truth value can't be handled
           console.warn(
             'SentenceQueue found sentence',
-            result,
+            result, '('+result.str()+')',
             'with unexpected truth value:',
             result.truthValue,
           )
@@ -93,6 +103,10 @@ class SentenceQueue extends EventEmitter {
        */
       this.emit('stop')
     }
+  }
+
+  fail(reasons) {
+    this.emit('problem', reasons)
   }
 }
 module.exports = SentenceQueue
