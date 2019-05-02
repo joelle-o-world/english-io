@@ -198,6 +198,8 @@ class Sentence extends EventEmitter {
     if(this.predicate._prepare && !this.preparationQueue) {
       let preparationSentences = this.predicate._prepare(...this.args, this)
       if(preparationSentences) {
+        if(preparationSentences.isSentence)
+          preparationSentences = [preparationSentences]
         // create a new queue of the preparation sentences
         let queue = new SentenceQueue(...preparationSentences)
         this.preparationQueue = queue

@@ -19,6 +19,7 @@ const PredicateSyntax = require('./PredicateSyntax')
   @param {Function} [options.until]
   @param {Function} [options.afterwards]
   @param {Boolean}  [options.banal=false]
+  @param {Boolean}  [options.actionable=true] Can the predicate be used treated as an imperative instruction?
 */
 
 class Predicate {
@@ -28,7 +29,7 @@ class Predicate {
     forms=[],
     // semantic functions
     begin, expand, check, until, afterwards, prepare, skipIf, replace, problem, meanwhile,
-    banal=false,
+    banal=false, actionable=true,
   }) {
     // if verb and params are given, initialise with one form
     if(verb && params)
@@ -144,6 +145,14 @@ class Predicate {
      * @default false
      */
      this.banal = banal
+
+    /**
+     * If a predicate is marked actionable it can be parsed as an imperative
+     * instruction.
+     * @property {Boolean} actionable
+     * @default true
+     */
+     this.actionable = actionable
   }
 
   /**

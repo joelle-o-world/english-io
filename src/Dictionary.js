@@ -19,6 +19,7 @@ class Dictionary {
     this.nouns = {} //{String:Function, String:Function, ...}
     this.phrasalNouns = [] // [String, String, ...]
     this.predicates = new PredicateSet
+    this.actionPredicates = new PredicateSet
     this.entitySpawners = []
 
     if(adjectives)
@@ -73,6 +74,9 @@ class Dictionary {
   /* Add predicates to the dictionary */
   addPredicates(...predicates) {
     this.predicates.addPredicates(...predicates)
+    this.actionPredicates.addPredicates(
+      ...predicates.filter(P => P.actionable)
+    )
     return this
   }
 
