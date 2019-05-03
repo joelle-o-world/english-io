@@ -87,7 +87,6 @@ class Sentax {
         return new SubjectContractedSentax(A, B)
       else return null
     } else if(A.isSubjectContractedSentax) {
-      console.warn("THIS SCRIPT MUST BE UPDATED TO RETURN COPIES!")
       if(A.subject == B.subject) {
         for(let i in A.sentaxs) {
           let C = A.sentaxs[i]
