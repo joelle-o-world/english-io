@@ -58,7 +58,8 @@ const d = new Dictionary()
 
     new Predicate({
       forms: [
-        {verb:'pat', params:['object'], constants:{subject:'you'}}
+        {verb:'pat', params:['object'], constants:{subject:'you'}},
+        {verb:'pet', params:['object'], constants:{subject:'you'}},
       ],
     })
   )

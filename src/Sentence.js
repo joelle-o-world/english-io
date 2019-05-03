@@ -439,10 +439,30 @@ class Sentence extends EventEmitter {
    * @param {Object} entityStrOptions
    * @return {String}
    */
-  compose(tense='simple_present') {
+  compose(tense='simple_present', verbPhraseOptions) {
     return this.predicate.compose(
       {args: this.args, tense:tense},
+      verbPhraseOptions,
     )
+  }
+
+  /**
+   * Generate the Sentax versions of this sentence for a given tense.
+   * @method sentax
+   * @param {String} [tense = 'simple_present']
+   * @returns {Array} An array of Sentax objects.
+   */
+  sentaxs(tense='simple_present') {
+    return this.predicate.forms.map(
+      form => form.composeSentax(this.args, tense)
+    )
+  }
+
+  /**
+   * Choose a random Sentax version of this sentence for a given tense.
+   */
+  randomSentax(tense='simple_present') {
+    return this.predicate.randomForm().composeSentax(this.args, tense)
   }
 
   /**

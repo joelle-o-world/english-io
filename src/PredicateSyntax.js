@@ -15,6 +15,8 @@ const verbPhrase = require('./util/conjugate/verbPhrase')
 const usefulTenses = ['simple_present', 'simple_past']//verbPhrase.tenseList
 // ^ (must be in reverse order of specificness)
 
+const Sentax = require('./Sentax')
+
 
 class PredicateSyntax {
   constructor({
@@ -264,6 +266,24 @@ class PredicateSyntax {
     for(let name in this.constants)
       action[name] = this.constants[name]
     return action
+  }
+
+  /**
+   * @method composeSentax
+   * @param {Array} orderedArgs
+   * @param {String} tense
+   * @returns {Sentax}
+   */
+  composeSentax(orderedArgs, tense) {
+    let args = this.associateArgs(orderedArgs)
+    for(let name in this.constants)
+      args[name] = this.constants[name]
+
+    return new Sentax({
+      verb: this.verb,
+      args: args,
+      tense: tense,
+    })
   }
 
   /**

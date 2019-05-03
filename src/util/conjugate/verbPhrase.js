@@ -43,14 +43,14 @@ function verbPhrase(
   action,
   tense='simple_present',
   {
-    omit=[],
+    omit=null,
     nounPhraseFor=null,
     prepositionClauseFor=null
   } = {}
 ) {
   if(prepositionClauseFor)
     return sub('that _', verbPhrase(
-      action, tense, {omit: [prepositionClauseFor]}
+      action, tense, {omit: prepositionClauseFor}
     ))
 
   if(nounPhraseFor) {
@@ -59,8 +59,6 @@ function verbPhrase(
       action[nounPhraseFor],
       verbPhrase(action, tense, {omit: nounPhraseFor}))
   }
-
-
 
   let vp = tenses[tense](action)
 

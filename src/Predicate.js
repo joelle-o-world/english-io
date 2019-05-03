@@ -334,12 +334,27 @@ class Predicate {
     return list
   }
 
+
+  /**
+   * A list contiaining a camelCase names for each form of this Predicate.
+   * @attribute names
+   * @readOnly
+   */
   get names() {
     let list = []
     for(let form of this.forms) {
       list.push(form.camelCaseName)
     }
     return list
+  }
+
+  /**
+   * Returns a random PredicateSyntax form belonging to this Predicate.
+   * @method randomForm
+   * @returns {PredicateSyntax}
+   */
+  randomForm() {
+    return this.forms[Math.floor(Math.random()*this.forms.length)]
   }
 }
 Predicate.prototype.isPredicate = true
