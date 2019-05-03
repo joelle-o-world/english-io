@@ -567,6 +567,10 @@ class Sentence extends EventEmitter {
     } else
       console.warn('tried to remove a cause which doesn\'t exist')
   }
+
+  get banal() {
+    return this.predicate.banal
+  }
 }
 Sentence.prototype.isSentence = true
 module.exports = Sentence

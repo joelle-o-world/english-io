@@ -21,7 +21,7 @@ class ContractionQueue {
 
     let winner = null
     let winningDepth = -1
-    for(let form of this.queue[0].sentaxs()) {
+    for(let form of this.queue[0].sentaxs().sort(() => Math.random()*2-1)) {
       let A = form
       let i
       for(i=1; i<this.queue.length && this.queue[i].isSentence; i++) {

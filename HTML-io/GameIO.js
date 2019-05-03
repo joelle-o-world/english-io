@@ -12,6 +12,8 @@ HTML PROTOTYPE:
 const EventEmitter = require('events')
 const TickyText = require('./TickyText')
 const TTSQueue = require('./TTSQueue')
+const ContractionQueue = require('../src/ContractionQueue')
+const {sentencify} = require('../src/util/spellcheck')
 
 
 /**
@@ -35,11 +37,11 @@ const TTSQueue = require('./TTSQueue')
 */
 
 
-
-
 class GameIO extends EventEmitter {
   constructor(options={} /*options*/) {
     super()
+
+    this.printQueue = new ContractionQueue
 
     // creates the HTML/DOM interface
     this.div = this.makeHTML(options)
@@ -52,6 +54,7 @@ class GameIO extends EventEmitter {
         this.on('output', str => {
           this.ttsq.speak(str, 'UK English Male', {pitch:1/2})
         })
+        this.ttsq.on('finish', () => this.printNext())
       } else {
         console.warn("Couldn't find responsiveVoice")
       }
@@ -80,7 +83,6 @@ class GameIO extends EventEmitter {
     input_input.className = 'entitygame_input'
     main_div.appendChild(input_input)
 
-
     // set up input event listener
     input_input.addEventListener('keypress', e => {
       if(e.keyCode == 13) {
@@ -95,6 +97,8 @@ class GameIO extends EventEmitter {
     else {
       let ticker = new TickyText(output_pre)
       this.monitor = str => ticker.write(str)
+      this.tickyText = ticker
+      this.tickyText.on('finish', () => this.printNext())
     }
 
     // set up auto focus
@@ -143,6 +147,35 @@ class GameIO extends EventEmitter {
   */
   writeln(str) {
     this.write(str+'\n')
+  }
+  writeSentence(str) {
+    this.write(sentencify(str) + ' ')
+  }
+
+  print(...stuff) {
+    stuff = stuff.filter(thing => !thing.banal)
+    this.printQueue.add(...stuff)
+    this.printNext()
+  }
+  println(...stuff) {
+    this.print(...stuff, '\n')
+  }
+
+  printNext() {
+    if((!this.ttsq || !this.ttsq.nowPlaying) &&
+       (!this.tickyText || this.tickyText.queue.length == 0)) {
+      let next = this.printQueue.next()
+      if(next) {
+        if(next.constructor == String)
+          this.write(next)
+        else if(next.isSubstitution)
+          this.writeSentence(next.str(this.descriptionCtx))
+        else if(next.isSentax || next.isSubjectContractedSentax)
+          this.writeSentence(next.str(this.descriptionCtx))
+        else
+          console.warn('unable to print:', next)
+      }
+    }
   }
 }
 module.exports = GameIO

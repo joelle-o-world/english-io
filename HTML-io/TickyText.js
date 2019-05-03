@@ -1,13 +1,18 @@
+const EventEmitter = require('events')
+
 /**
  * A class for animating the process of writing of text to a HTML element,
  * character by character.
  * @class TickyText
  * @constructor
+ * @extends EventEmitter
  * @param {DOMElement} targetElement
  */
 
-class TickyText {
+class TickyText extends EventEmitter {
   constructor(targetElement) {
+    super()
+
     /**
      * The queue of strings to write.
      * @property {Array} queue
@@ -110,8 +115,10 @@ class TickyText {
     if(this.placeInCurrent >= this.queue[0].length) {
       this.queue.shift()
       this.placeInCurrent = 0
-      if(this.queue.length == 0)
+      if(this.queue.length == 0) {
         this.stopTicking()
+        this.emit('finish')
+      }
     }
   }
 }

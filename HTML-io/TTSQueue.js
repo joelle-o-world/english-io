@@ -1,14 +1,18 @@
+const EventEmitter = require('events')
+
 /**
   A class for scheduling text to speech in a queue using the Responsive Voice
   API.
 
   @class TTSQueue
   @constructor
+  @extends EventEmitter
   @param {ResponsiveVoice} responsiveVoice
 */
 
-class TTSQueue {
+class TTSQueue extends EventEmitter {
   constructor(responsiveVoice) {
+    super()
     /**
      * An array of triplets: (text, voice, parameters) which are scheduled to
      * be sent to responsive voice consequetively.
@@ -68,6 +72,7 @@ class TTSQueue {
    */
   done() {
     this.nowPlaying = null
+    this.emit('finish')
     if(this.onDone)
       this.onDone()
   }

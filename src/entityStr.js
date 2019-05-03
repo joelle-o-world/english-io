@@ -8,11 +8,13 @@ const specarr = require('./util/specarr')
 const entityPhraselet = require('./Entity_nounPhraseletStr')
 
 function entityStr(entity, ctx, options={}) {
-  // Convert a entity into a noun phrase string.
+  // Convert an Entity into a noun phrase string.
 
-  if(!ctx)
-    null//console.warn( "call to entityStr without a description context" )
-  else {
+  let properNoun = specarr.randomString(entity, entity.properNouns, ctx)
+  if(properNoun)
+    return properNoun
+
+  if(ctx) {
     let pronoun = ctx.getPronounFor(entity)
     if(pronoun) {
       ctx.log(entity, pronoun)

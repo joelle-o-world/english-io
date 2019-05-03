@@ -12,7 +12,7 @@ class SubjectContractedSentax {
 
   compose() {
     let preds = this.sentaxs.map(sentax => sentax.compose({omit:'_subject'}))
-    return sub('_ _', this.subject, preds)
+    return sub('S_ _', this.subject, preds)
   }
 
   str(ctx, entityStrOptions) {

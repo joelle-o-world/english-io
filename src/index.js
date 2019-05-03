@@ -30,5 +30,8 @@ module.exports = {
 
   sub: require('./util/Substitution').sub,
 
+  html: require('../HTML-io'),
+
+
   //util: require('./util'),
 }
