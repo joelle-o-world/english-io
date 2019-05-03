@@ -44,8 +44,8 @@ class DescriptionContext {
         this.them = this.them && this.them != entity ? undefined : entity
       else if (entity.pronoun == 'him')
         this.him = (this.him && this.him != entity ? undefined : entity)
-    } else
-      this.it = this.it ? undefined : entity
+    }/* else
+      this.it = this.it ? undefined : entity*/
   }
 
   /**
