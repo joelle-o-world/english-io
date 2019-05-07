@@ -26,7 +26,7 @@ class ContractionQueue {
       let i
       for(i=1; i<this.queue.length && this.queue[i].isSentence; i++) {
         let success = false
-        for(let B of this.queue[i].sentaxs()) {
+        for(let B of this.queue[i].sentaxs().sort(() => Math.random()*2-1)) {
           let C = Sentax.contractPair(A, B)
           if(C) {
             A = C

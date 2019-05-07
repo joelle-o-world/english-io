@@ -31,6 +31,10 @@ class Noun {
     this.spawners = spawners.slice()
 
     this.isPhrasal = / /.test(this.noun)
+
+    // EXTRAS
+    this.consistsOf = options.consistsOf
+    this.contains = options.contains
   }
 
   extend(entity) {

@@ -135,5 +135,24 @@ class Dictionary {
     sentence = sentence.trueInPresent() || sentence
     return sentence
   }
+
+  interpretSloppyList(stuff) {
+    let list = []
+    for(let bit of stuff) {
+      if(bit.isEntity)
+        list.push(bit)
+      else if(bit.constructor == String) {
+        let spawned = this.spawn(bit)
+        if(spawned.length)
+          list.push(...spawned)
+        else {
+          spawned = this.spawnSingle(bit)
+          if(spawned)
+            this.push(spawned)
+        }
+      }
+    }
+    return list
+  }
 }
 module.exports = Dictionary

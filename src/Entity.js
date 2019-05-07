@@ -28,37 +28,6 @@ const EventEmitter = require('events')
   * @param {Sentence} sentence The new fact.
   */
 
-/**
- * Emitted whenever the object changes location.
- * @event move
- * @param {Entity} oldLocation
- * @param {Entity} newLocation
- * @param {String} oldLocationType
- * @param {String} newLocationType
- */
-/**
- * Emitter whenever a parent location of the object changes location
- * @event parentMove
- */
-/**
- * @event childEnter
- */
-/**
- * @event childExit
- */
-
-/**
- * @event exited
- * @param {Entity} location
- * @param {String} locationType
- */
-
-/**
- * @event entered
- * @param {Entity} location
- * @param {String} locationType
- */
-
 
 
 class Entity extends EventEmitter {
@@ -222,9 +191,9 @@ class Entity extends EventEmitter {
       /**
        * Emitted whenever the entity becomes a new noun.
        * @event becomeNoun
-       * @param {String} classname
+       * @param {Noun} classname
        */
-      this.emit('becomeNoun', classname)
+      this.emit('becomeNoun', noun)
 
       return this
     } else

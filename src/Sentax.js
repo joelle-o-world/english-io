@@ -91,9 +91,8 @@ class Sentax {
         //for(let i in A.sentaxs) {
         let C = A.sentaxs[A.sentaxs.length-1]
         if(C.verb == B.verb && C.tense == B.tense) {
-          A.sentaxs[i] = Sentax.merge(C, B)
           let out = new SubjectContractedSentax(...A.sentaxs)
-          out.sentaxs[i] = Sentax.merge(C, B)
+          out.sentaxs[out.sentaxs.length-1] = Sentax.merge(C, B)
           return out
         }
       //  }
