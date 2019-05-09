@@ -38,7 +38,9 @@ class SentenceQueue extends EventEmitter {
       this.sentences.push(sentence)
       sentence.truthValue = 'planned'
     } else
-    throw "Can only append hypothetical sentence to queue."
+      throw "Can only append hypothetical sentence to queue."
+        + '(\"' + sentence.str() + '\" is '
+        + sentence.truthValue + ')'
   }
 
   /**
@@ -72,6 +74,7 @@ class SentenceQueue extends EventEmitter {
           this.startNextSentence()
           break;
 
+        case 'replaced': // sentence has been replaced with something else
         case 'planned': // sentence start has been postponed to a later time
         case 'true': // sentence started straight away
           // wait for stop event, then start next sentence

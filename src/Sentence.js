@@ -87,6 +87,7 @@ class Sentence extends EventEmitter {
         for(let fact of arg.facts)
           if(Sentence.compare(fact, this)) {
             this.truthValue = 'superfluous'
+            this.trueVersion = fact
             return fact
           }
       }
@@ -181,13 +182,23 @@ class Sentence extends EventEmitter {
     if(this.predicate.replace) {
       let replacement = this.predicate.replace(...this.args, this)
       if(replacement) {
-        this.truthValue = 'skipped'
+        this.truthValue = 'replaced'
 
         if(replacement.isSentence)
           replacement = [replacement]
 
-        for(let sentence of replacement)
+        let countDown = replacement.length
+
+        for(let sentence of replacement) {
+          sentence.once('stop', () => {
+            countDown--
+            if(!countDown) {
+              console.log('stopped')
+              this.stop()
+            }
+          })
           sentence.start()
+        }
 
         return this
       }
@@ -300,6 +311,7 @@ class Sentence extends EventEmitter {
        * @deprecated
        */
       this.emit('start')
+      this.startTime = new Date().getTime()
 
       // return self
       return this
@@ -313,8 +325,11 @@ class Sentence extends EventEmitter {
    */
   stop() {
     // make the sentence no longer true
+    this.stopTime = new Date().getTime()
+    this.elapsedTime = this.stopTime-this.startTime
+    console.log('\"'+this.str()+'\" :', (this.elapsedTime/1000).toFixed(2), 'secs')
 
-    if(this.truthValue == 'superfluous') {
+    if(this.truthValue == 'superfluous' || this.truthValue == 'replaced') {
       this.emit('stop')
       return this
     }
@@ -327,6 +342,8 @@ class Sentence extends EventEmitter {
       )*/
       return this
     }
+
+
 
     // set truth value to 'past'
     this.truthValue = 'past'
@@ -511,7 +528,7 @@ class Sentence extends EventEmitter {
             " Recieved: " + predicate
     }
     let sentence = new Sentence(predicate, args)
-    sentence = sentence.trueInPresent() || sentence
+    //sentence = sentence.trueInPresent() || sentence
     return sentence
   }
 
