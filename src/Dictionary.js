@@ -8,19 +8,21 @@ const Noun = require('./Noun')
 const Sentence = require('./Sentence')
 const EntitySpawner = require('./EntitySpawner')
 const search = require('./search')
+const SentenceModifierSet = require('./SentenceModifierSet')
 
 /**
  * @class Dictionary
  */
 
 class Dictionary {
-  constructor({adjectives, nouns, predicates} = {}) {
+  constructor({adjectives, nouns, predicates, modifiers} = {}) {
     this.adjectives = {} // {String:Function, String:Function, ...}
     this.nouns = {} //{String:Function, String:Function, ...}
     this.phrasalNouns = [] // [String, String, ...]
     this.predicates = new PredicateSet
     this.actionPredicates = new PredicateSet
     this.entitySpawners = []
+    this.modifiers = new SentenceModifierSet
 
     if(adjectives)
       this.addAdjectives(adjectives)
@@ -28,6 +30,8 @@ class Dictionary {
       this.addNouns(...nouns)
     if(predicates)
       this.addPredicates(...predicates)
+    if(modifiers)
+      this.addModifiers(...modifiers)
   }
 
   /* Add an adjective to the dictionary */
@@ -94,6 +98,13 @@ class Dictionary {
   addEntitySpawners(...spawners) {
     for(let spawner of spawners)
       this.addEntitySpawner(spawner)
+  }
+
+  addModifiers(...modifiers) {
+    for(let modifier of modifiers) {
+      this.modifiers.addModifier(modifier)
+      modifier.dictionary = this
+    }
   }
 
 

@@ -188,6 +188,18 @@ class Declarer {
   }
 
   declareSingle(str) {
+    // first check for modifiers
+    let modifiedSentence = this.dictionary.modifiers.parse(str)
+    if(modifiedSentence) {
+      modifiedSentence.modifier.declarer = this
+      modifiedSentence.modifier.exec(
+        modifiedSentence.remainder,
+        ...modifiedSentence.args
+      )
+      return
+    }
+
+
     let sentence = this.parse(str)
 
     if(sentence) {

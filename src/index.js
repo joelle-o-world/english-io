@@ -25,13 +25,13 @@ module.exports = {
   sentencify: require('./util/spellcheck').sentencify,
 
   EntitySpawner: require('./EntitySpawner'),
+  SentenceModifier: require('./SentenceModifier'),
 
   Declarer: require('./Declarer'),
 
   sub: require('./util/Substitution').sub,
 
   html: require('../HTML-io'),
-
 
   //util: require('./util'),
 }

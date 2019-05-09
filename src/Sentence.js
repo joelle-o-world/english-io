@@ -470,7 +470,7 @@ class Sentence extends EventEmitter {
    * @returns {Array} An array of Sentax objects.
    */
   sentaxs() {
-    let tense = 'simple_past'
+    let tense = 'simple_present'
     /*switch(this.truthValue) {
       case 'true':
         tense = 'simple_present'
