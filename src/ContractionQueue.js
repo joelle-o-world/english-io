@@ -13,6 +13,12 @@ class ContractionQueue {
     // Contract the maximum number of sentences into one, starting from the
     // front of the queue.
 
+    if(this.queue.some(fact => fact.important)) {
+      while(!this.queue[0].important) {
+        console.log('skipping unimportant fact:', this.queue.shift().str())
+      }
+    }
+
     if(this.queue.length == 0)
       return null // queue is empty
 

@@ -469,7 +469,18 @@ class Sentence extends EventEmitter {
    * @param {String} [tense = 'simple_present']
    * @returns {Array} An array of Sentax objects.
    */
-  sentaxs(tense='simple_present') {
+  sentaxs() {
+    let tense = 'simple_past'
+    /*switch(this.truthValue) {
+      case 'true':
+        tense = 'simple_present'
+        break
+      case 'past':
+        tense = 'simple_past'
+        break
+      default:
+        console.warn('Sentence:.sentax() Unexpected truth value:', this.truthValue)
+    }*/
     return this.predicate.forms.map(
       form => form.composeSentax(this.args, tense)
     )
