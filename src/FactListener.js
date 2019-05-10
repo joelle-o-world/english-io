@@ -25,7 +25,7 @@ class FactListener extends EventEmitter {
     // function to be called by entity event listeners
     this.callback = sentence => {
       // if fact is not a duplicate, emit a fact event
-      if(!this.lastFact || !Sentence.compare(this.lastFact, sentence))
+      if(!this.lastFact || this.lastFact != sentence)
         this.emit('fact', sentence)
 
       this.lastFact = sentence

@@ -193,8 +193,9 @@ class Declarer {
     if(modifiedSentence) {
       modifiedSentence.modifier.declarer = this
       modifiedSentence.modifier.exec(
+        modifiedSentence.args,
         modifiedSentence.remainder,
-        ...modifiedSentence.args
+        str => this.declare(str)
       )
       return
     }

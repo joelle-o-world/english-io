@@ -93,10 +93,6 @@ class Entity extends EventEmitter {
     //this.soundPlayer = null
   }
 
-  do(imperativeStr) {
-    
-  }
-
   /**
    * Attach an adjective to the entity.
    * @method be
