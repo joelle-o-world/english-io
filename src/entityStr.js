@@ -10,16 +10,19 @@ const entityPhraselet = require('./Entity_nounPhraseletStr')
 function entityStr(entity, ctx, options={}) {
   // Convert an Entity into a noun phrase string.
 
-  let properNoun = specarr.randomString(entity, entity.properNouns, ctx)
-  if(properNoun)
-    return properNoun
-
   if(ctx) {
     let pronoun = ctx.getPronounFor(entity)
     if(pronoun) {
       ctx.log(entity, pronoun)
       return pronoun
     }
+  }
+
+  let properNoun = specarr.randomString(entity, entity.properNouns, ctx)
+  if(properNoun) {
+    if(ctx)
+      ctx.log(entity, properNoun)
+    return properNoun
   }
 
   let phraselet = entityPhraselet(entity, ctx, options)
