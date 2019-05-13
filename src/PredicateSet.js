@@ -20,6 +20,12 @@ class PredicateSet {
      */
     this.byName = {}
 
+    /**
+     * A list of predicates that do not have any literal parameters.
+     * @property nonLiteral
+     */
+    this.nonLiteral = []
+
     this.addPredicates(...predicates)
   }
 
@@ -37,6 +43,9 @@ class PredicateSet {
         this.predicates.push(p)
         for(let name of p.names)
           this.byName[name] = p
+
+        if(!p.hasLiterals)
+          this.nonLiteral.push(p)
       }
     }
     this.sortPredicates()

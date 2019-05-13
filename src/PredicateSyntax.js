@@ -374,6 +374,10 @@ class PredicateSyntax {
     this.specificness = score
     return this.specificness
   }
+
+  get hasLiterals() {
+    return this.params.some(param => param.literal)
+  }
 }
 PredicateSyntax.prototype.isPredicateSyntax = true
 module.exports = PredicateSyntax

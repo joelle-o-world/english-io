@@ -165,5 +165,9 @@ class Dictionary {
     }
     return list
   }
+
+  get nonLiteralPredicates() {
+    return this.predicates.nonLiteral
+  }
 }
 module.exports = Dictionary

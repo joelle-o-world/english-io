@@ -596,6 +596,12 @@ class Sentence extends EventEmitter {
       console.warn('tried to remove a cause which doesn\'t exist')
   }
 
+  checkForProblems() {
+    if(!this.predicate.problem)
+      return false
+    return this.predicate.problem(...this.args, this)
+  }
+
   get banal() {
     return this.predicate.banal
   }

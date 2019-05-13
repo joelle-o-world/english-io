@@ -35,6 +35,7 @@ class Noun {
     // EXTRAS
     this.consistsOf = options.consistsOf
     this.contains = options.contains
+    this.reverb = options.reverb
   }
 
   extend(entity) {

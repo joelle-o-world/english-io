@@ -27,6 +27,8 @@ module.exports = {
   EntitySpawner: require('./EntitySpawner'),
   SentenceModifier: require('./SentenceModifier'),
 
+  randomSentence: require('./randomSentence'),
+
   Declarer: require('./Declarer'),
 
   sub: require('./util/Substitution').sub,

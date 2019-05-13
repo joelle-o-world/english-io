@@ -39,11 +39,8 @@ class Predicate {
     this.forms = forms.map(form => new PredicateSyntax(form))
 
     // check that form parameters agree
-    this.params = this.forms[0].params.map(param => {
-      return {
-        literal: param.literal
-      }
-    })
+    this.params = this.forms[0].params.map(param => ({literal: param.literal}))
+
     for(let syntax of this.forms) {
       if(syntax.params.length != this.params.length)
         throw 'Predicate has incompatible forms'
@@ -355,6 +352,10 @@ class Predicate {
    */
   randomForm() {
     return this.forms[Math.floor(Math.random()*this.forms.length)]
+  }
+
+  get hasLiterals() {
+    return this.forms.some(form => form.hasLiterals)
   }
 }
 Predicate.prototype.isPredicate = true
