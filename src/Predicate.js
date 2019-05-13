@@ -357,6 +357,23 @@ class Predicate {
   get hasLiterals() {
     return this.forms.some(form => form.hasLiterals)
   }
+
+  get subjectArgIndexs() {
+    let list = []
+    for(let form of this.forms) {
+      let param = form.paramsByName._subject
+      if(param) {
+        let i = param.index
+        if(!list.includes(i))
+          list.push(i)
+      }
+    }
+
+    if(list.length)
+      return list.sort((A,B) => A-B)
+    else
+      return null
+  }
 }
 Predicate.prototype.isPredicate = true
 module.exports = Predicate

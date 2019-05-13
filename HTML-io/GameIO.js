@@ -102,6 +102,7 @@ class GameIO extends EventEmitter {
     }
 
     // set up auto focus
+    input_input.focus()
     main_div.addEventListener('click', () => input_input.focus())
 
     // return main <div>
