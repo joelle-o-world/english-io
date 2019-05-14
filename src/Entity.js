@@ -436,7 +436,7 @@ class Entity extends EventEmitter {
   do(str, ctx) {
     let parsed = parse.imperative(str, this, this.dictionary, ctx)
     if(parsed && parsed.imperative) {
-      let sentence = parsed.findOrSpawn(this)
+      let sentence = parsed.create(this)
       if(sentence)
         sentence.start()
     }

@@ -64,7 +64,7 @@ class ParsedSentence {
     return true
   }
 
-  findOrSpawn(domain=[], dictionary=this.dictionary, ctx=this.ctx) {
+  create(domain=[], dictionary=this.dictionary, ctx=this.ctx) {
     let args = this.args.map(arg => {
       if(arg.isNounPhrase)
         return arg.findOrSpawn(domain, dictionary, ctx)[0]

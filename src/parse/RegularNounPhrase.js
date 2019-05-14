@@ -52,7 +52,7 @@ class RegularNounPhrase extends NounPhrase {
       let facts = this.facts.map(({fact, argIndex}) => {
         let copy = fact.duplicate()
         copy.args[argIndex] = e
-        return copy.findOrSpawn(domain, dictionary, ctx)
+        return copy.create(domain, dictionary, ctx)
       })
       for(let fact of facts)
         fact.start()

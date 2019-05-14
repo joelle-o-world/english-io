@@ -4,14 +4,11 @@ const DescriptionContext = require('../src/DescriptionContext')
 const ctx = new DescriptionContext
 
 let {domain} = D.declare(ctx,
-  'a dog fears a cat',
+  '3 dogs',
+  'the 2nd dog woofs'
 )
 
-
-
 let cat = domain[1]
-
-cat.do('chase another dog')
 
 for(let e of domain) {
   console.log(e.str()+':')
