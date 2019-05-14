@@ -25,9 +25,10 @@ class RegularNounPhrase extends NounPhrase {
     // create owner
     let ownerEntity
     if(owner) {
-      ownerEntity = owner.findOrSpawn(domain, dictionary, ctx)
       if(!dictionary.declareOwnership)
         throw 'Unable to spawn \"' + str + '\" because dictionary\'s .declareOwnership() function is undefined.'
+
+      ownerEntity = owner.findOrSpawn(domain, dictionary, ctx)[0]
     }
 
     let list = []

@@ -11,5 +11,7 @@ let domain = D.quickDeclare(
   'a cat',
 )
 
-let np = parse.nounPhrase('my cat\'s pair of trousers', D, ctx)
-console.log(np.findOrSpawn(domain))
+let s1 = parse('the cat chases the cat', D, ctx).findOrSpawn(domain)
+
+let parsed = parse('a dog chases an animal', D, ctx)
+console.log(parsed.matches(s1))

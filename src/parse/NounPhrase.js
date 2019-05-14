@@ -27,7 +27,7 @@ class NounPhrase {
   findOrSpawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
     // first try to find it:
     for(let e of this.find(domain, dictionary, ctx))
-      return e
+      return [e]
 
     // if unsuccessful, spawn it:
     let spawned = this.spawn(domain, dictionary, ctx)
@@ -37,4 +37,5 @@ class NounPhrase {
       return null
   }
 }
+NounPhrase.prototype.isNounPhrase = true
 module.exports = NounPhrase
