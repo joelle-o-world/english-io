@@ -12,7 +12,7 @@ const pronounMap = { // possessive => object-form
   their: 'them',
 }
 
-function parsePossessive(dictionary, str) {
+function parsePossessive(str, dictionary, ctx) {
   // Is it an apostrophe -S ('s) type.
   let result = regex.exec(str)
   if(result) {
@@ -20,7 +20,7 @@ function parsePossessive(dictionary, str) {
     let remainder = str.slice(result[0].length).trim()
 
     return {
-      owner: parseNounPhrase(dictionary, owner),
+      owner: parseNounPhrase(owner, dictionary, ctx),
       remainder: remainder
     }
   }
@@ -30,7 +30,7 @@ function parsePossessive(dictionary, str) {
   let firstWord = words[0]
   if(pronounMap[firstWord])
     return {
-      owner: parseNounPhrase(dictionary, pronounMap[firstWord]),
+      owner: parseNounPhrase(pronounMap[firstWord], dictionary, ctx),
       remainder: words.slice(1).join(' ')
     }
 

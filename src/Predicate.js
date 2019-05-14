@@ -42,6 +42,10 @@ class Predicate {
     this.params = this.forms[0].params.map(param => ({literal: param.literal}))
 
     for(let syntax of this.forms) {
+      if(syntax.predicate)
+        throw 'Predicate has form conflict.'
+      syntax.predicate = this
+      
       if(syntax.params.length != this.params.length)
         throw 'Predicate has incompatible forms'
       for(let i in syntax.params)

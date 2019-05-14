@@ -14,6 +14,8 @@ class PredicateSet {
      * @property predicates {Array}
      */
     this.predicates = []
+
+    this.syntaxs = []
     /**
      * The predicates of the set indexed by camel case name.
      * @property byName {Object}
@@ -41,6 +43,8 @@ class PredicateSet {
 
       if(p.isPredicate) {
         this.predicates.push(p)
+        for(let syntax of p.forms)
+          this.syntaxs.push(syntax)
         for(let name of p.names)
           this.byName[name] = p
 
@@ -124,6 +128,9 @@ class PredicateSet {
   sortPredicates() {
     this.predicates = this.predicates.sort(
       (A, B) => B.specificness-A.specificness
+    )
+    this.syntaxs = this.syntaxs.sort(
+      (p, q) => q.specificness-q.specificness
     )
   }
 }

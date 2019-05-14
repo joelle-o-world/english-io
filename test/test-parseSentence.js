@@ -10,12 +10,3 @@ let domain = D.quickDeclare(
 )
 
 console.log(domain[0].str(ctx))
-
-let np = parseNounPhrase("the second animal", D, ctx)
-
-console.log('searching', domain.map(e=>e.str()))
-let results = [...np.find(domain)]
-if(results.length)
-  console.log('results:', results.map(e=>e.str()))
-else
-  console.log('no matches found :(')

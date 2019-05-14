@@ -16,6 +16,7 @@ const usefulTenses = ['simple_present', 'simple_past']//verbPhrase.tenseList
 // ^ (must be in reverse order of specificness)
 
 const Sentax = require('./Sentax')
+const ParsedSentence = require('./parse/ParsedSentence')
 
 
 class PredicateSyntax {
@@ -183,6 +184,24 @@ class PredicateSyntax {
           args: this.orderArgs(result.groups),
           predicate: this,
         }
+    }
+
+    return null
+  }
+
+  parseSentence(str, tenses=[...this.presentTenses, ...this.pastTenses]) {
+    for(let tense of tenses) {
+      if(!this.regexs[tense])
+        this.regexs[tense] = this.makeRegex(tense)
+      let reg = this.regexs[tense]
+      let result = reg.exec(str)
+      if(result)
+        return new ParsedSentence({
+          tense: tense,
+          args: this.orderArgs(result.groups),
+          predicate: this.predicate,
+          syntax: this,
+        })
     }
 
     return null

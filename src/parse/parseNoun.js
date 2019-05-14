@@ -1,6 +1,6 @@
 const {toSingular} = require('../util/plural')
 
-function parseNoun(dictionary, str) {
+function parseNoun(str, dictionary) {
   // check phrasal nouns
   for(let noun of dictionary.phrasalNouns) {
     let info = noun.parse(str)

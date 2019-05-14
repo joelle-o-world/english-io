@@ -14,7 +14,7 @@ const parseOrdinal = require('./parseOrdinal')
 const DescriptionContext = require('../DescriptionContext')
 
 
-function parseNounPhrase(dictionary, str, ctx=new DescriptionContext) {
+function parseNounPhrase(str, dictionary, ctx=new DescriptionContext) {
   // Is it a proper noun?
   let proper = properNounRegex.exec(str)
   if(proper)
@@ -26,7 +26,7 @@ function parseNounPhrase(dictionary, str, ctx=new DescriptionContext) {
     return new PronounNounPhrase({pronoun:str, str:str}, dictionary, ctx)
 
   // Parse as a regular noun-phrase.
-  let info = parseNoun(dictionary, str)
+  let info = parseNoun(str, dictionary)
 
   if(!info)
     return null
@@ -39,11 +39,11 @@ function parseNounPhrase(dictionary, str, ctx=new DescriptionContext) {
   let definite
 
   // Look for a possessive adjective or a quantifier.
-  let result = parsePossessive(dictionary, remainder)
+  let result = parsePossessive(remainder, dictionary)
   if(result) {
     remainder = result.remainder.trim()
     owner = result.owner
-  } else if(result = parseQuantifier(dictionary, remainder)) {
+  } else if(result = parseQuantifier(remainder, dictionary)) {
     remainder = result.remainder.trim()
     article = result.article
     definite = result.definite

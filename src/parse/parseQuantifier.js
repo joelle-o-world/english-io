@@ -1,4 +1,4 @@
-function parseQuantifier(dictionary, str) {
+function parseQuantifier(str, dictionary) {
   let result
   if(/^the/.test(str))
     return {
