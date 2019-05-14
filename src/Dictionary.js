@@ -1,5 +1,8 @@
 const PredicateSet = require('./PredicateSet')
 
+const DescriptionContext = require('./DescriptionContext')
+const declare = require('./declare')
+
 const Declarer = require('./Declarer')
 const spawn = require('./spawn2')
 const spawnSingle = require('./spawn')
@@ -113,6 +116,14 @@ class Dictionary {
     }
   }
 
+  declare(ctx, ...strings) {
+    if(ctx.constructor == String) {
+      strings.unshift(ctx)
+      ctx = new DescriptionContext
+    }
+
+    return declare(this, ctx, ...strings)
+  }
 
   quickDeclare(...strings) {
     let dec = new Declarer(this)

@@ -1,5 +1,7 @@
 const parse = require('./parse')
 const DescriptionContext = require('./DescriptionContext')
+const {explore} = require('./search')
+const uniqueCombine = require('./util/uniqueCombine')
 
 function declare(dictionary, ctx=new DescriptionContext, ...strings) {
   let domain = []
@@ -8,13 +10,15 @@ function declare(dictionary, ctx=new DescriptionContext, ...strings) {
 
     if(parsed.isNounPhrase) {
       let out = parsed.spawn(domain, dictionary, ctx)
-      domain.push(...out)
+      domain = [...uniqueCombine(domain, explore(out))]
     } else if(parsed.isParsedSentence) {
       let sentence = parsed.findOrSpawn(domain, dictionary, ctx)
       sentence.start()
-      domain.push(...sentence.entityArgs)
+      domain = explore([...domain, ...sentence.entityArgs])
+      domain = [...uniqueCombine(domain, explore(sentence.entityArgs))]
     }
   }
+
   return {
     domain: domain,
     ctx: ctx

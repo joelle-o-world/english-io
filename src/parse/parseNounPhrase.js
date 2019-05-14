@@ -12,10 +12,15 @@ const parseNoun = require('./parseNoun')
 const parseQuantifier = require('./parseQuantifier')
 const parseOrdinal = require('./parseOrdinal')
 const DescriptionContext = require('../DescriptionContext')
+const parseEmbeddedSentence = require('./parseEmbeddedSentence')
 
 
 function parseNounPhrase(str, dictionary, ctx=new DescriptionContext) {
   // Is it a proper noun?
+  let embedded = parseEmbeddedSentence(str, dictionary, ctx)
+  if(embedded)
+    return embedded
+
   let proper = properNounRegex.exec(str)
   if(proper)
     return new ProperNounNounPhrase({properNoun: str, str:str}, dictionary, ctx)

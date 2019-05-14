@@ -61,6 +61,7 @@ class RegularNounPhrase extends NounPhrase {
       if(owner && ownerEntity)
         dictionary.declareOwnership(ownerEntity, e)
 
+      ctx.log(e, this.str)
       list.push(e)
     }
 
@@ -88,9 +89,12 @@ class RegularNounPhrase extends NounPhrase {
           return
         }
     } else
-      for(let e of domain)
-        if(this.matches(e, dictionary, ctx))
+      for(let e of domain) {
+        if(this.matches(e, dictionary, ctx)) {
+          ctx.log(e, this.str)
           yield e
+        }
+      }
   }
 
   matches(e, dictionary=this.dictionary, ctx=this.ctx) {
