@@ -9,7 +9,7 @@ class RegularNounPhrase extends NounPhrase {
     Object.assign(this, info)
   }
 
-  spawn(dictionary=this.dictionary, ctx=this.ctx) {
+  spawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
     let {
       noun,
       min, max,
@@ -25,7 +25,7 @@ class RegularNounPhrase extends NounPhrase {
     // create owner
     let ownerEntity
     if(owner) {
-      ownerEntity = owner.spawn(dictionary)
+      ownerEntity = owner.findOrSpawn(domain, dictionary, ctx)
       if(!dictionary.declareOwnership)
         throw 'Unable to spawn \"' + str + '\" because dictionary\'s .declareOwnership() function is undefined.'
     }
@@ -104,7 +104,7 @@ class RegularNounPhrase extends NounPhrase {
         if(!dictionary.getOwners(e).some(f => owner.match(f, dictionary, ctx)))
           return false
       } else
-        throw 'Unable to find \"' + str + '\" because dictionary.getOwners() is not defined'
+        throw 'Unable to find \"' + this.str + '\" because dictionary.getOwners() is not defined'
     }
 
     // Otherwise,

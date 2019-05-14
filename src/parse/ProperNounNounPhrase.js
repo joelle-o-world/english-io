@@ -9,7 +9,7 @@ class ProperNounNounPhrase extends NounPhrase {
     this.str = str
   }
 
-  spawn(dictionary=this.dictionary, ctx=this.ctx) {
+  spawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
     throw 'A ProperNounNounPhrase cannot be spawned.'
   }
 

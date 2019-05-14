@@ -5,8 +5,11 @@ const parse = require('../src/parse')
 
 let ctx = new DescriptionContext
 
-let [cat1] = D.quickDeclare('a cat')
+let domain = D.quickDeclare(
+  'a cat',
+  '2 dogs',
+  'a cat',
+)
 
-
-let parsed = parse.imperative('chase the dog', cat1, D, ctx)
-console.log(parsed)
+let np = parse.nounPhrase('my cat\'s pair of trousers', D, ctx)
+console.log(np.findOrSpawn(domain))

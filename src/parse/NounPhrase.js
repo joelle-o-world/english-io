@@ -12,7 +12,7 @@ class NounPhrase {
     this.ctx = ctx
   }
 
-  spawn(dictionary=this.dictionary, ctx=this.ctx) {
+  spawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
     console.warn('.spawn() not defined for', this.constructor.name)
   }
 
@@ -22,6 +22,19 @@ class NounPhrase {
 
   matches(e, dictionary=this.dictionary, ctx=this.ctx) {
     console.warn('.matches() not defined for', this.constructor.name)
+  }
+
+  findOrSpawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
+    // first try to find it:
+    for(let e of this.find(domain, dictionary, ctx))
+      return e
+
+    // if unsuccessful, spawn it:
+    let spawned = this.spawn(domain, dictionary, ctx)
+    if(spawned)
+      return spawned
+    else
+      return null
   }
 }
 module.exports = NounPhrase
