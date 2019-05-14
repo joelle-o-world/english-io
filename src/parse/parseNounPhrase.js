@@ -5,6 +5,9 @@ const pronounRegex = /^(?:me|you|her|him|it|us|them)$/i
 const articleRegex = /^(the|a|an)$/
 
 const NounPhrase = require('./NounPhrase')
+const RegularNounPhrase = require('./RegularNounPhrase')
+const PronounNounPhrase = require('./PronounNounPhrase')
+const ProperNounNounPhrase = require('./ProperNounNounPhrase')
 const parseNoun = require('./parseNoun')
 const parseQuantifier = require('./parseQuantifier')
 const parseOrdinal = require('./parseOrdinal')
@@ -15,12 +18,12 @@ function parseNounPhrase(dictionary, str, ctx=new DescriptionContext) {
   // Is it a proper noun?
   let proper = properNounRegex.exec(str)
   if(proper)
-    return new NounPhrase('properNoun', {properNoun: str, str:str}, dictionary)
+    return new ProperNounNounPhrase({properNoun: str, str:str}, dictionary, ctx)
 
   // Is it a pronoun?
   let pronoun = pronounRegex.exec(str)
   if(pronoun)
-    return new NounPhrase('pronoun', {pronoun:str, str:str}, dictionary)
+    return new PronounNounPhrase({pronoun:str, str:str}, dictionary, ctx)
 
   // Parse as a regular noun-phrase.
   let info = parseNoun(dictionary, str)
@@ -58,7 +61,7 @@ function parseNounPhrase(dictionary, str, ctx=new DescriptionContext) {
   if(range.min > range.max || (!definite && ordinal))
     throw 'Illogical noun phrase: '+str
 
-  return new NounPhrase('np', {
+  return new RegularNounPhrase({
     str: str,
     owner: owner,
     article: article,
