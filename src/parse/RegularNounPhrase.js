@@ -10,7 +10,7 @@ class RegularNounPhrase extends NounPhrase {
     this.facts = []
   }
 
-  spawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
+  spawn(domain=[], dictionary=this.dictionary, ctx=this.ctx) {
     let {
       noun,
       min, max,

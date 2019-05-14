@@ -77,4 +77,5 @@ class ParsedSentence {
     return sentence
   }
 }
+ParsedSentence.prototype.isParsedSentence = true
 module.exports = ParsedSentence
