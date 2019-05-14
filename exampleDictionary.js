@@ -2,9 +2,11 @@ const {Dictionary, Predicate} = require('./src/')
 
 const d = new Dictionary()
   .addNouns(
-    'cat',
+    'animal',
+    {noun: 'cat', inherits:'animal'},
     {
       noun:'dog',
+      inherits:'animal',
       spawners: [{
         template: "woofing dog",
         construct() {
@@ -14,7 +16,8 @@ const d = new Dictionary()
           return e
         }
       }]
-    }
+    },
+    'pair of trousers'
   )
   .addEntitySpawner({
     template: '_ who chases _', phraseletMode: false,
@@ -63,5 +66,8 @@ const d = new Dictionary()
       ],
     })
   )
+  .addAdjective('hairy')
+
+d.declareOwnership = (A, B) => B.owner = A
 
 module.exports = d

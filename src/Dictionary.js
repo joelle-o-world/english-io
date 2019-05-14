@@ -32,6 +32,10 @@ class Dictionary {
       this.addPredicates(...predicates)
     if(modifiers)
       this.addModifiers(...modifiers)
+
+    this.checkOwnership // (owner, possession) => {...}
+    this.declareOwnership // (owner, possession) => {...}
+    this.getOwners // possesion => [...owners]
   }
 
   /* Add an adjective to the dictionary */
