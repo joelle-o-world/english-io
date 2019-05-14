@@ -69,6 +69,9 @@ class RegularNounPhrase extends NounPhrase {
   }
 
   *find(domain, dictionary=this.dictionary, ctx=this.ctx) {
+    if(this.article == 'another')
+      return
+
     if(domain.isEntity)
       domain = [...explore([domain])]
 
@@ -103,7 +106,11 @@ class RegularNounPhrase extends NounPhrase {
       noun,
       adjectives,
       owner,
+      article,
     } = this
+
+    if(article == 'another')
+      return false
 
 
     // Noun must match.

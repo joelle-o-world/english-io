@@ -5,6 +5,8 @@ const spellcheck = require('./util/spellcheck')
 //const {beA, be} = require('./predicates')
 const Sentence = require('./Sentence')
 
+const parse = require('./parse')
+
 const entityStr = require('./entityStr')
 const {toRegexs} = require('./util/specarr')
 
@@ -428,6 +430,16 @@ class Entity extends EventEmitter {
       return this.randomFact()
     else
       return this.randomHistoricFact()
+  }
+
+  // Handy
+  do(str, ctx) {
+    let parsed = parse.imperative(str, this, this.dictionary, ctx)
+    if(parsed && parsed.imperative) {
+      let sentence = parsed.findOrSpawn(this)
+      if(sentence)
+        sentence.start()
+    }
   }
 }
 Entity.prototype.isEntity = true

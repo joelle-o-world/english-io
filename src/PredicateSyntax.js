@@ -242,6 +242,8 @@ class PredicateSyntax {
     let reg = this.regex('imperative')
     let result = reg.exec(str)
     if(result) {
+      if(!result.groups)
+        result.groups = {}
       result.groups._subject = subject
       let args = this.orderArgs(result.groups)
 
