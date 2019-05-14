@@ -1,12 +1,12 @@
 const parseNounPhrase = require('../src/parse/parseNounPhrase')
 const D = require('../exampleDictionary')
 const DescriptionContext = require('../src/DescriptionContext')
+const parse = require('../src/parse')
 
 let ctx = new DescriptionContext
 
-let domain = D.quickDeclare(
-  'a cat chases a dog',
-  'another cat'
-)
+let [cat1] = D.quickDeclare('a cat')
 
-console.log(domain[0].str(ctx))
+
+let parsed = parse.imperative('chase the dog', cat1, D, ctx)
+console.log(parsed)

@@ -17,6 +17,7 @@ const usefulTenses = ['simple_present', 'simple_past']//verbPhrase.tenseList
 
 const Sentax = require('./Sentax')
 const ParsedSentence = require('./parse/ParsedSentence')
+const parseNounPhrase = require('./parse/parseNounPhrase')
 
 
 class PredicateSyntax {
@@ -150,6 +151,13 @@ class PredicateSyntax {
     return new RegExp('^'+vp.str()+'$')
   }
 
+  regex(tense) {
+    if(!this.regexs[tense])
+      this.regexs[tense] = this.makeRegex(tense)
+
+    return this.regexs[tense]
+  }
+
   /**
    * @method makeParamRegexs
    */
@@ -189,19 +197,80 @@ class PredicateSyntax {
     return null
   }
 
-  parseSentence(str, tenses=[...this.presentTenses, ...this.pastTenses]) {
+  parseSentence(str, ctx) {
+    let tenses=[...this.presentTenses, ...this.pastTenses]
     for(let tense of tenses) {
       if(!this.regexs[tense])
         this.regexs[tense] = this.makeRegex(tense)
       let reg = this.regexs[tense]
       let result = reg.exec(str)
-      if(result)
-        return new ParsedSentence({
-          tense: tense,
-          args: this.orderArgs(result.groups),
-          predicate: this.predicate,
-          syntax: this,
-        })
+      if(result) {
+        let args = this.orderArgs(result.groups)
+        let failed = false
+        for(let i in args)
+          if(this.params[i].literal)
+            continue
+
+          else if(this.params[i].number) {
+            args[i] = parseFloat(args[i])
+            if(isNaN(args[i])) {
+              failed = true
+              break
+            }
+          } else {
+            args[i] = parseNounPhrase(args[i], this.dictionary, ctx)
+            if(!args[i]) {
+              failed = true
+              break
+            }
+          }
+
+        if(!failed)
+          return new ParsedSentence({
+            tense: tense,
+            args: args,
+            predicate: this.predicate,
+            syntax: this,
+          }, this.dictionary, ctx)
+      }
+    }
+
+    return null
+  }
+
+  parseImperativeSentence(str, subject, ctx) {
+    let reg = this.regex('imperative')
+    let result = reg.exec(str)
+    if(result) {
+      result.groups._subject = subject
+      let args = this.orderArgs(result.groups)
+
+      for(let i in args)
+        if(this.params[i].name == '_subject')
+          continue
+
+        else if(this.params[i].literal)
+          continue
+
+        else if(this.params[i].number) {
+          args[i] = parseFloat(args[i])
+          if(isNaN(args[i]))
+            return null
+        }
+
+        else {
+          args[i] = parseNounPhrase(args[i], this.dictionary, ctx)
+          if(!args[i])
+            return null
+        }
+
+      // Otherwise,
+      return new ParsedSentence({
+        tense: 'imperative',
+        args: args,
+        syntax: this,
+        predicate: this.predicate,
+      }, this.dictionary, ctx)
     }
 
     return null
@@ -394,8 +463,14 @@ class PredicateSyntax {
     return this.specificness
   }
 
+
   get hasLiterals() {
     return this.params.some(param => param.literal)
+  }
+
+  get dictionary() {
+    if(this.predicate)
+      return this.predicate.dictionary
   }
 }
 PredicateSyntax.prototype.isPredicateSyntax = true

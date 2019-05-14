@@ -85,6 +85,8 @@ class Dictionary {
     this.actionPredicates.addPredicates(
       ...predicates.filter(P => P.actionable)
     )
+    for(let p of predicates)
+      p.dictionary = this
     return this
   }
 

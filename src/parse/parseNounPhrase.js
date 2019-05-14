@@ -49,6 +49,9 @@ function parseNounPhrase(str, dictionary, ctx=new DescriptionContext) {
     definite = result.definite
     if(result.min && result.max)
       range = rangeOverlap(range, result)
+  } else {
+    console.warn('Noun phrase has no article, quantifier or possessive:', str)
+    return null
   }
 
   // Treat the remaining words as adjectives
@@ -58,8 +61,10 @@ function parseNounPhrase(str, dictionary, ctx=new DescriptionContext) {
 
   let adjectives = words
 
-  if(range.min > range.max || (!definite && ordinal))
-    throw 'Illogical noun phrase: '+str
+  if(range.min > range.max || (!definite && ordinal)) {
+    console.warn('Illogical noun phrase: ' + str)
+    return null
+  }
 
   return new RegularNounPhrase({
     str: str,
