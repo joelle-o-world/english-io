@@ -7,6 +7,7 @@ class RegularNounPhrase extends NounPhrase {
     super(dictionary, ctx)
 
     Object.assign(this, info)
+    this.facts = []
   }
 
   spawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
@@ -15,6 +16,7 @@ class RegularNounPhrase extends NounPhrase {
       min, max,
       adjectives,
       owner,
+      facts,
       str,
     } = this
 
@@ -29,7 +31,10 @@ class RegularNounPhrase extends NounPhrase {
         throw 'Unable to spawn \"' + str + '\" because dictionary\'s .declareOwnership() function is undefined.'
 
       ownerEntity = owner.findOrSpawn(domain, dictionary, ctx)[0]
+      if(!ownerEntity)
+        throw 'cannot find owner'
     }
+
 
     let list = []
     for(let i=0; i<n; i++) {
@@ -42,6 +47,15 @@ class RegularNounPhrase extends NounPhrase {
       // Apply the adjectives.
       for(let adj of adjectives)
         e.be(adj)
+
+      // Apply facts.
+      let facts = this.facts.map(({fact, argIndex}) => {
+        let copy = fact.duplicate()
+        copy.args[argIndex] = e
+        return copy.findOrSpawn(domain, dictionary, ctx)
+      })
+      for(let fact of facts)
+        fact.start()
 
       // Apply ownership.
       if(owner && ownerEntity)
@@ -96,6 +110,17 @@ class RegularNounPhrase extends NounPhrase {
     // All adjectives must match.
     for(let adj of adjectives) {
       if(!e.adjectives.includes(adj))
+        return false
+    }
+
+    // check the facts
+    for(let {fact, argIndex} of this.facts) {
+      if(!e.facts.some(
+        sentence => (
+          (sentence.args[argIndex] == e)
+          && fact.matches(sentence, argIndex)
+        )
+      ))
         return false
     }
 

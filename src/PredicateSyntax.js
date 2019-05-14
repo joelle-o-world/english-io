@@ -276,6 +276,57 @@ class PredicateSyntax {
     return null
   }
 
+  parseEmbeddedSentence(str, ctx) {
+    for(let param of this.params) {
+      for(let tense in param.regexs) {
+        let reg = param.regexs[tense]
+        let result = reg.exec(str)
+        if(result) {
+          let args = this.parseArgs(this.orderArgs(result.groups), ctx)
+          if(args) {
+            let sentence = new ParsedSentence({
+              tense: tense,
+              args: args,
+              predicate:this.predicate,
+              syntax:this,
+            }, this.dictionary, ctx)
+            let mainArgument = args[param.index]
+            mainArgument.facts.push({
+              fact: sentence,
+              argIndex: param.index
+            })
+            return mainArgument
+          }
+        }
+      }
+    }
+  }
+
+  parseArgs(args, ctx) {
+    args = args.slice()
+    for(let i in args)
+      if(this.params[i].literal) {
+        if(args[i].constructor == String)
+          continue
+        else
+          return null
+      }
+
+      else if(this.params[i].number) {
+        args[i] = parseFloat(args[i])
+        if(isNaN(args[i]))
+          return null
+      }
+
+      else {
+        args[i] = parseNounPhrase(args[i], this.dictionary, ctx)
+        if(!args[i])
+          return null
+      }
+
+    return args
+  }
+
   /**
    * @method parseImperative
    * @param {String} str
@@ -316,6 +367,7 @@ class PredicateSyntax {
       }
     }
   }
+
 
   /**
    * @method str

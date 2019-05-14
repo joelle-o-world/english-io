@@ -14,6 +14,15 @@ class ParsedSentence {
     this.ctx = ctx
   }
 
+  duplicate() {
+    return new ParsedSentence({
+      tense: this.tense,
+      predicate: this.predicate,
+      syntax: this.syntax,
+      args: this.args.slice()
+    }, this.dictionary, this.ctx)
+  }
+
   get imperative() {
     return this.tense == 'imperative'
   }
@@ -33,7 +42,7 @@ class ParsedSentence {
       throw 'ParsedSentence no subject parameter'
   }
 
-  matches(sentence) {
+  matches(sentence, ignoreArgIndex) {
     // Does this ParsedSentence match the given actualised Sentence object
     // do the predicates match?
     if(this.predicate != sentence.predicate)
@@ -41,13 +50,16 @@ class ParsedSentence {
 
     // TODO: tense checking
 
-    for(let i in this.args)
+    for(let i in this.args) {
+      if(i == ignoreArgIndex)
+        continue
+
       if(this.args[i].isNounPhrase) {
         if(!this.args[i].matches(sentence.args[i]))
           return false
       } else if(this.args[i] != sentence.args[i])
         return false
-
+    }
     // Otherwise,
     return true
   }
