@@ -26,6 +26,7 @@ class Dictionary {
     this.actionPredicates = new PredicateSet
     this.entitySpawners = []
     this.modifiers = new SentenceModifierSet
+    this.specialSentenceSyntaxs = []
 
     if(adjectives)
       this.addAdjectives(adjectives)
@@ -107,6 +108,7 @@ class Dictionary {
   addEntitySpawners(...spawners) {
     for(let spawner of spawners)
       this.addEntitySpawner(spawner)
+    return this
   }
 
   addModifiers(...modifiers) {
@@ -114,6 +116,18 @@ class Dictionary {
       this.modifiers.addModifier(modifier)
       modifier.dictionary = this
     }
+    return this
+  }
+
+  addSpecialSentenceSyntax(sss) {
+    this.specialSentenceSyntaxs.push(sss)
+    sss.dictionary = this
+    return this
+  }
+  addSpecialSentenceSyntaxs(...ssss) {
+    for(let sss of ssss)
+      this.addSpecialSentenceSyntax(sss)
+    return this
   }
 
   declare(ctx, ...strings) {

@@ -8,7 +8,7 @@ function parse(str, dictionary, ctx) {
   let result
 
   return parseSentence(str, dictionary, ctx)
-    || parseSentence.imperative(str, undefined, dictionary, ctx)
+    || parseSentence.imperative(undefined, str, dictionary, ctx)
     || parseNounPhrase(str, dictionary, ctx)
 }
 

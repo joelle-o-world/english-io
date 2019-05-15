@@ -76,6 +76,13 @@ class ParsedSentence {
 
     return sentence
   }
+
+  start(domain) {
+    let sentence = this.create(domain, dictionary, ctx=ctx)
+    if(!sentence)
+      throw 'Oh noo'
+    sentence.start()
+  }
 }
 ParsedSentence.prototype.isParsedSentence = true
 module.exports = ParsedSentence

@@ -1,4 +1,4 @@
-const {Dictionary, Predicate} = require('./src/')
+const {Dictionary, Predicate, SpecialSentenceSyntax} = require('./src/')
 
 const d = new Dictionary()
   .addNouns(
@@ -70,6 +70,14 @@ const d = new Dictionary()
     })
   )
   .addAdjective('hairy')
+  .addSpecialSentenceSyntax(new SpecialSentenceSyntax('after #_ seconds, ~_', {
+      start([d, sentence], domain) {
+        setTimeout(() => {
+          sentence.start(domain)
+        }, d*1000)
+      }
+    })
+  )
 
 d.declareOwnership = (A, B) => B.owner = A
 

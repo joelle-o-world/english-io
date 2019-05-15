@@ -434,12 +434,11 @@ class Entity extends EventEmitter {
 
   // Handy
   do(str, ctx) {
-    let parsed = parse.imperative(str, this, this.dictionary, ctx)
+    let parsed = parse.imperative(this, str, this.dictionary, ctx)
     if(parsed && parsed.imperative) {
-      let sentence = parsed.create(this)
-      if(sentence)
-        sentence.start()
-    }
+      parsed.start(this)
+    } else
+      console.warn('Unhandled ('+this.str()+').do():', str)
   }
 }
 Entity.prototype.isEntity = true
