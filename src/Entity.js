@@ -179,18 +179,6 @@ class Entity extends EventEmitter {
       if(!this.nouns.includes(classname))
         this.nouns.push(classname)
 
-      // consistsOfTree
-      /*let parts = consistsOfTree[classname]
-      if(parts) {
-        // spawn parts
-        parts = spawn(dictionary, ...parts)
-        for(let part of parts)
-          part.setLocation(this, 'consist')
-      }*/
-
-      // start `beA` sentence
-      //new Sentence(beA, [this, classname]).start()
-
       /**
        * Emitted whenever the entity becomes a new noun.
        * @event becomeNoun
@@ -441,7 +429,6 @@ class Entity extends EventEmitter {
   // Handy
   do(str, ctx) {
     let parsed = parse.imperative(this, str, this.dictionary, ctx)
-    console.log(parsed && parsed.imperative)
     if(parsed && parsed.imperative) {
       parsed.start(this)
     } else

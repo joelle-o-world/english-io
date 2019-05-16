@@ -16,11 +16,19 @@ class Noun {
     if(options.constructor == String)
       options = {noun:options}
 
-    let {noun, inherits=[], extend, alias, spawners=[]} = options
+    let {
+      noun,
+      inherits=[],
+      extend,
+      alias,
+      spawners=[],
+      modusOperandi=null
+    } = options
 
     this.noun = noun
     this.singular = this.noun
     this.plural = toPlural(this.noun)
+    this.modusOperandi = modusOperandi
 
     this.regexTerminating = new RegExp(this.singular+'$', 'i')
     this.pluralRegexTerminating = new RegExp(this.plural+'$', 'i')
@@ -60,6 +68,9 @@ class Noun {
 
     if(this.extendFunction)
       this.extendFunction(entity)
+
+    if(this.modusOperandi)
+      entity.do(this.modusOperandi)
   }
 
   parse(str) {
