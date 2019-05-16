@@ -130,7 +130,7 @@ class PredicateSet {
       (A, B) => B.specificness-A.specificness
     )
     this.syntaxs = this.syntaxs.sort(
-      (p, q) => q.specificness-q.specificness
+      (p, q) => q.specificness-p.specificness
     )
   }
 }
