@@ -10,6 +10,7 @@ class WanderingDescriber {
     this.history = []
     this.recentlyMentionedEntitys = []
     this.maxLookback = 5
+    this.includeHistory = false
 
     this.log(...toLog)
   }
@@ -79,8 +80,11 @@ class WanderingDescriber {
    */
   allFactsShuffled() {
     let list = []
-    for(let entity of this.recentlyMentionedEntitys)
+    for(let entity of this.recentlyMentionedEntitys) {
       list.push(...entity.facts)
+      if(this.includeHistory)
+        list.push(...entity.history)
+    }
     return list.sort(() => Math.random()*2-1)
   }
 }

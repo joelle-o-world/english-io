@@ -211,6 +211,14 @@ const tenses = {
     return sub(_verb)
   },
 
+  possible_present({_subject, _verb}) {
+    return sub('can _', _verb)
+  },
+
+  possible_past({_subject, _verb}) {
+    return sub('could _', _verb)
+  },
+
   negative_possible_present({_subject, _verb}) {
     return sub('cannot _', _verb)
   },

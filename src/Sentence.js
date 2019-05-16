@@ -470,16 +470,23 @@ class Sentence extends EventEmitter {
    */
   sentaxs() {
     let tense = 'simple_present'
-    /*switch(this.truthValue) {
+    switch(this.truthValue) {
       case 'true':
         tense = 'simple_present'
         break
       case 'past':
         tense = 'simple_past'
         break
+      case 'hypothetical':
+        tense = 'possible_past'
+        break
+      case 'planned':
+        tense = 'simple_future'
+        break
       default:
         console.warn('Sentence:.sentax() Unexpected truth value:', this.truthValue)
-    }*/
+    }
+
     return this.predicate.forms.map(
       form => form.composeSentax(this.args, tense)
     )
