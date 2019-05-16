@@ -13,6 +13,7 @@ const {toRegexs} = require('./util/specarr')
 //const consistsOfTree = require('./nouns/consistsOfTree')
 
 const EventEmitter = require('events')
+EventEmitter.defaultMaxListeners = 1000
 
 // MORE REQUIRES AT BOTTOM
 
