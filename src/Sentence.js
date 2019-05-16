@@ -193,7 +193,7 @@ class Sentence extends EventEmitter {
           sentence.once('stop', () => {
             countDown--
             if(!countDown) {
-              console.log('stopped')
+            //  console.log('stopped')
               this.stop()
             }
           })
@@ -327,7 +327,6 @@ class Sentence extends EventEmitter {
     // make the sentence no longer true
     this.stopTime = new Date().getTime()
     this.elapsedTime = this.stopTime-this.startTime
-    console.log('\"'+this.str()+'\" :', (this.elapsedTime/1000).toFixed(2), 'secs')
 
     if(this.truthValue == 'superfluous' || this.truthValue == 'replaced') {
       this.emit('stop')
