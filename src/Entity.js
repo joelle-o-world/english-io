@@ -2,6 +2,7 @@
 const regOps = require('./util/regOps.js')
 const RandExp = require('randexp')
 const spellcheck = require('./util/spellcheck')
+const unSentencify = require('./util/unSentencify')
 //const {beA, be} = require('./predicates')
 const Sentence = require('./Sentence')
 
@@ -428,11 +429,14 @@ class Entity extends EventEmitter {
 
   // Handy
   do(str, ctx) {
-    let parsed = parse.imperative(this, str, this.dictionary, ctx)
-    if(parsed && parsed.imperative) {
-      parsed.start(this)
-    } else
-      console.warn('Unhandled ('+this.str()+').do():', str)
+    let instructions = unSentencify(str)
+    for(let instruction of instructions) {
+      let parsed = parse.imperative(this, instruction, this.dictionary, ctx)
+      if(parsed && parsed.imperative) {
+        parsed.start(this)
+      } else
+        console.warn('Unhandled ('+this.str()+').do():', instruction)
+    }
   }
 }
 Entity.prototype.isEntity = true
