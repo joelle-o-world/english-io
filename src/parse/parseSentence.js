@@ -11,7 +11,6 @@ module.exports = parseSimpleSentence
 
 function parseImperative(subject, str, dictionary, ctx) {
   let result
-  console.log(str)
   for(let syntax of dictionary.predicates.syntaxs) {
     if(
       syntax.predicate.actionable

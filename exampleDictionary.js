@@ -34,7 +34,8 @@ const d = new Dictionary()
 
     new Predicate({
       verb: 'woof', params:['subject'],
-      problem: e => !e.is_a('dog')
+      problem: e => !e.is_a('dog'),
+      until: callback => callback(),
     }),
 
     new Predicate({verb:'lie down'}),
@@ -73,6 +74,15 @@ const d = new Dictionary()
   .addSpecialSentenceSyntax(new SpecialSentenceSyntax('after #_ seconds, ~_', {
       start([d, sentence], domain) {
         setTimeout(() => {
+          sentence.start(domain)
+        }, d*1000)
+      }
+    })
+  )
+  .addSpecialSentenceSyntax(new SpecialSentenceSyntax('every #_ seconds, ~_', {
+      start([d, sentence], domain) {
+        setInterval(() => {
+          console.log('!')
           sentence.start(domain)
         }, d*1000)
       }

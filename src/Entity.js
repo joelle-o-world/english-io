@@ -58,7 +58,7 @@ class Entity extends EventEmitter {
      * can be used to describe the Entity.
      * @property {SpecialArray} properNouns
      */
-    this.properNouns = [entity => entity.name]
+    this.properNouns = []
 
     /**
      * A list of sentences which are true in the present tense and have the entity
@@ -354,6 +354,11 @@ class Entity extends EventEmitter {
       )
   }
 
+  addProperNoun(str) {
+    if(!this.properNouns.includes(str))
+      this.properNouns.push(str)
+  }
+
   addAdjective(adjective) {
     if(!this.adjectives.includes(adjective))
       this.adjectives.push(adjective)
@@ -435,6 +440,7 @@ class Entity extends EventEmitter {
   // Handy
   do(str, ctx) {
     let parsed = parse.imperative(this, str, this.dictionary, ctx)
+    console.log(parsed && parsed.imperative)
     if(parsed && parsed.imperative) {
       parsed.start(this)
     } else

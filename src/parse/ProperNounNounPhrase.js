@@ -10,7 +10,7 @@ class ProperNounNounPhrase extends NounPhrase {
   }
 
   spawn(domain, dictionary=this.dictionary, ctx=this.ctx) {
-    throw 'A ProperNounNounPhrase cannot be spawned.'
+    throw 'A ProperNounNounPhrase cannot be spawned. ('+this.str+')'
   }
 
   *find(domain, dictionary=this.dictionary, ctx=this.ctx) {

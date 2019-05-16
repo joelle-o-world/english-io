@@ -77,11 +77,11 @@ class ParsedSentence {
     return sentence
   }
 
-  start(domain) {
-    let sentence = this.create(domain, dictionary, ctx=ctx)
+  start(domain, dictionary=this.dictionary, ctx=this.ctx) {
+    let sentence = this.create(domain, this.dictionary, ctx)
     if(!sentence)
       throw 'Oh noo'
-    sentence.start()
+    return sentence.start()
   }
 }
 ParsedSentence.prototype.isParsedSentence = true

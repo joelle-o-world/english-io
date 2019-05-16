@@ -8,14 +8,25 @@ function declare(dictionary, ctx=new DescriptionContext, ...strings) {
   for(let str of strings) {
     let parsed = parse(str, dictionary, ctx)
 
+    if(!parsed) {
+      console.log('unable to parse:', str)
+      break
+    }
+
     if(parsed.isNounPhrase) {
       let out = parsed.spawn(domain, dictionary, ctx)
       domain = [...uniqueCombine(domain, explore(out))]
     } else if(parsed.isParsedSentence) {
       let sentence = parsed.start(domain, dictionary, ctx)
-      domain = explore([...domain, ...sentence.entityArgs])
-      domain = [...uniqueCombine(domain, explore(sentence.entityArgs))]
-    }
+      if(sentence && sentence.truthValue == 'true') {
+        domain = explore([...domain, ...sentence.entityArgs])
+        domain = [...uniqueCombine(domain, explore(sentence.entityArgs))]
+      } else
+        console.warn('problem declaring:', str)
+    } else if(parsed.isSpecialSentence) {
+      parsed.start()
+    } else
+      console.warn('Unhandled declaration:', str, '\ntype:',parsed.constructor.name)
   }
 
   return {

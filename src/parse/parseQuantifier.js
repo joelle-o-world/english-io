@@ -16,7 +16,7 @@ function parseQuantifier(str, dictionary) {
           min: 1,
           max: 1,
         }
-      else if(result = /^a|an( |$)/.exec(str))
+      else if(result = /^(a|an)( |$)/.exec(str))
         return {
           article: result[0],
           definite: false,
