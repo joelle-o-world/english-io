@@ -28,6 +28,19 @@ class DescriptionContext {
     this.you = null // who is the second person
   }
 
+  duplicate() {
+    let newCtx = new DescriptionContext()
+    newCtx.referenceHistory = this.referenceHistory.slice()
+    newCtx.me = this.me
+    newCtx.you = this.you
+    newCtx.it = this.it
+    newCtx.her = this.her
+    newCtx.him = this.him
+    newCtx.them = this.them
+    newCtx.us = this.us
+    return newCtx
+  }
+
   /**
    * log a reference to the history
    * @method log
@@ -157,5 +170,7 @@ class DescriptionContext {
         return ['a']
     }
   }
+
+
 }
 module.exports = DescriptionContext
