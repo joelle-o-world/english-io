@@ -17,6 +17,7 @@ module.exports = {
   //SentenceQueue: require('./SentenceQueue'),
 
   parse: require('./parse'),
+  declare: require('./declare'),
 
   DescriptionContext: require('./DescriptionContext'),
   WanderingDescriber: require('./WanderingDescriber'),
