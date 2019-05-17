@@ -14,7 +14,7 @@ class ContractionQueue {
     // front of the queue.
 
     if(this.queue.some(fact => fact.important)) {
-      while(!this.queue[0].important) {
+      while(!this.queue[0].important && this.queue[0].isSentence) {
         console.log('skipping unimportant fact:', this.queue.shift().str())
       }
     }
