@@ -20,6 +20,14 @@ class NounPhrase {
     console.warn('.find() not defined for', this.constructor.name)
   }
 
+  findFirst(domain, dictionary, ctx) {
+    for(let e of this.find(domain, dictionary, ctx))
+      return e
+
+    // Otherwise,
+    return null
+  }
+
   matches(e, dictionary=this.dictionary, ctx=this.ctx) {
     console.warn('.matches() not defined for', this.constructor.name)
   }
