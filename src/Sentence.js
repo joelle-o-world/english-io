@@ -290,6 +290,8 @@ class Sentence extends EventEmitter {
       if(this.predicate._expand) {
         let expansion = this.predicate._expand(...this.args, this)
         if(expansion) {
+          if(expansion.constructor != Array)
+            expansion = [expansion]
           let queue = new SentenceQueue(...expansion)
           queue.once('stop', () => this.stop())
           queue.on('problem', reasons => this.fail(reasons))
