@@ -10,6 +10,7 @@ const parse = require('./parse')
 
 const entityStr = require('./entityStr')
 const {toRegexs} = require('./util/specarr')
+const {explore} = require('./search')
 
 //const consistsOfTree = require('./nouns/consistsOfTree')
 
@@ -437,6 +438,19 @@ class Entity extends EventEmitter {
       } else
         console.warn('Unhandled ('+this.str()+').do():', instruction)
     }
+  }
+
+  findNearest(str, ctx) {
+    let parsed = parse.nounPhrase(str, this.dictionary, ctx)
+    if(parsed) {
+      for(let e of explore([this]))
+        if(parsed.matches(e))
+          return e
+
+      // Otherwise
+      return null
+    } else
+      console.warn('('+this.str()+').findNearest('+str+') failed to parse.')
   }
 }
 Entity.prototype.isEntity = true
