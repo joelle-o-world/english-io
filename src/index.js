@@ -25,10 +25,11 @@ module.exports = {
   search: require('./search'),
 
   sentencify: require('./util/spellcheck').sentencify,
+  unSentencify: require('./util/unSentencify'),
 
   EntitySpawner: require('./EntitySpawner'),
   SentenceModifier: require('./SentenceModifier'),
-  
+
   SpecialSyntax: require('./SpecialSyntax'),
   SpecialSentenceSyntax: require('./SpecialSentenceSyntax'),
 
