@@ -193,7 +193,6 @@ class Sentence extends EventEmitter {
           sentence.once('stop', () => {
             countDown--
             if(!countDown) {
-            //  console.log('stopped')
               this.stop()
             }
           })
@@ -541,8 +540,15 @@ class Sentence extends EventEmitter {
    */
   static S(predicate, ...args) {
     if(!predicate.isPredicate) {
-      throw "Sentence.S expects a predicate as first argument." +
-            " Recieved: " + predicate
+      let dictionary
+      for(let arg of args)
+        if(arg && arg.dictionary)
+          dictionary = arg.dictionary
+      if(dictionary)
+        predicate = dictionary.predicates.byName[predicate]
+      else
+        throw "Sentence.S expects a predicate as first argument."
+          +" Recieved: " + predicate
     }
     let sentence = new Sentence(predicate, args)
     //sentence = sentence.trueInPresent() || sentence
