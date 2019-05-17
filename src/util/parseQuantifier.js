@@ -8,17 +8,17 @@ function parseQuantifier(str) {
   let r // result, a temporary variable, reused many times
 
   // a few
-  r = getWord(/a few|some/, str)
+  r = getWord(/a few|some/i, str)
   if(r)
     return {min: 2, max:5, definite:false, str:r[0]}
 
   // indefinite article
-  r = getWord(/a|an/, str)
+  r = getWord(/a|an/i, str)
   if(r)
     return {min:1, max:1, definite:false, str:r[0]}
 
   // definite article
-  if(getWord(/the/, str))
+  if(getWord(/the/i, str))
     return {min:1, max:Infinity, definite:true, str:'the'}
 
   // number
@@ -30,7 +30,7 @@ function parseQuantifier(str) {
   }
 
   // approximate number
-  r = getWord(/(?:approximately|around|about) (?<n>\d+)/, str)
+  r = getWord(/(?:approximately|around|about) (?<n>\d+)/i, str)
   if(r) {
     let n = parseInt(r[1])
     if(!isNaN(n))

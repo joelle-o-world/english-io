@@ -148,7 +148,7 @@ class PredicateSyntax {
 
     let vp = verbPhrase(this.capturingAction, tense, options)
 
-    return new RegExp('^'+vp.str()+'$')
+    return new RegExp('^'+vp.str()+'$', 'i')
   }
 
   regex(tense) {

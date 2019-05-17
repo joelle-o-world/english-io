@@ -1,6 +1,6 @@
 function parseQuantifier(str, dictionary) {
   let result
-  if(/^the(?= |$)/.test(str))
+  if(/^the(?= |$)/i.test(str))
     return {
       article: 'the',
       definite:true,
@@ -8,7 +8,7 @@ function parseQuantifier(str, dictionary) {
       min: 1,
       max: Infinity,
     }
-      else if(result = /^another( |$)/.exec(str))
+      else if(result = /^another( |$)/i.exec(str))
         return {
           article: result[0],
           definite: false,
@@ -16,7 +16,7 @@ function parseQuantifier(str, dictionary) {
           min: 1,
           max: 1,
         }
-      else if(result = /^(a|an)( |$)/.exec(str))
+      else if(result = /^(a|an)( |$)/i.exec(str))
         return {
           article: result[0],
           definite: false,
@@ -24,7 +24,7 @@ function parseQuantifier(str, dictionary) {
           min: 1,
           max: 1,
         }
-      else if(result = /^[0-9]+( |$)/.exec(str)) {
+      else if(result = /^[0-9]+( |$)/i.exec(str)) {
         let n = parseInt(result)
         return {
           article: result[0],

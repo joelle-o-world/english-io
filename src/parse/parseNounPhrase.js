@@ -2,7 +2,7 @@ const {toSingular} = require('../util/plural')
 
 const properNounRegex = /^([A-Z][a-zA-Z]+)( [A-Z][a-zA-Z]+)*$/
 const pronounRegex = /^(?:me|you|her|him|it|us|them)$/i
-const articleRegex = /^(the|a|an)$/
+const articleRegex = /^(the|a|an)$/i
 
 const NounPhrase = require('./NounPhrase')
 const RegularNounPhrase = require('./RegularNounPhrase')

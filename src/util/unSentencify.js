@@ -1,4 +1,4 @@
-function getSentences(str) {
+function getSentences(str, decapitalise=true) {
   let lines = str.split('\n')
 
   let sentences = []
@@ -9,8 +9,10 @@ function getSentences(str) {
     )
   }
 
-  sentences = sentences.map(s => s[0].toLowerCase() + s.slice(1))
+  sentences = sentences
     .filter(s => s.length)
+  if(decapitalise)
+    sentences = sentences.map(s => s[0].toLowerCase() + s.slice(1))
 
   return sentences
 }
