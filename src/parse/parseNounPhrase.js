@@ -1,7 +1,7 @@
 const {toSingular} = require('../util/plural')
 
 const properNounRegex = /^([A-Z][a-zA-Z]+)( [A-Z][a-zA-Z]+)*$/
-const pronounRegex = /^(?:me|you|her|him|it|us|them)$/i
+const pronounRegex = /^(?:me|you|her|him|it|us|them|I|she|he|we|they)$/i
 const articleRegex = /^(the|a|an)$/i
 
 const NounPhrase = require('./NounPhrase')
@@ -21,14 +21,17 @@ function parseNounPhrase(str, dictionary, ctx=new DescriptionContext) {
   if(embedded)
     return embedded
 
-  let proper = properNounRegex.exec(str)
-  if(proper)
-    return new ProperNounNounPhrase({properNoun: str, str:str}, dictionary, ctx)
 
   // Is it a pronoun?
   let pronoun = pronounRegex.exec(str)
   if(pronoun)
     return new PronounNounPhrase({pronoun:str, str:str}, dictionary, ctx)
+
+
+  let proper = properNounRegex.exec(str)
+  if(proper)
+    return new ProperNounNounPhrase({properNoun: str, str:str}, dictionary, ctx)
+
 
   // Parse as a regular noun-phrase.
   let info = parseNoun(str, dictionary)
