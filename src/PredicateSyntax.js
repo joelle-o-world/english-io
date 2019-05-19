@@ -526,6 +526,21 @@ class PredicateSyntax {
     if(this.predicate)
       return this.predicate.dictionary
   }
+
+  demos() {
+    let args = []
+    for(let i in this.params)
+      args.push('_')//String.fromCharCode(65+(parseInt(i)+23)%26))
+
+    let tenses = ['imperative', ...this.presentTenses, ...this.pastTenses]
+
+    let demos = {}
+    for(let tense of tenses) {
+      demos[tense] = this.str({args:args, tense:tense})
+    }
+
+    return demos
+  }
 }
 PredicateSyntax.prototype.isPredicateSyntax = true
 module.exports = PredicateSyntax

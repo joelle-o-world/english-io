@@ -12,6 +12,7 @@ const Sentence = require('./Sentence')
 const EntitySpawner = require('./EntitySpawner')
 const search = require('./search')
 const SentenceModifierSet = require('./SentenceModifierSet')
+const autodoc = require('./generateDictionaryDoc')
 
 /**
  * @class Dictionary
@@ -199,6 +200,10 @@ class Dictionary {
 
   get nonLiteralPredicates() {
     return this.predicates.nonLiteral
+  }
+
+  doc() {
+    return autodoc(this)
   }
 }
 module.exports = Dictionary

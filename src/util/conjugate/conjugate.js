@@ -78,6 +78,10 @@ function conjugateRegular(infinitive, form) {
       else
         return infinitive+'ed';
 
+    case ALL_PERSON_REGEX:
+      return anyPersonRegex(infinitive)
+      break;
+
     default:
       return infinitive
   }

@@ -42,5 +42,7 @@ module.exports = {
 
   html: require('../HTML-io'),
 
+  autodoc: require('./generateDictionaryDoc'),
+
   //util: require('./util'),
 }
