@@ -22,11 +22,14 @@ module.exports = {
   DescriptionContext: require('./DescriptionContext'),
   WanderingDescriber: require('./WanderingDescriber'),
   FactListener: require('./FactListener'),
+  ContractionQueue: require('./ContractionQueue'),
 
   search: require('./search'),
+  explore: require('./search').explore,
 
   sentencify: require('./util/spellcheck').sentencify,
   unSentencify: require('./util/unSentencify'),
+  spellcheck: require('./util/spellcheck'),
 
   EntitySpawner: require('./EntitySpawner'),
   SentenceModifier: require('./SentenceModifier'),
