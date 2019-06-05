@@ -148,8 +148,11 @@ class Dictionary {
     return dec.entities
   }
 
-  createEntity() {
-    return new Entity(this)
+  createEntity(noun) {
+    let e = new Entity(this)
+    if(noun)
+      e.be_a(noun)
+    return e
   }
 
   spawn(...strings) {

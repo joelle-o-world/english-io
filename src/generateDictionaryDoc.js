@@ -14,11 +14,11 @@ function generateDictionaryDoc(dictionary) {
 
   for(let type in demos) {
     demos[type] = demos[type].sort()
-      .filter((item, i, arr) => arr.indexOf(item) == i),
+      .filter((item, i, arr) => arr.indexOf(item) == i)
   }
 
   return demos
 
-  
+
 }
 module.exports = generateDictionaryDoc

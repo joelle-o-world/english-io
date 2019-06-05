@@ -430,14 +430,17 @@ class Entity extends EventEmitter {
 
   // Handy
   do(str, ctx) {
+    let out = []
     let instructions = unSentencify(str)
     for(let instruction of instructions) {
       let parsed = parse.imperative(this, instruction, this.dictionary, ctx)
       if(parsed && parsed.imperative) {
-        parsed.start(this)
+        out.push( parsed.start(this) )
       } else
         console.warn('Unhandled ('+this.str()+').do():', instruction)
     }
+
+    return out
   }
 
   findNearest(str, ctx) {

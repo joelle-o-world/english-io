@@ -81,6 +81,7 @@ class GameIO extends EventEmitter {
     // create input <input> element
     let input_input = document.createElement('input')
     input_input.className = 'entitygame_input'
+    this.inputElement = input_input
     main_div.appendChild(input_input)
 
     // set up input event listener
@@ -153,7 +154,16 @@ class GameIO extends EventEmitter {
     this.write(sentencify(str) + ' ')
   }
 
-  print(...stuff) {
+  print(...stuff0) {
+    let stuff = []
+    for(let o of stuff0) {
+      if(o) {
+        if(o.constructor == Array)
+          stuff.push(...o)
+        else
+          stuff.push(o)
+      }
+    }
     stuff = stuff.filter(thing => !thing.banal)
     this.printQueue.add(...stuff)
     this.printNext()
