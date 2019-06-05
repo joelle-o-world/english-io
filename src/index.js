@@ -7,6 +7,7 @@ module.exports = {
 
   PredicateSyntax: require('./PredicateSyntax'),
   Predicate: require('./Predicate'),
+  Noun: require('./Noun'),
   //PredicateSet: require('./PredicateSet'),
 
 
