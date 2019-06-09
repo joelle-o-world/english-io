@@ -29,7 +29,7 @@ class SpecialSyntax {
     this.regex = new RegExp('^' + regsrc + '$', 'i')
   }
 
-  parse(str, ctx, subject) {
+  parse(str, ctx, subject=null) {
     if(!this.dictionary)
       throw 'SpecialSyntax cannot parse without a dictionary'
 
