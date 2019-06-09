@@ -35,9 +35,18 @@ const PAST_PARTICIPLE = 8
 const PAST_TENSE = 9
 const ALL_PERSON_REGEX = 10
 
-function conjugate(infinitive, form) {
-  let words = infinitive.split(' ')
-  infinitive = words[0]
+function conjugate(verb, form) {
+
+  let i1 = verb.search(/[ .,!?]/)
+
+
+  if(i1 == -1) {
+    infinitive = verb
+    extra = ''
+  } else {
+    infinitive = verb.slice(0, i1)
+    extra = verb.slice(i1)
+  }
 
   let conjugated
   if(form == ALL_PERSON_REGEX)
@@ -47,8 +56,7 @@ function conjugate(infinitive, form) {
   else
     conjugated = conjugateRegular(infinitive, form)
 
-  words[0] = conjugated
-  return words.join(' ')
+  return conjugated + extra
 }
 
 function conjugateRegular(infinitive, form) {

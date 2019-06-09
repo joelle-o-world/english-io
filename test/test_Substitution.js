@@ -7,3 +7,5 @@ console.log(sub1)
 console.log(sub1.str())
 
 console.log(Substitution.sub("_'s bit fits", 'it').str())
+
+console.log(Substitution.sub('S_ <eat, <shoot and <leave', 'you').str())

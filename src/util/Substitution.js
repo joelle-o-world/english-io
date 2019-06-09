@@ -6,11 +6,13 @@
 */
 
 const {randexp} = require("randexp")
-const placeholderRegex = /(?:S|O|#|@|L)?_(?:'s)?/g // o = object, s = subject
+const placeholderRegex = require('./placeholderRegex')
 const {autoBracket, kleenePoliteList} = require("./regOps")
 const politeList = require('./politeList')
 const toSubject = require('./toSubject')
 const toPossessiveAdjective = require('./toPossessiveAdjective')
+const conjugate = require('./conjugate/conjugate')
+const getPerson = require('./conjugate/getPerson')
 
 
 class Substitution { // sometimes abbreviated Sub
@@ -113,10 +115,32 @@ class Substitution { // sometimes abbreviated Sub
     }
 
     let bits = this.template.split(placeholderRegex)
+
+    let out = [bits[0]]
+    for(let i=1; i<bits.length; i++) {
+      let sub = subs[i-1]
+      let bit = bits[i]
+      if(bit.includes('<')) {
+        let [preVerb, ...verbs] = bit.split('<')
+
+        let conjugated = verbs.map(v => conjugate(v, getPerson(sub)))
+
+        bits.push(
+          sub,
+          preVerb,
+          ...conjugated
+        )
+      } else
+        out.push(subs[i-1], bits[i])
+    }
+
+    return out.join('')
+
+    /*
     let out = bits[0]
     for(var i=1; i<bits.length; i++)
       out += subs[i-1] + bits[i]
-    return out
+    return out*/
   }
 
   static substitute(templateStr, ...args) {

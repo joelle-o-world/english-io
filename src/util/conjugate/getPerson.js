@@ -1,3 +1,7 @@
+// REQUIRES AT BOTTOM
+
+
+
 // Determine the numeric person of a given noun phrase
 
 /*
@@ -14,7 +18,7 @@ VERB FORMS DENOTED AS NUMBERS:
   (9. past tense form)
 */
 
-const {placeholderRegex} = require("../Substitution")
+const placeholderRegex = require("../placeholderRegex")
 const placeholderTest = new RegExp('^'+placeholderRegex.source+'$', '')
 
 function getPerson(subject) {
