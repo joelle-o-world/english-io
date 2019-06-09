@@ -86,7 +86,7 @@ class Sentax {
       else if(A.subject == B.subject)
         return new SubjectContractedSentax(A, B)
       else return null
-    } else if(A.isSubjectContractedSentax) {
+    } else if(A.isSubjectContractedSentax  && A.sentaxs.length < 2) {
       if(A.subject == B.subject) {
         //for(let i in A.sentaxs) {
         let C = A.sentaxs[A.sentaxs.length-1]
