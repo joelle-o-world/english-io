@@ -55,5 +55,13 @@ class ContractionQueue {
     this.queue = this.queue.slice(winningDepth+1)
     return winner
   }
+
+  flush() {
+    let a
+    let list = []
+    while(a = this.next())
+      list.push(a)
+    return list
+  }
 }
 module.exports = ContractionQueue
