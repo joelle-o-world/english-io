@@ -44,6 +44,8 @@ module.exports = {
 
   sub: require('./util/Substitution').sub,
 
+  conjugate: require('./util/conjugate/conjugate'),
+
   html: require('../HTML-io'),
 
   autodoc: require('./generateDictionaryDoc'),
