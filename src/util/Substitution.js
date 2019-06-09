@@ -37,6 +37,8 @@ class Substitution { // sometimes abbreviated Sub
         return null
       else if(o.isEntity)
         return o.str(ctx, options)
+      else if(o.isSentence)
+        return o.str('simple_present', ctx, options)
       else if(o.constructor == String)
         return o
       else if(o.construtor == RegExp)
@@ -77,6 +79,27 @@ class Substitution { // sometimes abbreviated Sub
   getRegex(depth) {
     // alias for backwards compatibility
     return this.regex(depth)
+  }
+
+  get entities() {
+    let list = []
+    let todo = this.args.slice()
+    for(let arg of todo) {
+      if(arg.isEntity)
+        list.push(arg)
+      else if(arg.isSubstitution)
+        list.push(...arg.entities)
+      else if(arg.isSentence)
+        list.push(sentence.entityArgs)
+      else if(arg.constructor == Array)
+        todo.push(...arg)
+      else if(arg.constructor == String)
+        continue
+      else
+        console.warn('Unknown substitution arg type:', arg)
+    }
+
+    return list
   }
 
   subIn(...subs) {
