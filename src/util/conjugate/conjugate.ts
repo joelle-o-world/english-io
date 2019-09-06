@@ -17,8 +17,8 @@ VERB FORMS DENOTED AS NUMBERS:
   (9. past tense form)
 */
 
-const regOp = require("../regOps")
-const irregular = require("./irregularConjugations")
+import * as regOp from "regops"
+import {getIrregularConjugation} from './irregularConjugations'
 
 const endsWithShortConsonant = /[aeiou][tpdn]$/
 const endsWithE = /e$/
@@ -35,11 +35,14 @@ const PAST_PARTICIPLE = 8
 const PAST_TENSE = 9
 const ALL_PERSON_REGEX = 10
 
-function conjugate(verb, form) {
+declare type VerbForm = 1|2|3|4|5|6|7|8|9|10;
+
+/** Conjugate a verb (by itself) */
+function conjugate(verb:string, form:number):string {
 
   let i1 = verb.search(/[ .,!?]/)
 
-
+  let infinitive:string, extra:string
   if(i1 == -1) {
     infinitive = verb
     extra = ''
@@ -48,18 +51,19 @@ function conjugate(verb, form) {
     extra = verb.slice(i1)
   }
 
-  let conjugated
+  let conjugated, irregular = getIrregularConjugation(infinitive, form)
   if(form == ALL_PERSON_REGEX)
     conjugated = anyPersonRegex(infinitive)
-  if(irregular[infinitive] && irregular[infinitive][form])
-    conjugated = irregular[infinitive][form]
+  else if(irregular)
+    conjugated = irregular
   else
     conjugated = conjugateRegular(infinitive, form)
 
   return conjugated + extra
 }
 
-function conjugateRegular(infinitive, form) {
+/** Conjugate a regular verb. */
+function conjugateRegular(infinitive:string, form:number) {
   switch(form) {
     // third person singular
     case THIRD_PERSON_SINGULAR:
@@ -88,15 +92,14 @@ function conjugateRegular(infinitive, form) {
 
     case ALL_PERSON_REGEX:
       return anyPersonRegex(infinitive)
-      break;
 
     default:
       return infinitive
   }
 }
 
-function anyPersonRegex(infinitive) {
-  let forms = []
+function anyPersonRegex(infinitive:string) {
+  let forms:string[] = []
   for(let person=1; person<=6; ++person) {
     let form = conjugate(infinitive, person)
     if(!forms.includes(form))
@@ -107,4 +110,3 @@ function anyPersonRegex(infinitive) {
 
 
 module.exports = conjugate
-conjugate.anyPersonRegex

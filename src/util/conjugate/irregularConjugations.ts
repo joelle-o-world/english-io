@@ -26,7 +26,11 @@ const PAST_PARTICIPLE = 8
 const PAST_TENSE = 9
 const ALL_PERSON_REGEX = 10
 
-module.exports = {
+const irregularConjucations:{
+  [key: string]: {
+    [key: number]: string
+  }
+} = {
   // be IS THIS EVEN A VERB?
   be: {
     1: 'am', 2:'are', 3:'is', 4:'are', 5:'are', 6:'are', 7:'being', 8:'been',
@@ -97,3 +101,11 @@ module.exports = {
   // to shit
 
 }
+
+function getIrregularConjugation(verb:string, form:number) {
+  if(irregularConjucations[verb] && irregularConjucations[verb][form])
+    return irregularConjucations[verb][form]
+  else
+    return null
+}
+export {getIrregularConjugation}

@@ -18,15 +18,16 @@ VERB FORMS DENOTED AS NUMBERS:
   (9. past tense form)
 */
 
-const placeholderRegex = require("../placeholderRegex")
+const placeholderRegex = /(?:S|O|#|@|L)?_(?:'s)?/g
 const placeholderTest = new RegExp('^'+placeholderRegex.source+'$', '')
 
-function getPerson(subject) {
+/** Given a string or some other object, determine the person (aka verb form) for conjugation. */
+function getPerson(subject:string|any) {
   // if subject is not a string, assume third person for now
-  if(subject && subject.constructor != String)
+  if(typeof subject != "string")
     return 3
 
-  let lowerCaseSubject = subject.toLowerCase()
+  const lowerCaseSubject = subject.toLowerCase()
 
   if(lowerCaseSubject == 'i')
     return 1 // first person singular
