@@ -1,3 +1,7 @@
+console.warn("Regops has been moved to its own npm package (`regops`), better to use that instead.")
+
+//----------------------------------------------------------
+
 /** Convert a list of convert regexs to their source strings. */
 function sourcify(list:(RegExp | String | null)[]):string[] {
   return (list
