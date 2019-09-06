@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "typedoc --out docs src/ --module commonjs"
   },
   "repository": {
     "type": "git",
@@ -32,5 +33,9 @@
   "dependencies": {
     "integer-to-ordinal-english": "^1.0.2",
     "randexp": "^0.5.3"
+  },
+  "devDependencies": {
+    "typedoc": "^0.15.0",
+    "typedoc-plugin-markdown": "^2.1.10"
   }
 }
