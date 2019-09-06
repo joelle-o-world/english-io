@@ -14,6 +14,6 @@ function differentiate(match, ...dontMatch) {
       return str
   }
 
-  retrun null
+  return null
 }
 module.exports = differentiate

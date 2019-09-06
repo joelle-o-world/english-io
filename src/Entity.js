@@ -20,21 +20,8 @@ EventEmitter.defaultMaxListeners = 1000
 // MORE REQUIRES AT BOTTOM
 
 /**
- * Entity represents an object in the world. It is half derived from the word
- * 'noun', half from the word 'entityenon'. Though it fits the definition of
- * neither precisely.
- * @class Entity
- * @extends EventEmitter
- * @constructor
+ * Entity represents an object in the world.
  */
-
- /**
-  * @event fact
-  * @param {Sentence} sentence The new fact.
-  */
-
-
-
 class Entity extends EventEmitter {
   constructor(dictionary=null) {
     super()
