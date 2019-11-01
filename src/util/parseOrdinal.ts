@@ -2,7 +2,8 @@ const ordinal = require('integer-to-ordinal-english')
 
 const LIMIT = 100
 
-function parseOrdinal(str) {
+/** Parse an english ordinal number string (words) by brute force. */
+function parseOrdinal(str:string) {
   let n = parseInt(str)
   if(!isNaN(n))
     return n
@@ -14,4 +15,4 @@ function parseOrdinal(str) {
       return i
   }
 }
-module.exports = parseOrdinal
+export {parseOrdinal}

@@ -10,7 +10,7 @@
  * @param {String} singularNoun
  * @return {String}
  */
-function toPlural(singularNoun) {
+function toPlural(singularNoun:string) {
   // if irregular return the irregular plural
   if(irregular[singularNoun])
     return irregular[singularNoun]
@@ -50,7 +50,7 @@ function toPlural(singularNoun) {
   * @param {String} pluralNoun
   * @return {String|null}
   */
-function toSingular(pluralNoun) {
+function toSingular(pluralNoun:string) {
   // If irregular, replace with the singular
   if(irregularInverted[pluralNoun])
     return irregularInverted[pluralNoun]
@@ -92,12 +92,9 @@ function toSingular(pluralNoun) {
   return null
 }
 
-module.exports = {
-  toPlural: toPlural,
-  toSingular: toSingular,
-}
+export {toPlural, toSingular}
 
-const irregular = {
+const irregular:{[key: string]: string|undefined} = {
   // singular : plural,
   sheep: 'sheep',
   ice: 'ice',
@@ -117,8 +114,8 @@ const irregular = {
   'pair of trousers': 'pairs of trousers',
 }
 
-const irregularInverted = {}
+const irregularInverted:{[key: string]: string|undefined} = {}
 for(let singular in irregular) {
-  let plural = irregular[singular]
+  const plural:string = irregular[singular] as string 
   irregularInverted[plural] = singular
 }

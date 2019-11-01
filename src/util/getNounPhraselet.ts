@@ -1,6 +1,4 @@
-const ordinal = require('integer-to-ordinal-english')
-const regops = require('./regOps')
-
+import * as regops from 'regops'
 
 const articleRegex = regops.capture(
   /a|an|another|the/,
@@ -19,7 +17,7 @@ const nounPhraseRegex = regops.whole(regops.concatSpaced(
 ))
 
 
-function getNounPhraselet(str) {
+function getNounPhraselet(str:string) {
   let result = nounPhraseRegex.exec(str)
   if(result)
     return result.groups
@@ -28,4 +26,4 @@ function getNounPhraselet(str) {
       properNoun: str
     }
 }
-module.exports = getNounPhraselet
+export {getNounPhraselet}

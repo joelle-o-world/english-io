@@ -1,10 +1,10 @@
-// find a string which matches one regex but not a second
+
 
 const RandExp = require('randexp')
 
 const bruteForceLimit = 100
-
-function differentiate(match, ...dontMatch) {
+/** find a string which matches one regex but not a second */
+function differentiate(match:RegExp|string, ...dontMatch:RegExp[]) {
   let gen = new RandExp(match)
 
   for(let i=0; i<bruteForceLimit; i++) {

@@ -1,10 +1,9 @@
 /**
- * Parse a quantifier word/phrase as a range of possible meanings
- * @method parseQuantifier
- * @param {String} str The quantifier
- * @return {Object} {min, max}
+ * Parse a quantifier word/phrase as a range of possible meanings.
  */
-function parseQuantifier(str) {
+function parseQuantifier(str:string)
+  :{max:number, min:number, str: string, definite?:boolean}|null 
+{
   let r // result, a temporary variable, reused many times
 
   // a few
@@ -43,9 +42,9 @@ function parseQuantifier(str) {
 
   return null
 }
-module.exports = parseQuantifier
+export {parseQuantifier}
 
-function getWord(wordReg, str) {
+function getWord(wordReg:RegExp|string, str:string) {
   if(wordReg instanceof RegExp)
     wordReg = wordReg.source
   let reg = new RegExp('^(?:'+wordReg+')(?= |$)')

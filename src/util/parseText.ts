@@ -1,14 +1,12 @@
+const wordCharRegex = /[\w'-]/;
+const punctuationCharRegex = /[.,"()!?-]/;
+
 /*
   Borrowed from NULP, https://github.com/joelyjoel/Nulp/
   Seperate words, punctuation and capitalisation. Form an array which is easier
   to process.
 */
-
-
-const wordCharRegex = /[\w'-]/;
-const punctuationCharRegex = /[.,"()!?-]/;
-
-module.exports = parseText = function(str) {
+function parseText(str:string) {
     // seperates a string into a list of words and punctuation
 
     str = removeFancyShit(str);
@@ -116,19 +114,20 @@ module.exports = parseText = function(str) {
 
     return parts;
 }
+export {parseText}
 
-function isWord(str) {
-  var c
-  for(var i in str) {
+function isWord(str:string) {
+  let c
+  for(let i=0; i<str.length; ++i) {
     c = str[i]
     if(!c.match(wordCharRegex))
       return false
   }
   return true
 }
-module.exports.isWord = isWord
+export {isWord}
 
-function removeFancyShit(str) {
+function removeFancyShit(str:string) {
     while(str.indexOf("’") != -1) {
         str = str.replace("’", "\'")
     }
@@ -136,7 +135,8 @@ function removeFancyShit(str) {
     return str;
 }
 
-function recombine(bits) {
+/** Recombine an array of words and punctuation into a string. */
+function recombine(bits:string[]) {
     var printedWords = []
     var upper = false
     for(var i in bits) {
@@ -157,4 +157,4 @@ function recombine(bits) {
     }
     return printedWords.join(" ")
 }
-module.exports.recombine = recombine
+export {recombine}
