@@ -1,6 +1,6 @@
 
 /* Convert a noun-phrase, proper-noun or pronoun to a possessive adjective. */
-function toPossessiveAdjective(nounPhrase) {
+function toPossessiveAdjective(nounPhrase:string) {
   // handle special cases:
   switch(nounPhrase.toLowerCase()) {
     case 'i':
